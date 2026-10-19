@@ -24,7 +24,7 @@ const BASS_MID   = 22;   // D3
 
 export const COLOURS = {
     line: "#7c7c8a", head: "#e6e6ee", dim: "#5a5a66", active: "#56B4E9",
-    good: "#009E73", bad: "#D55E00", text: "#9a9aa6",
+    good: "#009E73", bad: "#D55E00", text: "#9a9aa6", miss: "#E5484D",
 };
 
 // Which staff a note belongs to, and the diatonic position it is DRAWN at.
@@ -50,7 +50,9 @@ function staffDefs (mode)
     view = {
       mode, showNames, label, range: [lo, hi] | null,
       notes: [{ midi, x, x1, q, state: "past" | "active" | "future",
-                sung: { midi, cents, colour } | null }],      x, x1 = start, end;
+                ok: true | false | null,                     past: in tune for at least half of it
+                sung: { midi, cents, colour } | null }],      sung: the pitch sung, folded to the note's octave
+                                                               x, x1 = start, end;
                                                                q = written value in quarters
                                                                (absent: drawn as a quarter)
       meter: quarters per measure now | null                   time signature, by the clef
@@ -145,20 +147,32 @@ export function drawStaff (g, W, H, view)
         // Heads sit just right of the note's start, so the head is under its bar.
         const x = note.x + s * 0.62;
         const tgt = place (view.mode, note.midi);
-        const colour = note.state === "active" ? COLOURS.active : note.state === "past" ? COLOURS.dim : COLOURS.head;
+        // Timing is not judged, only pitch - so nothing is drawn beside a note. A note
+        // sung in tune turns green itself; a missed one keeps its colour and the pitch
+        // that WAS sung is drawn red in the same column, over it where they meet.
+        const missed = note.state === "past" && note.ok === false && note.sung;
+        const colour = note.state === "active" ? COLOURS.active
+                     : note.state === "past" && note.ok ? COLOURS.good
+                     : note.state === "past" ? COLOURS.dim : COLOURS.head;
 
         drawLedgers (g, defs, tgt, x, s, centres, h);
         drawNote (g, x, yFor (tgt.staff, tgt.d), s, colour, note.q, defs[tgt.staff].mid > tgt.d, tgt.d % 2 === 0);
         if (isSharp (note.midi)) drawSharp (g, x - s * 1.25, yFor (tgt.staff, tgt.d), s, colour);
 
-        const sung = note.sung || (note.state === "active" ? view.live : null);
-        if (sung)
+        if (missed)
         {
-            const p = place (view.mode, sung.midi);
-            const sx = x + s * 1.05;
-            drawLedgers (g, defs, p, sx, s * 0.85, centres, h);
-            drawHead (g, sx, yFor (p.staff, p.d), s * 0.85, sung.colour, note.state !== "active", false, true);
-            if (isSharp (sung.midi)) drawSharp (g, sx + s * 0.95, yFor (p.staff, p.d), s * 0.7, sung.colour);
+            const p = place (view.mode, note.sung.midi);
+            drawLedgers (g, defs, p, x, s, centres, h);
+            drawHead (g, x, yFor (p.staff, p.d), s * 0.92, COLOURS.miss, true, false, true);
+            if (isSharp (note.sung.midi)) drawSharp (g, x + s * 1.0, yFor (p.staff, p.d), s * 0.75, COLOURS.miss);
+        }
+        // The voice now, as a ring over the note being sung: its colour says how close.
+        if (note.state === "active" && view.live)
+        {
+            const p = place (view.mode, view.live.midi);
+            drawLedgers (g, defs, p, x, s, centres, h);
+            drawHead (g, x, yFor (p.staff, p.d), s * 1.05, view.live.colour, false, false, true);
+            if (isSharp (view.live.midi)) drawSharp (g, x + s * 1.0, yFor (p.staff, p.d), s * 0.75, view.live.colour);
         }
 
         if (view.showNames)
@@ -171,7 +185,7 @@ export function drawStaff (g, W, H, view)
             {
                 g.fillStyle = note.state === "active" ? COLOURS.active : COLOURS.text;
                 g.fillText (t, x, yText);
-                if (sung) { g.fillStyle = sung.colour; g.fillText (name (sung.midi), x, yText + s * 1.15); }
+                if (missed) { g.fillStyle = COLOURS.miss; g.fillText (name (note.sung.midi), x, yText + s * 1.15); }
                 nameEnd = x + w / 2;
             }
         }

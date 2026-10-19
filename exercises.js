@@ -229,34 +229,48 @@ export function buildChart (spec)
 }
 
 // An exercise made from a take: its most frequent misses (app.js missedSpots).
-// spots = [{ notes: [{ midi, syllable, missed }], text }] - each is the note before
-// the miss (the approach: the interval is usually what goes wrong) and the missed
-// note. Each place is sung `reps` times, slowly; a missed note is held two beats so
-// the voice has time to settle on it. Same lead-in as every exercise: the first
-// note struck, then a count-in.
-export function buildDrillChart (spots, bpm = 60, reps = 3)
+// spots = [{ notes: [{ midi, syllable, name, missed }], text }] - each is the note
+// before the miss (the approach: the interval is usually what goes wrong) and the
+// missed note. For each place, first every note of the step ALONE, held long (a
+// slow, sustained landing on the pitch), with a breath after each; only then the
+// step itself, `reps` times, the missed note held two beats so the voice settles.
+// Same lead-in as every exercise: the first note struck, then a count-in.
+export function buildDrillChart (spots, bpm = 60, reps = 3, holdBeats = 4)
 {
     const spec = { kind: "drill", bpm, rootMidi: spots[0].notes[0].midi, useSolfege: false,
                    transposeStep: 0, ceilingMidi: 0, repeats: 1, referenceBeats: 2, countInBeats: 4, descending: false };
     const beat = beatSeconds (spec);
     const notes = [], phrases = [];
     let t = leadInSeconds (spec);
-    spots.forEach ((spot, k) => {
-        for (let r = 0; r < reps; ++r)
+    const phrase = (group, text) => {
+        const ids = [], start = t;
+        for (const [n, beats] of group)
         {
-            const ids = [], start = t;
-            for (const n of spot.notes)
-            {
-                const dur = (n.missed ? 2 : 1) * beat;
-                notes.push ({ id: notes.length, startSeconds: t, durationSeconds: Math.max (0.08, dur - 0.06), midi: n.midi,
-                              centsOffset: 0, type: "normal", syllable: n.syllable || noteName (n.midi), phraseId: phrases.length });
-                ids.push (notes.length - 1);
-                t += dur;
-            }
-            phrases.push ({ id: phrases.length, startSeconds: start, endSeconds: t, noteIds: ids,
-                            text: `${k + 1}. ${spot.text} (${r + 1}/${reps})` });
-            t += beat;                                  // breathe
+            const dur = beats * beat;
+            notes.push ({ id: notes.length, startSeconds: t, durationSeconds: Math.max (0.08, dur - 0.06), midi: n.midi,
+                          centsOffset: 0, type: "normal", syllable: n.syllable || noteName (n.midi), phraseId: phrases.length });
+            ids.push (notes.length - 1);
+            t += dur;
         }
+        phrases.push ({ id: phrases.length, startSeconds: start, endSeconds: t, noteIds: ids, text });
+    };
+    spots.forEach ((spot, k) => {
+        // 1. Each pitch of the step on its own, long (a repeated note only once).
+        const seen = new Set();
+        for (const n of spot.notes)
+        {
+            if (seen.has (n.midi)) continue;
+            seen.add (n.midi);
+            phrase ([[n, holdBeats]], `${k + 1}. Тянуть ${n.name || noteName (n.midi)}`);
+            t += 2 * beat;                              // breathe
+        }
+        // 2. Then the step itself.
+        if (spot.notes.length > 1)
+            for (let r = 0; r < reps; ++r)
+            {
+                phrase (spot.notes.map (n => [n, n.missed ? 2 : 1]), `${k + 1}. ${spot.text} (${r + 1}/${reps})`);
+                t += beat;                              // breathe
+            }
         t += beat;                                      // and between places
     });
     return { song: { id: "drill", title: `Упражнение на ошибки (${spots.length})`, artist: `${bpm} bpm`, durationSeconds: t + 1.5 },

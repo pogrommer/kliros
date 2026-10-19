@@ -697,8 +697,8 @@ function missedSpots ()
         return {
             at: k.at, count: k.count, score: k.pcs.reduce ((a, x) => a + x, 0) / k.pcs.length,
             text: `${steps} — ${k.count} ${times (k.count)}${way}${where}`,
-            notes: [k.prev && { midi: k.prev.midi, syllable: k.prev.syllable, missed: false },
-                    { midi: k.note.midi, syllable: k.note.syllable, missed: true }].filter (Boolean),
+            notes: [k.prev && { midi: k.prev.midi, syllable: k.prev.syllable, name: label (k.prev.midi), missed: false },
+                    { midi: k.note.midi, syllable: k.note.syllable, name: label (k.note.midi), missed: true }].filter (Boolean),
         };
     });
     return spots.sort ((a, b) => b.count - a.count || a.score - b.score).slice (0, DRILL_KINDS);
@@ -1042,13 +1042,16 @@ function drawStaffPanel (now)
             if (x1 < gutter - 40 || x > W + 20) return;
             const st = noteStats[i];
             const past = now > n.startSeconds + n.durationSeconds;
-            let sung = null;
-            if (past && st.sung.length)
+            // Judged as the drill judges it: the voice was on it, and in tune for half of it.
+            // The sung pitch is folded into the note's octave, so a miss lands next to it.
+            let sung = null, ok = null;
+            if (past && st.sung.length >= 5)
             {
                 const c = median (st.folded);
-                sung = { midi: Math.round (median (st.sung)), cents: c, colour: colourFor (c) };
+                ok = st.hit / expectedFrames (n) >= 0.5;
+                sung = { midi: Math.round (targetMidiOf (n) + c / 100), cents: c, colour: colourFor (c) };
             }
-            notes.push ({ midi: n.midi, x, x1, q: n.quarters, state: i === activeIdx ? "active" : past ? "past" : "future", sung,
+            notes.push ({ midi: n.midi, x, x1, q: n.quarters, state: i === activeIdx ? "active" : past ? "past" : "future", sung, ok,
                           syllable: words ? n.syllable : null });
         });
         for (const t of chart.barSeconds || []) bars.push (xOf (t));
