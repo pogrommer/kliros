@@ -7,66 +7,51 @@ html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
   font: 15px -apple-system, system-ui, "Segoe UI", sans-serif; overscroll-behavior: none; }
 body { touch-action: manipulation; }
 
+/* Landscape only. The track name along the top; the buttons in a column on the
+   right, Start at the bottom under the thumb; the notes OR the piano roll fill the
+   rest. minmax(0, ...): an auto track grows to its widest content (a long title)
+   and pushes the column off the screen. */
 #app {
-  height: 100dvh; display: grid;
-  /* minmax(0, ...) not auto: an auto column grows to its widest unwrappable
-     content (the exercise title, the syllable line) and pushes the page past
-     the screen edge, cutting off the Start button. */
-  grid-template-columns: minmax(0, 1fr);
-  width: 100%; overflow: hidden;
-  /* Any phone, not one model: on a portrait phone the staff is limited by the
-     screen WIDTH (one column per note), so its panel is sized from the width -
-     a fixed share of the height left tall phones with an empty panel. What it
-     does not need goes to the highway. */
-  --staff-h: clamp(150px, calc(40vw + 34px), 34%);
-  --lyr-fs: clamp(20px, min(6.2vw, 4.2vh), 36px);
-  grid-template-rows: 48px minmax(120px, 1fr) var(--staff-h) 24px;
-  grid-template-areas: "head" "hw" "staff" "foot";
+  height: 100dvh; width: 100%; overflow: hidden; display: grid;
+  grid-template-columns: minmax(0, 1fr) 60px;
+  grid-template-rows: auto minmax(0, 1fr) 22px 18px;
+  grid-template-areas: "title ctl" "main ctl" "read ctl" "foot ctl";
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
-header { grid-area: head; display: flex; align-items: center; gap: 6px; padding: 0 8px; background: var(--panel); border-bottom: 1px solid var(--line); }
-header button { flex-shrink: 0; }
-/* The title is the song picker button: the name of what is loaded, with a ▾. */
-#title { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; font-size: 14px;
-  background: none; border-color: transparent; padding: 6px 4px; }
+#title { grid-area: title; min-width: 0; display: flex; align-items: center; font-size: 15px; min-height: 34px;
+  background: var(--panel); border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 4px 10px; }
+#controls { grid-area: ctl; display: flex; flex-direction: column; gap: 6px; padding: 6px;
+  background: var(--panel); border-left: 1px solid var(--line); }
+#controls button { width: 100%; min-height: 40px; padding: 0; flex: 0 1 auto; }
+#addBtn { font-size: 20px; }
+#viewBtn { font-size: 11px; }
 #titleText { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #title::after { content: "▾"; color: var(--accent); flex-shrink: 0; margin-left: 4px; }   /* never cut by the ellipsis */
-#clefBtn { font-size: 22px; line-height: 1; padding: 0 6px; min-width: 36px; font-family: "Noto Music", "Apple Symbols", "Segoe UI Symbol", serif; }
+#clefBtn { font-size: 20px; line-height: 1; font-family: "Noto Music", "Apple Symbols", "Segoe UI Symbol", serif; }
 button { font: inherit; color: var(--text); background: #23232c; border: 1px solid #34343f; border-radius: 8px; padding: 6px 10px; min-height: 36px; }
 button:active { filter: brightness(1.3); }
-#menu { font-size: 18px; width: 40px; padding: 0; }
+#menu { font-size: 18px; }
 .chip { font-size: 13px; padding: 4px 8px; }
 #guide.on { background: #0f3a52; border-color: var(--accent); }
-#play { width: 52px; font-size: 18px; background: #0f5a43; border-color: var(--good); }
-#play.on { background: #5a2410; border-color: var(--bad); }
+#controls #play { margin-top: auto; min-height: 52px; font-size: 20px; background: #0f5a43; border-color: var(--good); }
+#controls #play.on { background: #5a2410; border-color: var(--bad); }
 
-#app.grand { --staff-h: clamp(170px, calc(64vw + 34px), 42%); }
 
-#highway { grid-area: hw; width: 100%; height: 100%; display: block; }
-/* The words are a layer over the middle of the piano roll, same width and time
-   axis as the highway, so each one sits right on the x where its note starts. */
-#lyrics { grid-area: hw; align-self: center; position: relative; z-index: 1; pointer-events: none;
-  height: calc(var(--lyr-fs) * 1.5); overflow: hidden; white-space: nowrap; opacity: .7;
-  display: flex; align-items: center; padding: 0 10px;
-  font-size: var(--lyr-fs); font-weight: 700; color: #b8b8c4; text-shadow: 0 1px 3px #000, 0 0 6px #000; }
-/* Words are placed under their notes by drawLyrics: left edge = note start. */
-#lyrics .w { position: absolute; left: 0; top: 50%; margin-top: -0.6em; line-height: 1.2; will-change: transform; }
-#lyrics .sung { color: var(--sung); text-shadow: 0 0 10px rgba(240,228,66,.6), 0 1px 3px #000; }
-#lyrics .now { color: #fff; text-shadow: 0 0 12px rgba(255,255,255,.6), 0 1px 3px #000; }
-#lyrics .hint { font-size: 14px; font-weight: 400; }
-
-#staffWrap { grid-area: staff; display: flex; flex-direction: column; background: #131318; border-top: 1px solid var(--line); min-height: 0; }
+#highway { grid-area: main; width: 100%; height: 100%; display: block; }
+#staffWrap { grid-area: main; display: flex; flex-direction: column; background: #131318; min-height: 0; }
+/* One or the other, never both: the notes (default) or the piano roll. */
+#app.view-staff #highway, #app.view-roll #staffWrap, #app.view-roll #clefBtn { display: none; }
 #staff { flex: 1; width: 100%; min-height: 0; display: block; }
-#readout { height: 24px; text-align: center; font-size: 15px; color: var(--dim); }
+#readout { grid-area: read; text-align: center; font-size: 15px; color: var(--dim); white-space: nowrap; overflow: hidden; }
 #readout b.t { color: var(--accent); }
 #readout small { font-size: 11px; opacity: .7; font-weight: 400; }
 #readout .cents { font-variant-numeric: tabular-nums; color: var(--text); }
 
 footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; white-space: nowrap; overflow: hidden; font-variant-numeric: tabular-nums; }
-#status { position: fixed; left: 10px; right: 10px; top: calc(56px + env(safe-area-inset-top)); color: #ffb08a; font-size: 13px; pointer-events: none; text-align: center; }
+#status { position: fixed; left: 10px; right: 70px; top: calc(40px + env(safe-area-inset-top)); color: #ffb08a; font-size: 13px; pointer-events: none; text-align: center; }
 /* Mic: one button is the switch AND the indicator. Off = grey, struck through.
    On = green rim with the input level filling it from the bottom. */
-#mic { --lvl: 0; position: relative; width: 44px; padding: 0; overflow: hidden; }
+#mic { --lvl: 0; position: relative; overflow: hidden; }
 #mic svg { position: relative; z-index: 1; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 #mic svg rect { fill: none; }
 #mic[data-state="off"] { color: #8a8a96; }
@@ -80,7 +65,8 @@ footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; wh
 #mic[data-state="on"].voiced { box-shadow: 0 0 0 2px rgba(0,158,115,.5); }
 @keyframes micwait { from { opacity: .4; } to { opacity: 1; } }
 
-#settings { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; z-index: 10; }
+#settings, #addMenu { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; z-index: 10; }
+#addDevice, #addServer { font-size: 16px; padding: 12px; }
 #settings[hidden], #summary[hidden], [hidden] { display: none !important; }
 .sheet { width: 100%; max-width: 560px; margin: 0 auto; max-height: 88dvh; overflow-y: auto; background: var(--panel); border-radius: 14px 14px 0 0;
   padding: 14px 14px calc(14px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
@@ -105,15 +91,6 @@ footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; wh
 .pitches { display: flex; flex-wrap: wrap; gap: 6px; }
 .pitch { background: #1f1f27; border-radius: 6px; padding: 3px 7px; font-size: 13px; }
 
-/* Landscape phone: highway left, staff right. */
-@media (orientation: landscape) and (max-height: 520px) {
-  #app {
-    grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
-    grid-template-rows: 44px 1fr 22px;
-    grid-template-areas: "head head" "hw staff" "foot foot";
-  }
-  #staffWrap { border-top: 0; border-left: 1px solid var(--line); }
-}
 
 /* Song search: same look as the selects; 16px so iOS does not zoom in on focus. */
 .sheet input[type=search] { font: inherit; font-size: 16px; color: var(--text); background: #23232c; border: 1px solid #34343f;
@@ -121,3 +98,41 @@ footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; wh
 #searchCount { color: var(--accent); margin-left: 4px; }
 #pieceInfo { color: var(--dim); font-size: 12px; }
 #pieceInfo:empty { display: none; }
+
+/* Adding a song from a zip on this phone (localsongs.js). */
+#uploadInfo { font-size: 13px; color: #a4a4b0; margin-top: 6px; line-height: 1.35; overflow-wrap: anywhere; }
+#uploadInfo:empty { display: none; }
+#delSongBtn { flex: 0 0 auto; color: #ffb08a; }
+
+
+/* Page in portrait on a phone (held upright, or turned with the rotation lock on):
+   the app is landscape only, so it turns ITSELF. #app is laid out with the screen's
+   height as its width and turned a quarter into place - clockwise for a phone held
+   with its top to the left, anticlockwise (html.flip, set from the tilt sensor in
+   app.js) for top to the right. The overlays are inside #app, so they turn with it.
+   Insets follow the turn: the notch and the home bar end up at the app's sides.
+   Touch screens only: a narrow desktop window stays as it is. */
+@media (orientation: portrait) and (max-width: 900px) and (pointer: coarse) {
+  #app { position: fixed; top: 0; left: 0; width: 100dvh; height: 100vw;
+    transform-origin: top left; transform: rotate(90deg) translateY(-100%);
+    padding: env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left) env(safe-area-inset-top); }
+  html.flip #app { transform: rotate(-90deg) translateX(-100%);
+    padding: env(safe-area-inset-left) env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom); }
+}
+
+/* Desktop: a mouse and room. The button column gets words, the sheets open as
+   dialogs in the middle, the staff may grow (app.js), Space starts and stops. */
+@media (pointer: fine) and (min-width: 900px) {
+  #app { grid-template-columns: minmax(0, 1fr) 170px; grid-template-rows: auto minmax(0, 1fr) 28px 20px; }
+  #title { font-size: 17px; min-height: 42px; padding: 6px 16px; }
+  #controls { gap: 8px; padding: 10px; }
+  #controls button { display: flex; align-items: center; gap: 10px; padding: 0 12px; min-height: 42px; text-align: left; }
+  #controls button::after { content: attr(data-label); font: 14px -apple-system, system-ui, "Segoe UI", sans-serif; color: var(--text); }
+  #controls #play { min-height: 56px; }
+  #mic svg { flex: 0 0 auto; }
+  button:hover { filter: brightness(1.2); }
+  #readout { font-size: 17px; }
+  #settings, #addMenu { align-items: center; }
+  .sheet { border-radius: 14px; max-height: 86vh; }
+  #summary { top: 12%; }
+}

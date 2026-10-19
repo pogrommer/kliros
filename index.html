@@ -16,29 +16,43 @@
 </head>
 <body>
 <div id="app">
-  <header>
-    <button id="menu" aria-label="Настройки">☰</button>
-    <button id="title" title="Выбрать песню и партию"><span id="titleText">Vocal Trainer</span></button>
-    <button id="mic" data-state="off" aria-label="Микрофон" aria-pressed="false">
+  <!-- Landscape only: the track name along the top, the buttons in a column on the right. -->
+  <button id="title" title="Выбрать песню и партию"><span id="titleText">Vocal Trainer</span></button>
+  <nav id="controls">
+    <!-- data-label: the words beside the icons on a desktop screen (style.css). -->
+    <button id="menu" aria-label="Настройки" data-label="Настройки">☰</button>
+    <button id="addBtn" aria-label="Добавить песню" title="Добавить песню" data-label="Добавить">＋</button>
+    <button id="viewBtn" title="Ноты или piano roll" data-label="вид">ноты</button>
+    <button id="clefBtn" class="chip" aria-label="Ключ" data-label="Ключ">𝄢</button>
+    <button id="guide" class="chip" title="Подсказка (пианино / голос)" data-label="Подсказка">♪</button>
+    <button id="mic" data-state="off" aria-label="Микрофон" aria-pressed="false" data-label="Микрофон">
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6"/><path class="slash" d="M4 4l16 16"/></svg>
     </button>
-    <button id="clefBtn" class="chip" aria-label="Ключ">𝄢</button>
-    <button id="guide" class="chip" title="Подсказка (пианино / голос)">♪</button>
-    <button id="play" aria-label="Старт">▶</button>
-  </header>
+    <button id="play" aria-label="Старт" data-label="Старт">▶</button>
+  </nav>
 
   <canvas id="highway"></canvas>
-  <div id="lyrics"></div>
 
   <section id="staffWrap">
     <canvas id="staff"></canvas>
-    <div id="readout">&nbsp;</div>
   </section>
+  <div id="readout">&nbsp;</div>
 
   <footer id="footer"></footer>
   <div id="status"></div>
 
   <div id="summary" hidden></div>
+
+
+  <div id="addMenu" hidden>
+    <div class="sheet">
+      <button id="addServer">Треки с сервера…</button>
+      <p class="note">Песни с домашнего ПК или опубликованные на сайте: выбрать произведение и партию.</p>
+      <button id="addDevice">Загрузить с устройства (zip)…</button>
+      <p class="note">Пакет песни: chart.json + голос и минус. Песня останется только на этом телефоне.</p>
+      <button id="addCancel">Отмена</button>
+    </div>
+  </div>
 
   <div id="settings" hidden>
     <div class="sheet">
@@ -64,10 +78,23 @@
         <label>Произведение <select id="piece"></select></label>
         <p id="pieceInfo"></p>
         <label id="partRow">Партия <select id="part"></select></label>
+        <div id="addSong">
+          <div class="seg"><button id="addSongBtn" type="button">＋ Добавить песню (zip)…</button>
+            <button id="delSongBtn" type="button" hidden>Удалить с телефона</button></div>
+          <input id="addSongFile" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
+          <div id="uploadInfo"></div>
+        </div>
       </div>
 
+      <label>Вид
+        <select id="view">
+          <option value="staff">Нотная запись, текст над нотами</option>
+          <option value="roll">Piano roll, текст на полосках</option>
+        </select>
+      </label>
       <label>Нотный стан
         <select id="clef">
+          <option value="auto">Авто — по партии и нотам песни</option>
           <option value="bass">Басовый ключ</option>
           <option value="treble">Скрипичный ключ</option>
           <option value="treble8">Скрипичный, октавой ниже (теноровый)</option>

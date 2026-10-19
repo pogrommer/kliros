@@ -4,13 +4,14 @@
 import { DEFINITIONS, getDefinition, makeSpec, buildChart, LENGTHS, noteName } from "./exercises.js";
 import { renderClickTrack, renderGuideTone, renderSingleNote } from "./synth.js";
 import { drawStaff, midiName } from "./staff.js";
+import { readPackage, saveSongs, getSong, deleteSong, hasSong, listSongs as listLocalSongs } from "./localsongs.js";
 
 //==============================================================================
 // Settings, remembered per device.
 const DEFAULTS = {
     mode: "exercise", kind: "tenorG3toD4", root: 55, bpm: 72, length: "medium", labels: "fixed",
-    clef: "bass", names: true, tolerance: "practice", guide: true, guideVol: 0.8, backVol: 0.8,
-    latencyMs: 0, song: "", part: "T",
+    clef: "auto", names: true, tolerance: "practice", guide: true, guideVol: 0.8, backVol: 0.8,
+    latencyMs: 0, song: "", part: "T", view: "staff",
 };
 const TOLERANCES = { performance: [50, 150], practice: [25, 100], precision: [10, 50] };
 
@@ -18,6 +19,10 @@ let S = { ...DEFAULTS };
 try { S = { ...DEFAULTS, ...JSON.parse (localStorage.getItem ("vt-web") || "{}") }; } catch {}
 if (! ["names", "fixed", "movable"].includes (S.labels)) S.labels = DEFAULTS.labels;
 const save = () => { try { localStorage.setItem ("vt-web", JSON.stringify (S)); } catch {} };
+// Once: the clef became automatic (2026-10-20) - a phone that had "bass" saved switches too.
+if (! S.clefAutoSet) { S.clef = "auto"; S.clefAutoSet = true; save(); }
+// Once: notes OR piano roll, the notes by default (2026-10-20).
+if (! S.viewSet) { S.view = "staff"; S.viewSet = true; save(); }
 
 const C = {
     bg: "#101014", grid: "#2A2A32", gridC: "#3a3a46", label: "#6a6a78",
@@ -200,6 +205,7 @@ function prepareChart (c)
     lastChartNow = chart.notes.length ? chart.notes[0].startSeconds - 1.5 : -1;
     viewInit = false;
     updateTitle();
+    clefLabel();            // an automatic clef follows the new notes
 }
 
 function noteIndexAt (t)
@@ -389,6 +395,7 @@ function stop (finished = false)
 function setButton (on)
 {
     $("play").textContent = on ? "■" : "▶";
+    $("play").dataset.label = on ? "Стоп" : "Старт";
     $("play").classList.toggle ("on", on);
 }
 
@@ -404,11 +411,19 @@ async function loadSong (id)
     // URLs come with the list: the home server's api/..., or static files on the Pages site.
     const e = songEntries.get (id) || {};
     const api = `api/songs/${encodeURIComponent (id)}`;
-    const chartResp = await fetch (e.chart || `${api}/chart`).catch (() => null);
-    if (! chartResp?.ok) throw new Error (offline);
-    const chartJson = await chartResp.json();
+    // Added on this phone: chart and audio come from IndexedDB, not the network.
+    const local = e.local ? await getSong (id) : null;
+    if (e.local && ! local) throw new Error ("песня не найдена на телефоне - добавьте zip ещё раз");
+    let chartJson = local?.chart;
+    if (! chartJson)
+    {
+        const chartResp = await fetch (e.chart || `${api}/chart`).catch (() => null);
+        if (! chartResp?.ok) throw new Error (offline);
+        chartJson = await chartResp.json();
+    }
     const fetchAudio = async (which) => {
-        const r = await fetch (e[which] || `${api}/audio/${which}`).catch (() => null);
+        const r = local ? (local.audio[which] && new Response (local.audio[which], { headers: { "Content-Type": local.audio[which].type } }))
+                        : await fetch (e[which] || `${api}/audio/${which}`).catch (() => null);
         if (! r?.ok) return null;
         const buf = await r.arrayBuffer();
         try { return await ctx.decodeAudioData (buf); }
@@ -443,9 +458,13 @@ async function refreshSongList ()
         // The home server first; without it (the GitHub Pages copy) the published scores.
         let r = await fetch ("api/songs").catch (() => null);
         if (! r?.ok || ! (r.headers.get ("Content-Type") || "").includes ("json"))
-            r = await fetch ("songs/index.json");
-        songsOffline = r.headers.get ("X-VT-Offline") === "1";
-        const list = await r.json();
+            r = await fetch ("songs/index.json").catch (() => null);
+        songsOffline = ! r?.ok || r.headers.get ("X-VT-Offline") === "1";
+        // Songs added on this phone (localsongs.js) go first; they need no server.
+        const local = await listLocalSongs();
+        const remote = r?.ok ? await r.json().catch (() => []) : [];
+        if (! r?.ok && ! local.length) throw new Error ("no songs");
+        const list = [...local, ...remote];
         songEntries.clear();
         for (const s of list) songEntries.set (s.id, s);
         const byKey = new Map();
@@ -459,6 +478,7 @@ async function refreshSongList ()
                             date: mail.date || "", subject: mail.subject || "", collection: s.collection || "",
                             check: (s.needsCheck || []).join ("; ") };
                 if (p.check) p.label = "⚠ " + p.label;    // the parse looked wrong: check against the PDF
+                if (s.local) { p.local = true; p.label = "📱 " + p.label; }
                 // Everything a search may hit: names, the letter, the collection, the words.
                 // The words come as syllables ("Гос по ди"), so they are also kept run together.
                 p.haystack = norm ([p.label, p.subject, p.collection, s.lyrics, (s.lyrics || "").replace (/\s+/g, ""),
@@ -469,11 +489,12 @@ async function refreshSongList ()
         }
         pieces = [...byKey.values()];
         for (const p of pieces) p.parts.sort ((a, b) => PART_ORDER.indexOf (a.part) - PART_ORDER.indexOf (b.part));
-        // The newest letter first; pieces that came without a letter after them, by name.
-        pieces.sort ((a, b) => (b.date > a.date) - (b.date < a.date) || a.label.localeCompare (b.label, "ru"));
+        // Added on this phone first, then the newest letter; pieces without a letter after them, by name.
+        pieces.sort ((a, b) => (b.local || 0) - (a.local || 0) || (b.date > a.date) - (b.date < a.date)
+                               || a.label.localeCompare (b.label, "ru"));
         renderPieces();
     }
-    catch { sel.innerHTML = `<option value="">(сервер недоступен)</option>`; fillParts (null); }
+    catch { sel.innerHTML = `<option value="">(сервер недоступен)</option>`; fillParts (null); syncDeleteButton(); }
 }
 
 const norm = (s) => (s || "").toLowerCase().replace (/ё/g, "е");
@@ -493,7 +514,7 @@ function renderPieces ()
     {
         const o = document.createElement ("option");
         o.value = p.key;
-        o.textContent = (songsOffline ? "(без сервера) " : "") + (p.date ? fmtDate (p.date) + " · " : "") + p.label;
+        o.textContent = (songsOffline && ! p.local ? "(без сервера) " : "") + (p.date ? fmtDate (p.date) + " · " : "") + p.label;
         sel.appendChild (o);
     }
     $("searchCount").textContent = words.length ? `${shown.length} из ${pieces.length}` : "";
@@ -511,6 +532,7 @@ function choosePiece (key, songId)
     S.song = pick.id; save();
     $("piece").value = key;
     fillParts (p);
+    syncDeleteButton();
     // Where it came from: the letter and the collection, for finding it again later.
     $("pieceInfo").textContent = [p.check && `⚠ разбор под вопросом: ${p.check}`,
                                   p.date && `письмо ${fmtDate (p.date)}`, p.subject && `«${p.subject}»`, p.collection]
@@ -533,6 +555,55 @@ function fillParts (p)
     sel.value = S.song;
 }
 
+//==============================================================================
+// Adding a song on THIS device: a zip with chart.json + stems (e.g. one sent in
+// Telegram) is unpacked here in the browser and kept in IndexedDB (localsongs.js).
+// No server is involved, so it works on the public site and offline.
+function uploadSay (html) { $("uploadInfo").innerHTML = html; }
+
+async function addSongFile (file)
+{
+    const btn = $("addSongBtn");
+    btn.disabled = true;
+    try
+    {
+        if (! /\.zip$/i.test (file.name))
+            throw new Error ("нужен zip-архив песни: chart.json + голос и минус (WAV, FLAC, MP3 или M4A)");
+        const songs = await readPackage (file, (m) => uploadSay (esc (m)));
+        const clash = [];
+        for (const s of songs) if (await hasSong (s.id)) clash.push (s.chart.song.title || s.id);
+        if (clash.length && ! confirm (`Уже есть на телефоне: ${clash.join (", ")}. Заменить?`))
+        { uploadSay ("Отменено."); return; }
+        uploadSay ("сохраняю на телефоне…");
+        await saveSongs (songs);
+        S.song = songs[0].id; save();
+        $("songSearch").value = "";
+        songCache.clear();
+        await refreshSongList();
+        uploadSay (`<span class="ok">✓ Добавлено: ${songs.map (s => esc (s.chart.song.title || s.id)).join (", ")}.</span>
+                    Выбрана в списке выше - «Готово» и ▶.`);
+    }
+    catch (err) { uploadSay (`<span class="bad">Не добавлено: ${esc (String (err.message || err))}</span>`); }
+    finally { btn.disabled = false; $("addSongFile").value = ""; }
+}
+
+// Only a song added on this phone can be removed from it.
+function syncDeleteButton ()
+{
+    $("delSongBtn").hidden = ! songEntries.get (S.song)?.local;
+}
+
+async function deleteLocalSong ()
+{
+    const e = songEntries.get (S.song);
+    if (! e?.local || ! confirm (`Удалить с телефона «${e.title}»?`)) return;
+    await deleteSong (e.id);
+    songCache.delete (e.id);
+    S.song = ""; save();
+    await refreshSongList();
+    uploadSay (`Удалено: ${esc (e.title)}.`);
+}
+
 function songTitle ()
 {
     const p = pieces.find (x => x.parts.some (y => y.id === S.song));
@@ -549,7 +620,7 @@ async function saveTake ()
         id: S.mode === "song" ? S.song : S.kind,
         title: chart.song.title || "",
         startedAt: new Date().toISOString(),
-        settings: { bpm: S.bpm, root: S.root, tolerance: S.tolerance, clef: S.clef },
+        settings: { bpm: S.bpm, root: S.root, tolerance: S.tolerance, clef: effectiveClef() },
         percent: overallPercent(),
         phrases: (chart.phrases || []).map (p => ({ text: p.text, percent: phrasePercent (p) })),
         notes: chart.notes.map ((n, i) => ({
@@ -607,16 +678,19 @@ let viewLow = 48, viewSpan = 14, viewInit = false, lastFrame = performance.now()
 
 function fitCanvas (cv)
 {
-    const dpr = window.devicePixelRatio || 1, r = cv.getBoundingClientRect();
-    const w = Math.max (1, Math.round (r.width * dpr)), h = Math.max (1, Math.round (r.height * dpr));
+    // clientWidth/Height, not the bounding box: on an upright phone #app is turned a
+    // quarter (style.css), and a turned canvas's bounding box has width and height swapped.
+    const dpr = window.devicePixelRatio || 1, rw = cv.clientWidth, rh = cv.clientHeight;
+    const w = Math.max (1, Math.round (rw * dpr)), h = Math.max (1, Math.round (rh * dpr));
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     const g = cv.getContext ("2d");
     g.setTransform (dpr, 0, 0, dpr, 0, 0);
-    return [g, r.width, r.height];
+    return [g, rw, rh];
 }
 
 function updateView (now, dt)
 {
+    // In ROWS (rowOf), not semitones: with a song loaded only its own pitches get a row.
     let lo = Infinity, hi = -Infinity;
     if (chart && chart.notes.length)
     {
@@ -624,10 +698,10 @@ function updateView (now, dt)
         {
             for (const n of chart.notes)
                 if (n.startSeconds + n.durationSeconds >= now - HISTORY && n.startSeconds <= now + horizon)
-                { lo = Math.min (lo, n.midi); hi = Math.max (hi, n.midi); }
+                { lo = Math.min (lo, rowOf (n.midi)); hi = Math.max (hi, rowOf (n.midi)); }
             if (lo <= hi) break;
         }
-        if (lo > hi) { lo = chart.notes[0].midi; hi = lo; }
+        if (lo > hi) { lo = rowOf (chart.notes[0].midi); hi = lo; }
     }
     else
     {
@@ -635,7 +709,9 @@ function updateView (now, dt)
         const m = recent.length ? median (recent) : 52;
         lo = m; hi = m;
     }
-    let span = Math.max (12, hi - lo + 6);
+    // A song that skips semitones needs fewer rows for an octave.
+    const perOctave = pitchRows() ? Math.min (12, Math.max (5, pitchRows().perOctave)) : 12;
+    let span = Math.max (perOctave, hi - lo + perOctave / 2);
     let low = (lo + hi) / 2 - span / 2;
     if (! viewInit) { viewLow = low; viewSpan = span; viewInit = true; }
     const k = Math.min (1, dt * 2.5);
@@ -643,7 +719,48 @@ function updateView (now, dt)
     viewSpan += (span - viewSpan) * k;
 }
 
-// Time axis of the highway, shared with the lyric line so a word sits under its note.
+//------------------------------------------------------------------------------
+// Rows of the piano roll. A song in one key uses 7 of the 12 semitones: rows for the
+// other 5 stay empty and only push its notes apart, so with a chart loaded there is
+// one row per pitch the chart actually uses. Between two rows the scale is linear (a
+// voice between them is drawn between them); past the lowest and highest rows, one
+// row per semitone. A chromatic song keeps every row; free singing, plain semitones.
+let rowsFor = null, rowsVal = null;
+function pitchRows ()
+{
+    if (! chart || ! chart.notes.length) return null;
+    if (rowsFor !== chart)
+    {
+        const P = [...new Set (chart.notes.map (n => Math.round (n.midi)))].sort ((a, b) => a - b);
+        const octaves = Math.max (1, (P[P.length - 1] - P[0]) / 12);
+        rowsFor = chart;
+        rowsVal = { P, perOctave: Math.round (P.length / octaves) };
+    }
+    return rowsVal;
+}
+
+function rowOf (m)
+{
+    const R = pitchRows();
+    if (! R) return m;
+    const P = R.P, last = P.length - 1;
+    if (m <= P[0]) return m - P[0];
+    if (m >= P[last]) return last + (m - P[last]);
+    let lo = 0, hi = last;
+    while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (P[mid] <= m) lo = mid; else hi = mid; }
+    return lo + (m - P[lo]) / (P[hi] - P[lo]);
+}
+
+// The pitch a whole row stands for (rowOf backwards, at integers).
+function pitchOfRow (r)
+{
+    const R = pitchRows();
+    if (! R) return r;
+    const P = R.P, last = P.length - 1;
+    return r < 0 ? P[0] + r : r > last ? P[last] + (r - last) : P[r];
+}
+
+// Time axis of the highway, shared with the staff so a note sits under its bar.
 function laneGeometry (W)
 {
     const gutter = S.labels === "fixed" ? 38 : 30;
@@ -657,21 +774,22 @@ function drawHighway (now)
     g.fillStyle = C.bg; g.fillRect (0, 0, W, H);
 
     const { gutter, pps, nowX } = laneGeometry (W);
-    const ppSemi = H / viewSpan;
-    const yOf = (m) => H - (m - viewLow) * ppSemi;
+    const ppRow = H / viewSpan;
+    const yOf = (m) => H - (rowOf (m) - viewLow) * ppRow;
     const xOf = (t) => nowX + (t - now) * pps;
     const [full, zero] = TOLERANCES[S.tolerance];
 
-    // Semitone grid + labels.
+    // Grid + labels: one line per row (per pitch the song uses).
     g.font = "10px -apple-system, system-ui, sans-serif";
     g.textBaseline = "middle"; g.textAlign = "left";
-    for (let m = Math.floor (viewLow); m <= Math.ceil (viewLow + viewSpan); ++m)
+    for (let r = Math.floor (viewLow); r <= Math.ceil (viewLow + viewSpan); ++r)
     {
-        const y = Math.round (yOf (m)) + 0.5;
+        const m = pitchOfRow (r);
+        const y = Math.round (H - (r - viewLow) * ppRow) + 0.5;
         const isC = ((m % 12) + 12) % 12 === 0;
         g.strokeStyle = isC ? C.gridC : C.grid; g.lineWidth = 1;
         g.beginPath(); g.moveTo (gutter, y); g.lineTo (W, y); g.stroke();
-        if (ppSemi >= 9 || isC) { g.fillStyle = C.label; g.fillText (label (m), 3, y); }
+        if (ppRow >= 9 || isC) { g.fillStyle = C.label; g.fillText (label (m), 3, y); }
     }
 
     if (chart)
@@ -694,12 +812,16 @@ function drawHighway (now)
             g.stroke();
         }
 
-        // Target bars: drawn height = 2 x tFullCents; halo = tZeroCents.
-        const barH = Math.max (4, 2 * full / 100 * ppSemi), haloH = 2 * zero / 100 * ppSemi;
+        // Target bars: the halo is tZeroCents; the bar is 2 x tFullCents, but never
+        // thinner than its words need - the song's text is written in the bars.
+        const fs0 = Math.max (10, Math.min (17, ppRow * 0.62));
+        const words = ! chart.exercise && chart.notes.some (n => n.syllable);
         chart.notes.forEach ((n, i) => {
             const x0 = xOf (n.startSeconds), x1 = xOf (n.startSeconds + n.durationSeconds);
             if (x1 < gutter || x0 > W) return;
-            const y = yOf (targetMidiOf (n));
+            const t = targetMidiOf (n), y = yOf (t);
+            const barH = Math.max (4, fs0 + 4, yOf (t - full / 100) - yOf (t + full / 100));
+            const haloH = yOf (t - zero / 100) - yOf (t + zero / 100);
             const active = now >= n.startSeconds && now <= n.startSeconds + n.durationSeconds;
             const past = now > n.startSeconds + n.durationSeconds;
 
@@ -718,19 +840,28 @@ function drawHighway (now)
             g.fillStyle = fill; g.fill();
             g.strokeStyle = edge; g.lineWidth = 1; g.stroke();
 
-            // The name lives IN the bar, shrinking to fit (DESIGN.md M6++), so
-            // the eye never leaves the pitch to find out what the note is called.
-            const text = label (n.midi);
-            let fs = Math.min (13, barH - 2);
+            // The WORDS live in the bar (a song); an exercise, or a song without
+            // lyrics, gets the note's name there. A syllable longer than its bar
+            // runs on up to the next note, shrinking if it has to, then clips.
+            const text = words ? (n.syllable || "") : label (n.midi);
+            if (! text) return;
+            const next = chart.notes[i + 1];
+            const room = Math.max (x1 - x0, (next ? xOf (next.startSeconds) : W) - x0) - 5;
+            let fs = fs0;
             g.font = `600 ${fs}px -apple-system, system-ui, sans-serif`;
             const w = g.measureText (text).width;
-            if (w > x1 - x0 - 6) fs = Math.floor (fs * (x1 - x0 - 6) / w);
-            if (fs >= 7)
-            {
-                g.font = `600 ${fs}px -apple-system, system-ui, sans-serif`;
-                g.fillStyle = labelColour; g.textAlign = "left"; g.textBaseline = "middle";
-                g.fillText (text, x0 + 3, y + 0.5);
+            if (w > room) fs = Math.max (9, Math.floor (fs * room / w));
+            g.save();
+            g.beginPath(); g.rect (x0, y - barH, room + 4, 2 * barH); g.clip();
+            g.font = `600 ${fs}px -apple-system, system-ui, sans-serif`;
+            g.fillStyle = labelColour; g.textAlign = "left"; g.textBaseline = "middle";
+            if (x1 - x0 < g.measureText (text).width + 6)
+            {   // runs out of its bar: light text with a shadow reads on the background too
+                g.shadowColor = "#000"; g.shadowBlur = 3;
+                if (! active) g.fillStyle = "#e8f4fb";
             }
+            g.fillText (text, x0 + 3, y + 0.5);
+            g.restore();
         });
     }
 
@@ -812,32 +943,29 @@ function drawStaffPanel (now)
     const [g, W, H] = fitCanvas (cv);
     const live = liveEst && Number.isFinite (liveEst.smooth) && performance.now() - liveEst.wall < 150 ? liveEst : null;
 
-    let notes = [];
+    // The piano roll's time axis: a note sits under its bar, barlines from the score.
+    const { gutter, pps, nowX } = laneGeometry (W);
+    const xOf = (t) => nowX + (t - now) * pps;
     const activeIdx = chart ? noteIndexAt (now) : -1;
-    const ph = chart ? phraseAt (now) : null;
-
-    if (ph)
+    const notes = [], bars = [];
+    const words = chart && ! chart.exercise && chart.notes.some (n => n.syllable);
+    if (chart)
     {
-        let idx = ph.noteIds.map (id => chart.notes.findIndex (n => n.id === id)).filter (i => i >= 0);
-        const maxCols = Math.max (4, Math.floor (W / 30));
-        if (idx.length > maxCols)
-        {
-            const a = Math.max (0, idx.indexOf (activeIdx));
-            const page = Math.floor (a / maxCols);
-            idx = idx.slice (page * maxCols, page * maxCols + maxCols);
-        }
-        notes = idx.map (i => {
-            const n = chart.notes[i], st = noteStats[i];
+        chart.notes.forEach ((n, i) => {
+            const x = xOf (n.startSeconds), x1 = xOf (n.startSeconds + n.durationSeconds);
+            if (x1 < gutter - 40 || x > W + 20) return;
+            const st = noteStats[i];
             const past = now > n.startSeconds + n.durationSeconds;
-            const state = i === activeIdx ? "active" : past ? "past" : "future";
             let sung = null;
             if (past && st.sung.length)
             {
                 const c = median (st.folded);
                 sung = { midi: Math.round (median (st.sung)), cents: c, colour: colourFor (c) };
             }
-            return { midi: n.midi, state, sung, syllable: n.syllable };
+            notes.push ({ midi: n.midi, x, x1, q: n.quarters, state: i === activeIdx ? "active" : past ? "past" : "future", sung,
+                          syllable: words ? n.syllable : null });
         });
+        for (const t of chart.barSeconds || []) bars.push (xOf (t));
     }
 
     let liveView = null;
@@ -848,7 +976,8 @@ function drawStaffPanel (now)
         liveView = { midi: Math.round (live.smooth), cents, colour: cents == null ? "#9ad" : colourFor (cents) };
     }
 
-    drawStaff (g, W, H, { mode: S.clef, showNames: S.names, notes, live: liveView, range: chartRange(), label });
+    drawStaff (g, W, H, { mode: effectiveClef(), showNames: S.names, notes, bars, nowX, live: liveView,
+                          range: chartRange(), label, maxS: quickGap() * pps / 1.5, lyricsAbove: words, meter: meterAt (now) });
 
     // Readout under the staff.
     const target = activeIdx >= 0 ? chart.notes[activeIdx] : null;
@@ -864,6 +993,36 @@ function drawStaffPanel (now)
     $("readout").innerHTML = txt || "&nbsp;";
 }
 
+// Quarters per measure where `now` is (chart.meter, from a PDF score); null: none shown.
+function meterAt (now)
+{
+    const m = chart?.meter;
+    if (! m || ! m.length) return null;
+    let cur = m[0];
+    for (const x of m) if (x.timeSeconds <= now + 0.05) cur = x;
+    return cur.quarters;
+}
+
+// The song's quick notes, in seconds apart (the 10th percentile, so one grace note
+// does not shrink the staff): they cap the staff's size so their heads stay apart.
+let gapFor = null, gapVal = 1;
+function quickGap ()
+{
+    if (! chart || chart.notes.length < 2) return 1;
+    if (gapFor !== chart)
+    {
+        const d = [];
+        for (let i = 1; i < chart.notes.length; ++i)
+        {
+            const g = chart.notes[i].startSeconds - chart.notes[i - 1].startSeconds;
+            if (g > 0.02) d.push (g);
+        }
+        d.sort ((a, b) => a - b);
+        gapFor = chart; gapVal = d.length ? d[Math.floor (d.length * 0.1)] : 1;
+    }
+    return gapVal;
+}
+
 // Whole-chart pitch range, cached per chart: the staff's scale comes from it.
 let rangeFor = null, rangeVal = null;
 function chartRange ()
@@ -876,45 +1035,6 @@ function chartRange ()
         rangeFor = chart; rangeVal = [lo - 2, hi + 2];      // a third of room for a stray voice
     }
     return rangeVal;
-}
-
-// Each word starts where its note starts and scrolls with the highway, so the word
-// being sung is always at the play line, under the bar it belongs to.
-function drawLyrics (now)
-{
-    const el = $("lyrics");
-    if (! chart) { if (el.dataset.key !== "free") { el.dataset.key = "free"; el.innerHTML = `<span class="hint">Свободное пение — пойте любую ноту</span>`; } return; }
-
-    const W = el.clientWidth;
-    const { gutter, pps, nowX } = laneGeometry (W);
-    const xOf = (t) => nowX + (t - now) * pps;
-    const words = [];
-    for (const n of chart.notes)
-    {
-        const text = chart.exercise ? label (n.midi) : n.syllable;
-        if (! text) continue;
-        const x = xOf (n.startSeconds);
-        if (x > W || xOf (n.startSeconds + n.durationSeconds) < gutter - 200) continue;
-        const cls = now > n.startSeconds + n.durationSeconds ? "sung" : now >= n.startSeconds ? "now" : "";
-        words.push ({ id: n.id, text, x, cls });
-    }
-
-    // Rebuild the spans only when the set of words or their states change; move them every frame.
-    const key = words.map (w => w.id + w.cls).join ("|") + S.labels;
-    if (el.dataset.key !== key)
-    {
-        el.dataset.key = key;
-        el.innerHTML = words.map (w => `<span class="w ${w.cls}">${esc (w.text)}</span>`).join ("");
-    }
-    // Words that would print over each other move apart: the current and coming
-    // words keep their note's x and push later ones right, sung words give way left.
-    const spans = [...el.children], xs = words.map (w => w.x), ws = spans.map (sp => sp.offsetWidth);
-    const anchor = Math.max (0, words.findIndex (w => w.cls !== "sung"));
-    const first = words.some (w => w.cls !== "sung") ? anchor : words.length;
-    for (let i = first + 1; i < words.length; ++i) xs[i] = Math.max (xs[i], xs[i - 1] + ws[i - 1] + 6);
-    for (let i = first - 1; i >= 0; --i)
-        if (i + 1 < words.length) xs[i] = Math.min (xs[i], xs[i + 1] - ws[i] - 6);
-    spans.forEach ((sp, i) => sp.style.transform = `translateX(${xs[i].toFixed (1)}px)`);
 }
 
 function drawFooter (now)
@@ -956,10 +1076,9 @@ function frame ()
     else now = ctx ? ctx.currentTime : 0;
 
     updateMicLevel();
-    updateView (now, dt);
-    drawHighway (now);
+    // Only the view on screen is drawn; the readout under it is shared.
+    if (S.view === "roll") { updateView (now, dt); drawHighway (now); }
     drawStaffPanel (now);
-    drawLyrics (now);
     drawFooter (now);
 
     // Constrain the detector to the note at hand, as the desktop app does.
@@ -1014,6 +1133,7 @@ function syncForm ()
     $("length").value = S.length;
     $("labels").value = S.labels;
     $("clef").value = S.clef;
+    $("view").value = S.view;
     $("names").checked = S.names;
     $("tolerance").value = S.tolerance;
     $("guideVol").value = S.guideVol;
@@ -1028,8 +1148,25 @@ function previewChart ()
     if (S.mode === "exercise") prepareChart (buildChart (makeSpec (S.kind, S.root, S.bpm, LENGTHS[S.length], false)));
     else if (S.mode === "free") { chart = null; estimates = []; }
     else if (S.mode === "song" && songCache.has (S.song)) prepareChart (songCache.get (S.song).chart);
-    else chart = null;
+    else
+    {
+        chart = null;
+        // The notes before Start: just the chart (small), the audio waits for ▶.
+        if (S.mode === "song" && S.song) previewSongChart (S.song);
+    }
     updateTitle();
+}
+
+async function previewSongChart (id)
+{
+    try
+    {
+        const e = songEntries.get (id) || {};
+        const c = e.local ? (await getSong (id))?.chart
+                          : await (await fetch (e.chart || `api/songs/${encodeURIComponent (id)}/chart`)).json();
+        if (c && ! running && S.mode === "song" && S.song === id) prepareChart (c);
+    }
+    catch {}
 }
 
 function buildForm ()
@@ -1047,18 +1184,30 @@ function buildForm ()
         S[key] = conv ($(id).type === "checkbox" ? $(id).checked : $(id).value); save(); syncForm(); applyLevels(); after && after();
     });
     // The title on the main screen is the song picker: one tap to piece and part.
-    $("title").onclick = () => {
+    const openSongPicker = () => {
         if (running) stop();
-        if (S.mode !== "song") { S.mode = "song"; save(); refreshSongList(); }
+        if (S.mode !== "song") { S.mode = "song"; save(); }
+        refreshSongList();
         openSettings();
         $("songBlock").scrollIntoView ({ block: "start" });
     };
+    $("title").onclick = openSongPicker;
+    // "+": where a song comes from - the server's (or the site's) tracks, or a zip on this device.
+    const closeAdd = () => { $("addMenu").hidden = true; };
+    $("viewBtn").onclick = () => { S.view = S.view === "roll" ? "staff" : "roll"; save(); applyView(); };
+    $("addBtn").onclick = () => { if (running) stop(); $("addMenu").hidden = false; };
+    $("addMenu").onclick = (e) => { if (e.target === $("addMenu")) closeAdd(); };
+    $("addCancel").onclick = closeAdd;
+    $("addServer").onclick = () => { closeAdd(); openSongPicker(); };
+    // The file picker first, while this tap still counts as the user's: iOS opens it only then.
+    $("addDevice").onclick = () => { $("addSongFile").click(); closeAdd(); openSongPicker(); };
     bind ("kind", "kind");
     bind ("root", "root", Number);
     bind ("bpm", "bpm", Number);
     bind ("length", "length");
-    bind ("labels", "labels", v => v, () => { const el = $("lyrics"); el.dataset.key = ""; });
-    bind ("clef", "clef");
+    bind ("labels", "labels");
+    bind ("clef", "clef", v => v, clefLabel);
+    bind ("view", "view", v => v, applyView);
     bind ("names", "names");
     bind ("tolerance", "tolerance");
     bind ("guideVol", "guideVol", Number);
@@ -1066,11 +1215,14 @@ function buildForm ()
     bind ("latency", "latencyMs", Number);
     $("piece").addEventListener ("input", () => { choosePiece ($("piece").value); });
     $("songSearch").addEventListener ("input", renderPieces);
+    $("addSongBtn").onclick = () => $("addSongFile").click();
+    $("delSongBtn").onclick = deleteLocalSong;
+    $("addSongFile").addEventListener ("change", () => { const f = $("addSongFile").files[0]; if (f) addSongFile (f); });
     $("part").addEventListener ("input", () => {
         S.song = $("part").value;
         const p = pieces.find (x => x.parts.some (y => y.id === S.song));
         S.part = p?.parts.find (y => y.id === S.song)?.part || S.part;
-        save();
+        save(); syncDeleteButton();
     });
 
     $("menu").onclick = () => { if (running) stop(); openSettings(); };
@@ -1079,44 +1231,109 @@ function buildForm ()
     $("guide").onclick = () => { S.guide = ! S.guide; save(); applyLevels(); $("guide").classList.toggle ("on", S.guide); };
     $("guide").classList.toggle ("on", S.guide);
     $("clefBtn").onclick = () => {
-        const order = ["bass", "treble", "treble8", "grand"];
+        const order = ["auto", "bass", "treble", "treble8", "grand"];
         S.clef = order[(order.indexOf (S.clef) + 1) % order.length]; save(); clefLabel();
     };
     clefLabel();
 
-    // Tap the staff to hear the active phrase's nearest note.
+    // Tap a note on the staff to hear it. offsetX is in the canvas's own (possibly
+    // turned) coordinates; back through the time axis to the nearest note.
     $("staff").addEventListener ("click", async (ev) => {
         if (running || ! chart) return;
         try { await ensureContext(); } catch (e) { $("status").textContent = e.message; return; }
-        const ph = phraseAt (lastChartNow);
-        if (! ph || ! ph.noteIds.length) return;
-        const r = $("staff").getBoundingClientRect();
-        const frac = (ev.clientX - r.left) / r.width;
-        const ids = ph.noteIds;
-        const pick = ids[Math.min (ids.length - 1, Math.max (0, Math.floor ((frac - 0.12) / 0.88 * ids.length)))];
-        const n = chart.notes.find (x => x.id === pick);
-        if (! n) return;
+        const { pps, nowX } = laneGeometry ($("staff").clientWidth);
+        const t = lastChartNow + (ev.offsetX - nowX) / pps;
+        let n = null;
+        for (const x of chart.notes)
+            if (! n || Math.abs (x.startSeconds + 0.1 - t) < Math.abs (n.startSeconds + 0.1 - t)) n = x;
+        if (! n || Math.abs (n.startSeconds - t) > 1.5) return;
         const s = ctx.createBufferSource(); s.buffer = renderSingleNote (ctx, n.midi); s.connect (guideGain.gain.value > 0 ? guideGain : clickGain); s.start();
     });
 
     $("mic").onclick = toggleMic;
     setMicButton ("off");
+
+    // Desktop: Space starts and stops, unless typing or a sheet is open.
+    document.addEventListener ("keydown", (e) => {
+        if (e.code !== "Space" || e.repeat || /INPUT|SELECT|TEXTAREA|BUTTON/.test (e.target.tagName)) return;
+        if (! $("settings").hidden || ! $("addMenu").hidden) return;
+        e.preventDefault();
+        running ? stop() : start();
+    });
+}
+
+// Clef "auto" (the default): from the notes. A choir part says what it is - soprano
+// and alto read treble, tenor the octave treble, bass the bass clef. Anything else
+// goes by range: more than two octaves both staves, all of it from A3 up treble,
+// nothing above E4 bass, and a man's range across the middle the octave treble.
+function effectiveClef ()
+{
+    if (S.clef !== "auto") return S.clef;
+    if (! chart || ! chart.notes.length) return "bass";
+    const part = { S: "treble", A: "treble", T: "treble8", B: "bass" }[chart.song?.part];
+    if (part) return part;
+    let lo = Infinity, hi = -Infinity;
+    for (const n of chart.notes) { lo = Math.min (lo, n.midi); hi = Math.max (hi, n.midi); }
+    if (hi - lo > 24) return "grand";
+    if (lo >= 57) return "treble";
+    if (hi <= 64) return "bass";
+    return "treble8";
+}
+
+// The notes (words over the staff) or the piano roll (words in the bars): one at a time.
+function applyView ()
+{
+    $("app").classList.toggle ("view-staff", S.view !== "roll");
+    $("app").classList.toggle ("view-roll", S.view === "roll");
+    $("viewBtn").textContent = S.view === "roll" ? "ролл" : "ноты";
 }
 
 function clefLabel ()
 {
     // Symbols, not words: "Бас" / "Тенор" read like choir parts next to the part names.
-    $("clefBtn").textContent = { bass: "𝄢", treble: "𝄞", treble8: "𝄞₈", grand: "𝄞𝄢" }[S.clef];
-    $("clefBtn").title = { bass: "Басовый ключ", treble: "Скрипичный ключ", treble8: "Скрипичный, октавой ниже",
-                           grand: "Оба ключа" }[S.clef];
-    $("app").classList.toggle ("grand", S.clef === "grand");   // two staves need a taller panel
+    const eff = effectiveClef(), auto = S.clef === "auto";
+    $("clefBtn").textContent = { bass: "𝄢", treble: "𝄞", treble8: "𝄞₈", grand: "𝄞𝄢" }[eff] + (auto ? "ᴬ" : "");
+    $("clefBtn").title = (auto ? "Авто: " : "") + { bass: "басовый ключ", treble: "скрипичный ключ",
+                         treble8: "скрипичный, октавой ниже", grand: "оба ключа" }[eff];
+    $("app").classList.toggle ("grand", eff === "grand");   // two staves need a taller panel
 }
 
 buildForm();
+applyView();
 if (S.mode === "song") refreshSongList().then (previewChart); else previewChart();
 requestAnimationFrame (frame);
 
 window.addEventListener ("error", (e) => { $("status").textContent = "JS: " + e.message; });
+
+// Which way up. With the rotation lock on the page never turns, so the app (turned
+// by style.css) follows the tilt sensor: gravity along the screen's x axis says
+// which side is down. From the orientation angles, which mean the same on iOS and
+// Android (raw accelerometer signs do not): g = (cos b * sin g, -sin b, -cos b * cos g).
+// Top to the left (gx > 0): the default turn; top to the right: html.flip. Held
+// upright or lying flat, the last landscape side stays - the app is landscape only.
+function watchTilt ()
+{
+    addEventListener ("deviceorientation", (e) => {
+        if (e.beta == null || e.gamma == null) return;
+        const b = e.beta * Math.PI / 180, g = e.gamma * Math.PI / 180;
+        const gx = Math.cos (b) * Math.sin (g), gy = -Math.sin (b);
+        if (Math.abs (gx) > 0.55 && Math.abs (gx) > Math.abs (gy))
+            document.documentElement.classList.toggle ("flip", gx < 0);
+    });
+}
+if (matchMedia ("(pointer: coarse)").matches && "DeviceOrientationEvent" in window)
+{
+    // iOS asks once ("Motion & Orientation"), and only from a tap; Android just gives it.
+    if (typeof DeviceOrientationEvent.requestPermission === "function")
+    {
+        const ask = () => {
+            removeEventListener ("click", ask, true);
+            DeviceOrientationEvent.requestPermission().then (r => { if (r === "granted") watchTilt(); }).catch (() => {});
+        };
+        addEventListener ("click", ask, true);
+    }
+    else watchTilt();
+}
 
 // Offline use (sw.js). Not inside the Android wrapper: there the files are already local.
 askMicAtLaunch();

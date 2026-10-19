@@ -6,6 +6,10 @@
 //
 // Modes: "bass", "treble", "treble8" (tenor-style treble, sounding an octave
 // lower), "grand" (treble + bass, C4 and above on the treble staff).
+//
+// The staff runs on the piano roll's time axis: every note is drawn at the x of
+// its bar above, barlines where the score has them, one shared "now" line. So
+// the two views are one picture, read two ways.
 
 const LETTER = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
 const SHARP  = [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0];
@@ -44,9 +48,15 @@ function staffDefs (mode)
 
 /*
     view = {
-      mode, showNames,
-      notes: [{ midi, state: "past" | "active" | "future", syllable,
-                sung: { midi, cents, colour } | null }],
+      mode, showNames, label, range: [lo, hi] | null,
+      notes: [{ midi, x, x1, q, state: "past" | "active" | "future",
+                sung: { midi, cents, colour } | null }],      x, x1 = start, end;
+                                                               q = written value in quarters
+                                                               (absent: drawn as a quarter)
+      meter: quarters per measure now | null                   time signature, by the clef
+      bars:  [x],                                              barlines
+      nowX, maxS,                                              play line; largest line gap
+      lyricsAbove                                              notes carry syllable: print it over the staff
       live:  { midi (rounded, true octave), cents, colour } | null,
     }
 */
@@ -70,28 +80,32 @@ export function drawStaff (g, W, H, view)
     else { for (const n of items) consider (n.midi); if (view.live) consider (view.live.midi); }
 
     const nameRows = view.showNames ? 2 : 0;
+    // The words over the staff take a band of their own, above anything on ledger lines.
+    const lyricRows = view.lyricsAbove ? 7 : 0;
     // Total height in half-spaces: staff = 8, plus overflows, plus margins.
     let halfSpaces;
     if (defs.length === 2) halfSpaces = 8 + 8 + Math.max (6, under[0] + over[1] + 2) + over[0] + under[1] + 6;
     else halfSpaces = 8 + over[0] + under[0] + 7;
-    halfSpaces += nameRows * 2.6;
+    halfSpaces += nameRows * 2.6 + lyricRows;
 
-    // Line gap: fit the height, but also the width — each note needs ~2.3
-    // spaces (its head, the sung head beside it, air), plus clef and live column.
-    const widthFit = W / (Math.max (1, items.length) * 2.3 + 3.4 + 1.2 + (items.length ? 3 : 0));
-    const s = Math.max (6, Math.min (24, (H / halfSpaces) * 2, widthFit));
+    // Line gap: fit the height, and no larger than the song's quick notes allow
+    // (maxS, from the time axis) so their heads do not run into each other.
+    // 24 px is plenty on a phone; a desktop window may go to 40.
+    const s = Math.max (6, Math.min (40, (H / halfSpaces) * 2, view.maxS || 40));
     const h = s / 2;
 
     // Staff centre lines.
-    const top = (H - halfSpaces * h) / 2 + (3 + over[0]) * h;
+    const top = (H - halfSpaces * h) / 2 + (3 + over[0] + lyricRows) * h;
     const centres = [];
     centres[0] = top + 4 * h;
     if (defs.length === 2) centres[1] = centres[0] + 8 * h + Math.max (6, under[0] + over[1] + 2) * h;
 
-    const clefW = s * 3.4, left = s * 0.6, right = W - s * 0.6;
+    const meterW = view.meter ? s * 1.9 : 0;
+    const clefW = s * 3.4, left = s * 0.6, right = W - s * 0.6, x0 = left + clefW + meterW;
     const yFor = (staff, d) => centres[staff] - (d - defs[staff].mid) * h;
+    const yTop = centres[0] - 2 * s, yBot = centres[centres.length - 1] + 2 * s;
 
-    // Staff lines and clefs.
+    // Staff lines.
     g.lineWidth = Math.max (1, s * 0.08);
     g.strokeStyle = COLOURS.line;
     defs.forEach ((def, i) => {
@@ -100,40 +114,42 @@ export function drawStaff (g, W, H, view)
             const y = Math.round (centres[i] + k * s) + 0.5;
             g.beginPath(); g.moveTo (left, y); g.lineTo (right, y); g.stroke();
         }
-        if (def.clef === "G") drawTrebleClef (g, left + s * 0.5, centres[i] + s, s, def.eight);
-        else                  drawBassClef   (g, left + s * 0.4, centres[i] - s, s);
     });
-    if (defs.length === 2)
+
+    // Everything that scrolls is clipped to the right of the clef.
+    g.save();
+    g.beginPath(); g.rect (x0, 0, W - x0, H); g.clip();
+
+    // Barlines, through both staves of a grand staff.
+    g.lineWidth = Math.max (1, s * 0.1);
+    for (const bx of view.bars || [])
     {
-        g.beginPath(); g.moveTo (left + 0.5, centres[0] - 2 * s); g.lineTo (left + 0.5, centres[1] + 2 * s); g.stroke();
+        if (bx < x0 - 2 || bx > right) continue;
+        const x = Math.round (bx) + 0.5;
+        g.beginPath(); g.moveTo (x, yTop); g.lineTo (x, yBot); g.stroke();
     }
 
-    // Columns.
-    // The live voice's column on the right is ALWAYS reserved when there are
-    // notes, used or not: reserving it only while it was in use squeezed every
-    // column (and ran the names together) each time the voice came and went.
-    const reserve = items.length > 0;
-    const liveCol = reserve && view.live && ! items.some (n => n.state === "active");
-    const x0 = left + clefW, usable = right - x0 - s - (reserve ? s * 3 : 0);
-    const n = Math.max (1, items.length);
-    const step = Math.min (s * 4.5, usable / n);
-    const colX = (i) => x0 + step * (i + 0.5);
+    // The note being sung: a band over its whole length, as the bar above is lit.
+    for (const note of items)
+        if (note.state === "active")
+        {
+            g.fillStyle = "rgba(86,180,233,0.10)";
+            g.fillRect (note.x - s * 0.8, yTop - 3 * h, Math.max (s * 1.6, note.x1 - note.x + s * 0.8), yBot - yTop + 6 * h);
+        }
 
-    items.forEach ((note, i) => {
-        const x = colX (i);
+    let nameEnd = -Infinity;
+    const name = view.label || midiName;
+    const yText = yBot + (2.2 + under[defs.length - 1]) * h + s * 0.9;
+    for (const note of items)
+    {
+        // Heads sit just right of the note's start, so the head is under its bar.
+        const x = note.x + s * 0.62;
         const tgt = place (view.mode, note.midi);
         const colour = note.state === "active" ? COLOURS.active : note.state === "past" ? COLOURS.dim : COLOURS.head;
 
         drawLedgers (g, defs, tgt, x, s, centres, h);
-        drawHead (g, x, yFor (tgt.staff, tgt.d), s, colour, true, defs[tgt.staff].mid > tgt.d);
+        drawNote (g, x, yFor (tgt.staff, tgt.d), s, colour, note.q, defs[tgt.staff].mid > tgt.d, tgt.d % 2 === 0);
         if (isSharp (note.midi)) drawSharp (g, x - s * 1.25, yFor (tgt.staff, tgt.d), s, colour);
-
-        if (note.state === "active")
-        {
-            g.fillStyle = "rgba(86,180,233,0.10)";
-            g.fillRect (x - step / 2 + 1, centres[0] - 2 * s - 3 * h, step - 2,
-                        (centres[centres.length - 1] - centres[0]) + 4 * s + 6 * h);
-        }
 
         const sung = note.sung || (note.state === "active" ? view.live : null);
         if (sung)
@@ -147,37 +163,129 @@ export function drawStaff (g, W, H, view)
 
         if (view.showNames)
         {
-            const yText = centres[centres.length - 1] + 2 * s + (2.2 + under[defs.length - 1]) * h + s * 0.9;
+            // A name that would print over the one before it is left out.
             g.textAlign = "center"; g.textBaseline = "alphabetic";
-            g.font = `${Math.round (Math.max (10, Math.min (s * 0.9, step * 0.55)))}px -apple-system, system-ui, sans-serif`;
-            g.fillStyle = note.state === "active" ? COLOURS.active : COLOURS.text;
-            const name = view.label || midiName;
-            g.fillText (name (note.midi), x, yText);
-            if (sung)
+            g.font = `${Math.round (Math.max (10, s * 0.9))}px -apple-system, system-ui, sans-serif`;
+            const t = name (note.midi), w = g.measureText (t).width;
+            if (x - w / 2 > nameEnd + 3 || note.state === "active")
             {
-                g.fillStyle = sung.colour;
-                g.fillText (name (sung.midi), x, yText + s * 1.15);
+                g.fillStyle = note.state === "active" ? COLOURS.active : COLOURS.text;
+                g.fillText (t, x, yText);
+                if (sung) { g.fillStyle = sung.colour; g.fillText (name (sung.midi), x, yText + s * 1.15); }
+                nameEnd = x + w / 2;
             }
         }
-    });
+    }
 
-    if (liveCol)
+    if (view.lyricsAbove)
     {
-        const x = right - s * 1.6, p = place (view.mode, view.live.midi);
-        g.strokeStyle = COLOURS.dim; g.lineWidth = 1;
-        g.beginPath(); g.moveTo (x - s * 1.5, centres[0] - 2 * s); g.lineTo (x - s * 1.5, centres[centres.length - 1] + 2 * s); g.stroke();
+        // Each syllable starts over its note; one that would print over the one
+        // before it moves right, as words do under a staff.
+        const fs = Math.round (Math.max (14, Math.min (34, s * 1.15)));
+        const y = yTop - Math.max (over[0] * h, 0) - s * 1.2;
+        g.font = `600 ${fs}px -apple-system, system-ui, sans-serif`;
+        g.textAlign = "left"; g.textBaseline = "alphabetic";
+        let end = -Infinity;
+        for (const note of items)
+        {
+            if (! note.syllable) continue;
+            const x = Math.max (note.x, end + fs * 0.35);
+            g.fillStyle = note.state === "active" ? "#ffffff" : note.state === "past" ? "#F0E442" : "#b8b8c4";
+            g.fillText (note.syllable, x, y);
+            end = x + g.measureText (note.syllable).width;
+        }
+    }
+
+    // The voice where there is no note to sing: on the play line.
+    if (view.live && ! items.some (n => n.state === "active") && view.nowX != null)
+    {
+        const x = view.nowX + s * 0.62, p = place (view.mode, view.live.midi);
         drawLedgers (g, defs, p, x, s, centres, h);
         drawHead (g, x, yFor (p.staff, p.d), s, view.live.colour, true, false, true);
         if (isSharp (view.live.midi)) drawSharp (g, x - s * 1.1, yFor (p.staff, p.d), s * 0.8, view.live.colour);
     }
 
-    // Free sing: no targets, one live head in the middle.
-    if (items.length === 0 && view.live)
+    // Play line, the same as the piano roll's.
+    if (view.nowX != null)
     {
-        const x = (x0 + right) / 2, p = place (view.mode, view.live.midi);
-        drawLedgers (g, defs, p, x, s, centres, h);
-        drawHead (g, x, yFor (p.staff, p.d), s * 1.1, view.live.colour, true, false);
-        if (isSharp (view.live.midi)) drawSharp (g, x - s * 1.4, yFor (p.staff, p.d), s, view.live.colour);
+        g.strokeStyle = "#8a8a96"; g.lineWidth = 1.5;
+        g.beginPath(); g.moveTo (view.nowX, yTop - 2 * h); g.lineTo (view.nowX, yBot + 2 * h); g.stroke();
+    }
+    g.restore();
+
+    // Clefs last, on a plain ground, so the notes scroll in from under them.
+    g.fillStyle = view.background || "#131318";
+    g.fillRect (0, yTop - 6 * h, x0 - 1, yBot - yTop + 12 * h);
+    g.lineWidth = Math.max (1, s * 0.08);
+    g.strokeStyle = COLOURS.line;
+    defs.forEach ((def, i) => {
+        for (let k = -2; k <= 2; ++k)
+        {
+            const y = Math.round (centres[i] + k * s) + 0.5;
+            g.beginPath(); g.moveTo (left, y); g.lineTo (x0, y); g.stroke();
+        }
+        if (def.clef === "G") drawTrebleClef (g, left + s * 0.5, centres[i] + s, s, def.eight);
+        else                  drawBassClef   (g, left + s * 0.4, centres[i] - s, s);
+        if (view.meter) drawMeter (g, left + clefW + meterW / 2, centres[i], s, view.meter);
+    });
+    if (defs.length === 2)
+    {
+        g.beginPath(); g.moveTo (left + 0.5, yTop); g.lineTo (left + 0.5, yBot); g.stroke();
+    }
+}
+
+// The time signature from the measure's length in quarters: 4 -> 4/4, 1.5 -> 3/8.
+function drawMeter (g, x, yMid, s, quarters)
+{
+    const eighths = Math.round (quarters * 2) % 2 === 1;
+    const top = String (eighths ? Math.round (quarters * 2) : Math.round (quarters)), bottom = eighths ? "8" : "4";
+    g.save();
+    g.fillStyle = COLOURS.head;
+    g.font = `bold ${Math.round (s * 2.15)}px Georgia, "Times New Roman", serif`;
+    g.textAlign = "center"; g.textBaseline = "middle";
+    g.fillText (top, x, yMid - s * 0.95);
+    g.fillText (bottom, x, yMid + s * 1.05);
+    g.restore();
+}
+
+// A note by its written value: whole and half hollow, flags for eighths and
+// sixteenths, a dot for dotted values. A value that is none of these (a reciting
+// note, as long as its words) is drawn as a breve: hollow, no stem, side bars.
+const VALUES = { 4: [0, false], 6: [0, true], 2: [1, false], 3: [1, true], 1: [2, false], 1.5: [2, true],
+                 0.5: [3, false], 0.75: [3, true], 0.25: [4, false], 0.375: [4, true] };
+function drawNote (g, x, y, s, colour, q, stemUp, onLine)
+{
+    const v = q == null ? [2, false] : VALUES[q];
+    if (! v)
+    {
+        drawHead (g, x, y, s, colour, false, false, true);
+        g.strokeStyle = colour; g.lineWidth = Math.max (1, s * 0.12);
+        for (const dx of [-0.95, -0.78, 0.78, 0.95])
+        { g.beginPath(); g.moveTo (x + dx * s, y - s * 0.6); g.lineTo (x + dx * s, y + s * 0.6); g.stroke(); }
+        return;
+    }
+    const [kind, dotted] = v;            // 0 whole, 1 half, 2 quarter, 3 eighth, 4 sixteenth
+    drawHead (g, x, y, s, colour, kind >= 2, false, true);
+    if (kind >= 1)
+    {
+        const sx = stemUp ? x + s * 0.56 : x - s * 0.56, end = stemUp ? y - s * 3.3 : y + s * 3.3;
+        g.strokeStyle = colour; g.lineWidth = Math.max (1, s * 0.1);
+        g.beginPath(); g.moveTo (sx, y + (stemUp ? -0.1 : 0.1) * s); g.lineTo (sx, end); g.stroke();
+        for (let f = 0; f < kind - 2; ++f)
+        {
+            const fy = end + (stemUp ? 1 : -1) * f * s * 0.75;
+            g.lineWidth = Math.max (1.5, s * 0.2);
+            g.beginPath(); g.moveTo (sx, fy);
+            g.bezierCurveTo (sx + s * 0.2, fy + (stemUp ? 1 : -1) * s * 0.6, sx + s * 1.1, fy + (stemUp ? 1 : -1) * s * 0.9,
+                             sx + s * 0.75, fy + (stemUp ? 1 : -1) * s * 1.7);
+            g.stroke();
+        }
+    }
+    if (dotted)
+    {
+        // On a line the dot moves up into the space, as engraved.
+        g.fillStyle = colour;
+        g.beginPath(); g.arc (x + s * 1.05, y - (onLine ? s * 0.5 : 0), s * 0.15, 0, Math.PI * 2); g.fill();
     }
 }
 
