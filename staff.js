@@ -24,7 +24,7 @@ const BASS_MID   = 22;   // D3
 
 export const COLOURS = {
     line: "#7c7c8a", head: "#e6e6ee", dim: "#5a5a66", active: "#56B4E9",
-    good: "#009E73", bad: "#D55E00", text: "#9a9aa6", miss: "#E5484D",
+    good: "#009E73", bad: "#D55E00", text: "#9a9aa6", miss: "#E5484D", plan: "#f2f2f6",
 };
 
 // Which staff a note belongs to, and the diatonic position it is DRAWN at.
@@ -180,13 +180,19 @@ export function drawStaff (g, W, H, view)
             // A name that would print over the one before it is left out.
             g.textAlign = "center"; g.textBaseline = "alphabetic";
             g.font = `${Math.round (Math.max (10, s * 0.9))}px -apple-system, system-ui, sans-serif`;
+            // The plan in white; green once sung right; a miss keeps the plan white
+            // and prints what was sung in red beside it, on the same line.
             const t = name (note.midi), w = g.measureText (t).width;
-            if (x - w / 2 > nameEnd + 3 || note.state === "active")
+            const sungT = missed ? name (note.sung.midi) : "", gap = missed ? s * 0.35 : 0;
+            const ws = missed ? g.measureText (sungT).width : 0, left = x - (w + gap + ws) / 2;
+            if (left > nameEnd + 3 || note.state === "active")
             {
-                g.fillStyle = note.state === "active" ? COLOURS.active : COLOURS.text;
-                g.fillText (t, x, yText);
-                if (missed) { g.fillStyle = COLOURS.miss; g.fillText (name (note.sung.midi), x, yText + s * 1.15); }
-                nameEnd = x + w / 2;
+                g.textAlign = "left";
+                g.fillStyle = note.state === "active" ? COLOURS.active
+                            : note.state === "past" && note.ok ? COLOURS.good : COLOURS.plan;
+                g.fillText (t, left, yText);
+                if (missed) { g.fillStyle = COLOURS.miss; g.fillText (sungT, left + w + gap, yText); }
+                nameEnd = left + w + gap + ws;
             }
         }
     }
