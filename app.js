@@ -404,6 +404,7 @@ async function start ()
             $("status").textContent = "Загрузка песни…";
             const song = await loadSong (S.song);
             prepareChart (song.chart);
+            earlyAsked = false;
             const decks = [];
             if (song.backing) decks.push ([song.backing, backGain]);
             if (song.reference) decks.push ([song.reference, guideGain]);
@@ -422,16 +423,17 @@ async function start ()
     requestWakeLock();
 }
 
-function schedule (decks)
+function schedule (decks, from = 0)
 {
-    t0 = ctx.currentTime + 0.25;
+    const at = ctx.currentTime + 0.25;
+    t0 = at - from;
     for (const [buf, gain] of decks)
     {
         const s = ctx.createBufferSource();
-        s.buffer = buf; s.connect (gain); s.start (t0);
+        s.buffer = buf; s.connect (gain); s.start (at, Math.min (from, Math.max (0, buf.duration - 0.01)));
         sources.push (s);
     }
-    estimates = [];
+    if (from === 0) estimates = [];
     running = true;
     setButton (true);
 }
@@ -765,10 +767,24 @@ function missedSpots ()
 function startDrill (spots)
 {
     if (S.mode !== "drill") S.drillBack = S.mode;
+    const part = chart?.song?.part;              // same voice, same automatic clef as the song
     drillChart = buildDrillChart (spots);
+    if (part) drillChart.song.part = part;
     S.mode = "drill"; save();
     hideSummary();
     prepareChart (drillChart);
+}
+
+// After a drill: the places where a note was still missed (in the holds or the
+// step); none left - the whole drill again.
+function drillLeftovers ()
+{
+    const bad = new Set();
+    chart.notes.forEach ((n, i) => {
+        const st = noteStats[i];
+        if (n.spot != null && n.startSeconds < lastChartNow && st.sung.length >= 5 && st.hit / expectedFrames (n) < 0.5) bad.add (n.spot);
+    });
+    return drillChart.spots.filter ((sp, k) => bad.has (k));
 }
 
 function leaveDrill ()
@@ -777,6 +793,66 @@ function leaveDrill ()
     drillChart = null;
     hideSummary();
     previewChart();
+    // Drilled because the start went badly: now the song again, from the top.
+    if (drillFromEarly && S.mode === "song") { drillFromEarly = false; start(); }
+    drillFromEarly = false;
+}
+
+//==============================================================================
+// Too many misses early on: the song pauses and offers the drill - or going on.
+// Judged as everywhere else (the voice on a note, in tune for half of it); asked
+// once per take, after at least 8 notes, while still in the first 40 % of the song.
+const EARLY_NOTES = 8, EARLY_PART = 0.4, EARLY_OK = 0.5;
+let earlyAsked = false, drillFromEarly = false, lastEarlyCheck = 0;
+
+function checkEarlyMisses (now)
+{
+    if (! running || S.mode !== "song" || earlyAsked || ! chart) return;
+    const t = performance.now();
+    if (t - lastEarlyCheck < 500) return;
+    lastEarlyCheck = t;
+    if (now > chart.song.durationSeconds * EARLY_PART) { earlyAsked = true; return; }
+    let judged = 0, ok = 0;
+    chart.notes.forEach ((n, i) => {
+        const st = noteStats[i];
+        if (n.type === "breath" || n.startSeconds + n.durationSeconds > now || st.sung.length < 5) return;
+        ++judged;
+        if (st.hit / expectedFrames (n) >= 0.5) ++ok;
+    });
+    if (judged >= EARLY_NOTES && ok / judged < EARLY_OK)
+    {
+        earlyAsked = true;
+        stop();
+        const spots = missedSpots();
+        if (! spots.length) return resumeSong();
+        $("summary").innerHTML = `
+            <h2>Много промахов</h2>
+            <p class="note">Попали в ${ok} из ${judged} нот. Чаще всего:<br>${spots.map (x => esc (x.text)).join ("<br>")}</p>
+            <div class="seg"><button id="earlyDrill" class="drill">Упражнение</button>
+                <button id="earlyGo">Продолжить песню</button></div>
+            <p class="note">После упражнения песня начнётся сначала.</p>`;
+        $("summary").hidden = false;
+        $("earlyDrill").onclick = () => { drillFromEarly = true; startDrill (spots); start(); };
+        $("earlyGo").onclick = resumeSong;
+    }
+}
+
+// Back into the song where it paused (a second earlier, to find the pitch again).
+async function resumeSong ()
+{
+    hideSummary();
+    try
+    {
+        await ensureAudio();
+        stopSources();
+        const song = await loadSong (S.song);
+        const decks = [];
+        if (song.backing) decks.push ([song.backing, backGain]);
+        if (song.reference) decks.push ([song.reference, guideGain]);
+        schedule (decks, Math.max (0, lastChartNow - 1));
+        requestWakeLock();
+    }
+    catch (err) { $("status").textContent = "Ошибка: " + (err.message || err); }
 }
 
 //==============================================================================
@@ -797,6 +873,7 @@ function showSummary ()
         .map (x => `<span class="pitch ${Math.abs (x.c) <= TOLERANCES[S.tolerance][0] ? "ok" : "bad"}">${label (x.m)} ${x.c > 0 ? "+" : ""}${x.c}¢</span>`)
         .join ("");
 
+    if (S.mode === "drill" && drillChart) return showDrillSummary (perPitch);
     const spots = missedSpots();
     $("summary").innerHTML = `
         <h2>${overallPercent()}% в тоне</h2>
@@ -813,6 +890,23 @@ function showSummary ()
     if ($("sumBack")) $("sumBack").onclick = leaveDrill;
     saveTake();
 }
+// The end of a drill: go on (the places still missed, or all of it again) or finish.
+function showDrillSummary (perPitch)
+{
+    const left = drillLeftovers (), next = left.length ? left : drillChart.spots;
+    $("summary").innerHTML = `
+        <h2>${overallPercent()}% в тоне</h2>
+        <div class="pitches">${perPitch || "нет данных"}</div>
+        <p class="note">${left.length ? "Ещё не получилось:<br>" : "Все места спеты чисто. Продолжить — ещё раз то же:<br>"}
+            ${next.map (x => esc (x.text)).join ("<br>")}</p>
+        <div class="seg"><button id="sumMore" class="drill">Продолжить упражнение</button>
+            <button id="sumEnd">${drillFromEarly ? "Закончить — песня сначала" : "Закончить"}</button></div>`;
+    $("summary").hidden = false;
+    $("sumMore").onclick = () => { startDrill (next); start(); };
+    $("sumEnd").onclick = leaveDrill;
+    saveTake();
+}
+
 const hideSummary = () => { $("summary").hidden = true; };
 const esc = (s) => s.replace (/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -1231,6 +1325,7 @@ function frame ()
 
     updateMicLevel();
     checkAudio();
+    checkEarlyMisses (now);
     // Only the view on screen is drawn; the readout under it is shared.
     if (S.view === "roll") { updateView (now, dt); drawHighway (now); }
     drawStaffPanel (now);

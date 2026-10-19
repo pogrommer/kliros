@@ -242,13 +242,15 @@ export function buildDrillChart (spots, bpm = 60, reps = 3, holdBeats = 4)
     const beat = beatSeconds (spec);
     const notes = [], phrases = [];
     let t = leadInSeconds (spec);
-    const phrase = (group, text) => {
+    // Every note remembers which place (spot) it drills, so the summary can tell
+    // which places still went wrong.
+    const phrase = (group, text, spot) => {
         const ids = [], start = t;
         for (const [n, beats] of group)
         {
             const dur = beats * beat;
             notes.push ({ id: notes.length, startSeconds: t, durationSeconds: Math.max (0.08, dur - 0.06), midi: n.midi,
-                          centsOffset: 0, type: "normal", syllable: n.syllable || noteName (n.midi), phraseId: phrases.length });
+                          centsOffset: 0, type: "normal", syllable: n.syllable || noteName (n.midi), phraseId: phrases.length, spot });
             ids.push (notes.length - 1);
             t += dur;
         }
@@ -261,18 +263,18 @@ export function buildDrillChart (spots, bpm = 60, reps = 3, holdBeats = 4)
         {
             if (seen.has (n.midi)) continue;
             seen.add (n.midi);
-            phrase ([[n, holdBeats]], `${k + 1}. Тянуть ${n.name || noteName (n.midi)}`);
+            phrase ([[n, holdBeats]], `${k + 1}. Тянуть ${n.name || noteName (n.midi)}`, k);
             t += 2 * beat;                              // breathe
         }
         // 2. Then the step itself.
         if (spot.notes.length > 1)
             for (let r = 0; r < reps; ++r)
             {
-                phrase (spot.notes.map (n => [n, n.missed ? 2 : 1]), `${k + 1}. ${spot.text} (${r + 1}/${reps})`);
+                phrase (spot.notes.map (n => [n, n.missed ? 2 : 1]), `${k + 1}. ${spot.text} (${r + 1}/${reps})`, k);
                 t += beat;                              // breathe
             }
         t += beat;                                      // and between places
     });
     return { song: { id: "drill", title: `Упражнение на ошибки (${spots.length})`, artist: `${bpm} bpm`, durationSeconds: t + 1.5 },
-             notes, phrases, exercise: spec };
+             notes, phrases, exercise: spec, spots };
 }
