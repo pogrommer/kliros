@@ -136,3 +136,7 @@ footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; wh
   .sheet { border-radius: 14px; max-height: 86vh; }
   #summary { top: 12%; }
 }
+
+/* The drill offered in the summary: the missed places, one button. */
+#summary .drill { width: 100%; margin: 12px 0 6px; padding: 10px; background: #0f3a52; border-color: var(--accent); font-size: 16px; }
+#summary .note { font-size: 13px; color: #a4a4b0; line-height: 1.45; margin: 0 0 8px; }

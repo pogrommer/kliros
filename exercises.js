@@ -227,3 +227,38 @@ export function buildChart (spec)
         notes, phrases, exercise: spec,
     };
 }
+
+// An exercise made from a take: its most frequent misses (app.js missedSpots).
+// spots = [{ notes: [{ midi, syllable, missed }], text }] - each is the note before
+// the miss (the approach: the interval is usually what goes wrong) and the missed
+// note. Each place is sung `reps` times, slowly; a missed note is held two beats so
+// the voice has time to settle on it. Same lead-in as every exercise: the first
+// note struck, then a count-in.
+export function buildDrillChart (spots, bpm = 60, reps = 3)
+{
+    const spec = { kind: "drill", bpm, rootMidi: spots[0].notes[0].midi, useSolfege: false,
+                   transposeStep: 0, ceilingMidi: 0, repeats: 1, referenceBeats: 2, countInBeats: 4, descending: false };
+    const beat = beatSeconds (spec);
+    const notes = [], phrases = [];
+    let t = leadInSeconds (spec);
+    spots.forEach ((spot, k) => {
+        for (let r = 0; r < reps; ++r)
+        {
+            const ids = [], start = t;
+            for (const n of spot.notes)
+            {
+                const dur = (n.missed ? 2 : 1) * beat;
+                notes.push ({ id: notes.length, startSeconds: t, durationSeconds: Math.max (0.08, dur - 0.06), midi: n.midi,
+                              centsOffset: 0, type: "normal", syllable: n.syllable || noteName (n.midi), phraseId: phrases.length });
+                ids.push (notes.length - 1);
+                t += dur;
+            }
+            phrases.push ({ id: phrases.length, startSeconds: start, endSeconds: t, noteIds: ids,
+                            text: `${k + 1}. ${spot.text} (${r + 1}/${reps})` });
+            t += beat;                                  // breathe
+        }
+        t += beat;                                      // and between places
+    });
+    return { song: { id: "drill", title: `Упражнение на ошибки (${spots.length})`, artist: `${bpm} bpm`, durationSeconds: t + 1.5 },
+             notes, phrases, exercise: spec };
+}

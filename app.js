@@ -1,7 +1,7 @@
 // app.js — the phone version of Vocal Trainer: highway + five-line staff.
 // Geometry and colours follow DESIGN.md §7; analysis lives in pitch-worklet.js.
 
-import { DEFINITIONS, getDefinition, makeSpec, buildChart, LENGTHS, noteName } from "./exercises.js";
+import { DEFINITIONS, getDefinition, makeSpec, buildChart, buildDrillChart, LENGTHS, noteName } from "./exercises.js";
 import { renderClickTrack, renderGuideTone, renderSingleNote } from "./synth.js";
 import { drawStaff, midiName } from "./staff.js";
 import { readPackage, saveSongs, getSong, deleteSong, hasSong, listSongs as listLocalSongs } from "./localsongs.js";
@@ -23,6 +23,8 @@ const save = () => { try { localStorage.setItem ("vt-web", JSON.stringify (S)); 
 if (! S.clefAutoSet) { S.clef = "auto"; S.clefAutoSet = true; save(); }
 // Once: notes OR piano roll, the notes by default (2026-10-20).
 if (! S.viewSet) { S.view = "staff"; S.viewSet = true; save(); }
+// A drill lives only in memory: after a reload, back to what it was made from.
+if (S.mode === "drill") S.mode = S.drillBack || "exercise";
 
 const C = {
     bg: "#101014", grid: "#2A2A32", gridC: "#3a3a46", label: "#6a6a78",
@@ -332,9 +334,9 @@ async function start ()
 
     try
     {
-        if (S.mode === "exercise")
+        if (S.mode === "exercise" || (S.mode === "drill" && drillChart))
         {
-            prepareChart (buildChart (makeSpec (S.kind, S.root, S.bpm, LENGTHS[S.length], false)));
+            prepareChart (S.mode === "drill" ? drillChart : buildChart (makeSpec (S.kind, S.root, S.bpm, LENGTHS[S.length], false)));
             const click = renderClickTrack (ctx, chart), guide = renderGuideTone (ctx, chart);
             schedule ([[click, clickGain], [guide, guideGain]]);
         }
@@ -382,15 +384,22 @@ function stopSources ()
     sources = [];
 }
 
-function stop (finished = false)
+// review: stopped with the Stop button part way - the summary (and the drill made
+// from it) covers what was sung so far. Not when a menu stops playback.
+function stop (finished = false, review = false)
 {
+    const wasRunning = running;
     if (running) lastChartNow = chartNow();
     running = false;
     stopSources();
     setButton (false);
     releaseWakeLock();
-    if (finished && chart) showSummary();
+    if (chart && (finished || (review && wasRunning && sungSoFar() >= 3))) showSummary();
 }
+
+// Notes already past that the voice was heard on.
+const sungSoFar = () => chart.notes.filter ((n, i) => n.startSeconds + n.durationSeconds <= lastChartNow
+                                                      && noteStats[i].sung.length >= 5).length;
 
 function setButton (on)
 {
@@ -617,7 +626,7 @@ async function saveTake ()
     if (! chart) return;
     const body = {
         kind: S.mode === "song" ? "song" : "exercise",
-        id: S.mode === "song" ? S.song : S.kind,
+        id: S.mode === "song" ? S.song : S.mode === "drill" ? "drill" : S.kind,
         title: chart.song.title || "",
         startedAt: new Date().toISOString(),
         settings: { bpm: S.bpm, root: S.root, tolerance: S.tolerance, clef: effectiveClef() },
@@ -638,15 +647,85 @@ function overallPercent ()
 {
     if (! chart) return 0;
     let hit = 0, total = 0;
-    chart.notes.forEach ((n, i) => { hit += noteStats[i].hit; total += expectedFrames (n); });
+    chart.notes.forEach ((n, i) => {
+        if (n.startSeconds >= lastChartNow) return;      // stopped before it: not part of this take
+        hit += noteStats[i].hit; total += expectedFrames (n);
+    });
     return total ? Math.round (100 * hit / total) : 0;
+}
+
+//==============================================================================
+// The drill: the MOST FREQUENT misses of a take, made into a short exercise.
+// A note counts as missed when the voice was on it (not a breath, not silence)
+// but in tune for under half of it. A miss is the step INTO the note - the note
+// before it and the note itself - since it is usually the interval that goes
+// wrong. The same step missed anywhere in the song is one mistake, counted; the
+// three most frequent go into the drill (ties: the worse one), once each.
+let drillChart = null;
+const DRILL_KINDS = 3;
+
+const times = (n) => n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? "раза" : "раз";
+
+function missedSpots ()
+{
+    const kinds = new Map();
+    chart.notes.forEach ((n, i) => {
+        const st = noteStats[i];
+        if (n.type === "breath" || n.startSeconds + n.durationSeconds > lastChartNow || st.sung.length < 5) return;
+        const pc = st.hit / expectedFrames (n);
+        if (pc >= 0.5) return;
+        const prev = i > 0 ? chart.notes[i - 1] : null;
+        const key = (prev ? prev.midi + ">" : "") + n.midi;
+        if (! kinds.has (key)) kinds.set (key, { at: i, prev, note: n, count: 0, pcs: [], cs: [], words: [] });
+        const k = kinds.get (key);
+        k.count++; k.pcs.push (pc);
+        if (Number.isFinite (median (st.folded))) k.cs.push (median (st.folded));
+        const w = [prev?.syllable, n.syllable].filter (Boolean).join ("-");
+        if (w && ! k.words.includes (w)) k.words.push (w);
+    });
+
+    const spots = [...kinds.values()].map (k => {
+        const c = k.cs.length ? Math.round (median (k.cs)) : null;
+        // Under a semitone in cents; from there in semitones, as a singer counts.
+        const semis = c == null ? 0 : Math.round (Math.abs (c) / 100);
+        const by = c == null ? "" : Math.abs (c) < 80 ? `${Math.abs (c)}¢`
+                 : `${semis} ${semis === 1 ? "полутон" : semis < 5 ? "полутона" : "полутонов"}`;
+        const way = c == null ? "" : Math.abs (c) < 15 ? ", неустойчиво" : `, пели ${c > 0 ? "выше" : "ниже"} на ${by}`;
+        const steps = [k.prev, k.note].filter (Boolean).map (n => label (n.midi)).join ("→");
+        const where = k.words.length && ! chart.exercise
+            ? ` (${k.words.slice (0, 2).map (w => `«${w}»`).join (", ")}${k.words.length > 2 ? "…" : ""})` : "";
+        return {
+            at: k.at, count: k.count, score: k.pcs.reduce ((a, x) => a + x, 0) / k.pcs.length,
+            text: `${steps} — ${k.count} ${times (k.count)}${way}${where}`,
+            notes: [k.prev && { midi: k.prev.midi, syllable: k.prev.syllable, missed: false },
+                    { midi: k.note.midi, syllable: k.note.syllable, missed: true }].filter (Boolean),
+        };
+    });
+    return spots.sort ((a, b) => b.count - a.count || a.score - b.score).slice (0, DRILL_KINDS);
+}
+
+function startDrill (spots)
+{
+    if (S.mode !== "drill") S.drillBack = S.mode;
+    drillChart = buildDrillChart (spots);
+    S.mode = "drill"; save();
+    hideSummary();
+    prepareChart (drillChart);
+}
+
+function leaveDrill ()
+{
+    S.mode = S.drillBack || "exercise"; save();
+    drillChart = null;
+    hideSummary();
+    previewChart();
 }
 
 //==============================================================================
 // Summary
 function showSummary ()
 {
-    const rows = (chart.phrases || []).map (p => {
+    const rows = (chart.phrases || []).filter (p => p.startSeconds < lastChartNow).map (p => {
         const pc = phrasePercent (p);
         return `<tr><td>${esc (p.text || "")}</td><td class="${pc >= 60 ? "ok" : "bad"}">${pc}%</td></tr>`;
     }).join ("");
@@ -660,13 +739,20 @@ function showSummary ()
         .map (x => `<span class="pitch ${Math.abs (x.c) <= TOLERANCES[S.tolerance][0] ? "ok" : "bad"}">${label (x.m)} ${x.c > 0 ? "+" : ""}${x.c}¢</span>`)
         .join ("");
 
+    const spots = missedSpots();
     $("summary").innerHTML = `
         <h2>${overallPercent()}% в тоне</h2>
         <div class="pitches">${perPitch || "нет данных"}</div>
+        ${spots.length ? `<button id="sumDrill" class="drill">Отработать ${spots.length === 1 ? "частую ошибку"
+            : `${spots.length} частые ошибки`}</button>
+            <p class="note">${spots.map (x => esc (x.text)).join ("<br>")}</p>` : ""}
         <table>${rows}</table>
-        <button id="sumClose">Закрыть</button>`;
+        <div class="seg">${S.mode === "drill" ? `<button id="sumBack">Назад к ${S.drillBack === "song" ? "песне" : "упражнению"}</button>` : ""}
+            <button id="sumClose">Закрыть</button></div>`;
     $("summary").hidden = false;
     $("sumClose").onclick = hideSummary;
+    if (spots.length) $("sumDrill").onclick = () => startDrill (spots);
+    if ($("sumBack")) $("sumBack").onclick = leaveDrill;
     saveTake();
 }
 const hideSummary = () => { $("summary").hidden = true; };
@@ -982,7 +1068,7 @@ function drawStaffPanel (now)
     // Readout under the staff.
     const target = activeIdx >= 0 ? chart.notes[activeIdx] : null;
     let txt = "";
-    if (target) txt += `Нужно: <b class="t">${labelLong (target.midi)}</b>`;
+    if (target) txt += `<b class="t">${labelLong (target.midi)}</b>`;
     if (liveView)
     {
         const c = liveView.cents;
@@ -1113,6 +1199,7 @@ function updateTitle ()
     let t;
     if (S.mode === "exercise") { const d = getDefinition (S.kind); t = d.name + (d.fixedRoot ? "" : ` · от ${noteName (S.root)}`); }
     else if (S.mode === "song") t = songTitle();
+    else if (S.mode === "drill" && drillChart) t = drillChart.song.title;
     else t = "Свободное пение";
     $("titleText").textContent = t;
 }
@@ -1146,6 +1233,7 @@ function previewChart ()
 {
     if (running) return;
     if (S.mode === "exercise") prepareChart (buildChart (makeSpec (S.kind, S.root, S.bpm, LENGTHS[S.length], false)));
+    else if (S.mode === "drill" && drillChart) prepareChart (drillChart);
     else if (S.mode === "free") { chart = null; estimates = []; }
     else if (S.mode === "song" && songCache.has (S.song)) prepareChart (songCache.get (S.song).chart);
     else
@@ -1227,7 +1315,7 @@ function buildForm ()
 
     $("menu").onclick = () => { if (running) stop(); openSettings(); };
     $("done").onclick = closeSettings;
-    $("play").onclick = () => running ? stop() : start();
+    $("play").onclick = () => running ? stop (false, true) : start();
     $("guide").onclick = () => { S.guide = ! S.guide; save(); applyLevels(); $("guide").classList.toggle ("on", S.guide); };
     $("guide").classList.toggle ("on", S.guide);
     $("clefBtn").onclick = () => {
@@ -1258,7 +1346,7 @@ function buildForm ()
         if (e.code !== "Space" || e.repeat || /INPUT|SELECT|TEXTAREA|BUTTON/.test (e.target.tagName)) return;
         if (! $("settings").hidden || ! $("addMenu").hidden) return;
         e.preventDefault();
-        running ? stop() : start();
+        running ? stop (false, true) : start();
     });
 }
 
