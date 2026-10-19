@@ -108,7 +108,7 @@ async function ensureContext ()
     workletNode = new AudioWorkletNode (ctx, "pitch-processor", { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1] });
     const mute = ctx.createGain(); mute.gain.value = 0;
     workletNode.connect (mute).connect (ctx.destination);
-    workletNode.port.onmessage = (e) => { if (micSource) onEstimate (e.data); };
+    workletNode.port.onmessage = (e) => { lastWorkletMsg = performance.now(); if (micSource) onEstimate (e.data); };
 
     guideGain = ctx.createGain(); guideGain.connect (ctx.destination);
     backGain  = ctx.createGain(); backGain.connect (ctx.destination);
@@ -140,14 +140,72 @@ async function micOnOnce ()
 
     micSource = ctx.createMediaStreamSource (micStream);
     micSource.connect (workletNode);
-    // The mic can be taken away from outside (a call, another app, Settings).
-    micStream.getAudioTracks().forEach (t => t.onended = () => micOff());
+    // The mic can be taken away from outside (a call, another app, Settings, the
+    // screen lock): the track ends. The singer still wants it - see checkAudio().
+    micStream.getAudioTracks().forEach (t => t.onended = () => micOff (true));
     if (ctx.state !== "running") await ctx.resume();
+    micWanted = true;
+    lastWorkletMsg = performance.now();
     setMicButton ("on");
 }
 
-function micOff ()
+// The screen lock (and a call, or another app taking the audio) leaves the page
+// with a suspended context and a mic track that is ended or muted for good - and
+// the mic button may still say "on". So: whenever the page is in front, if the
+// singer had the mic on but it is not delivering (no worklet frames for 1.5 s, or
+// its track is ended/muted), resume the context and open the mic afresh. iOS may
+// refuse that until a tap: then the status line asks for one, and the tap does it.
+let lastWorkletMsg = 0, recovering = false, lastCheck = 0;
+
+function audioDead ()
 {
+    if (! micWanted) return false;
+    if (! ctx || ctx.state !== "running") return true;
+    if (! micStream || micStream.getAudioTracks().some (t => t.readyState === "ended" || t.muted)) return true;
+    return performance.now() - lastWorkletMsg > 1500;
+}
+
+async function recoverAudio ()
+{
+    if (recovering || ! audioDead()) return;
+    recovering = true;
+    try
+    {
+        if (ctx && ctx.state !== "running") { try { await ctx.resume(); } catch {} }
+        if (audioDead())
+        {
+            micOff (true);
+            await micOn();
+        }
+        if (! audioDead() && $("status").dataset.mic) { $("status").textContent = ""; delete $("status").dataset.mic; }
+    }
+    catch {}
+    finally { recovering = false; }
+    if (audioDead())
+    {
+        $("status").textContent = "Коснитесь экрана, чтобы вернуть микрофон";
+        $("status").dataset.mic = "1";
+        if (! tapArmed)
+        {
+            tapArmed = true;
+            addEventListener ("pointerdown", () => { tapArmed = false; recoverAudio(); }, { once: true, capture: true });
+        }
+    }
+}
+let tapArmed = false;
+
+function checkAudio ()
+{
+    const t = performance.now();
+    if (t - lastCheck < 1000 || document.visibilityState !== "visible") return;
+    lastCheck = t;
+    if (audioDead()) recoverAudio();
+}
+
+// keepWanted: closed from outside or to be reopened - the singer did not switch it off.
+function micOff (keepWanted = false)
+{
+    if (! keepWanted) micWanted = false;
     if (micSource) { try { micSource.disconnect(); } catch {} }
     micSource = null;
     if (micStream) micStream.getTracks().forEach (t => t.stop());
@@ -1165,6 +1223,7 @@ function frame ()
     else now = ctx ? ctx.currentTime : 0;
 
     updateMicLevel();
+    checkAudio();
     // Only the view on screen is drawn; the readout under it is shared.
     if (S.view === "roll") { updateView (now, dt); drawHighway (now); }
     drawStaffPanel (now);
@@ -1193,7 +1252,13 @@ function frame ()
 let wakeLock = null;
 async function requestWakeLock () { try { wakeLock = await navigator.wakeLock?.request ("screen"); } catch {} }
 function releaseWakeLock () { try { wakeLock?.release(); } catch {} wakeLock = null; }
-document.addEventListener ("visibilitychange", () => { if (document.visibilityState === "visible" && running) requestWakeLock(); });
+document.addEventListener ("visibilitychange", () => {
+    if (document.visibilityState !== "visible") return;
+    if (running) requestWakeLock();
+    lastWorkletMsg = performance.now();      // give the context a moment to come back by itself
+    lastCheck = 0;
+});
+addEventListener ("pageshow", () => { lastCheck = 0; });
 
 //==============================================================================
 // UI
