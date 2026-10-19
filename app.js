@@ -1127,15 +1127,22 @@ function drawStaffPanel (now)
                           range: chartRange(), label, maxS: quickGap() * pps / 1.5, lyricsAbove: words, meter: meterAt (now) });
 
     // Readout under the staff.
+    // The note to sing in white; green while the voice is on it (within the
+    // tolerance); off it, the plan stays white and what is sung shows in red
+    // beside it, with the cents. With nothing to sing, just the voice.
     const target = activeIdx >= 0 ? chart.notes[activeIdx] : null;
+    const cents = (c) => ` <span class="cents">${c > 0 ? "+" : ""}${Math.round (c)}¢</span>`;
     let txt = "";
-    if (target) txt += `<b class="t">${labelLong (target.midi)}</b>`;
-    if (liveView)
+    if (target)
     {
-        const c = liveView.cents;
-        txt += `${txt ? " · " : ""}Поёте: <b style="color:${liveView.colour}">${labelLong (liveView.midi)}</b>`;
-        if (c != null) txt += ` <span class="cents">${c > 0 ? "+" : ""}${Math.round (c)}¢</span>`;
-        else { const fc = Math.round ((live.smooth - Math.round (live.smooth)) * 100); txt += ` <span class="cents">${fc > 0 ? "+" : ""}${fc}¢</span>`; }
+        const ok = liveView && liveView.cents != null && Math.abs (liveView.cents) <= TOLERANCES[S.tolerance][0];
+        txt += `<b class="${ok ? "hit" : "plan"}">${labelLong (target.midi)}</b>`;
+        if (liveView && ! ok) txt += ` <b class="miss">${labelLong (liveView.midi)}</b>${liveView.cents != null ? cents (liveView.cents) : ""}`;
+    }
+    else if (liveView)
+    {
+        txt += `<b style="color:${liveView.colour}">${labelLong (liveView.midi)}</b>`
+             + cents ((live.smooth - Math.round (live.smooth)) * 100);
     }
     $("readout").innerHTML = txt || "&nbsp;";
 }
