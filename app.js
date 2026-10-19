@@ -67,6 +67,24 @@ let t0 = 0, running = false;
 // separate on purpose: the mic button releases the mic completely — iOS's
 // orange dot goes out — without tearing down playback or the worklet.
 let micSource = null, micWanted = false;
+const MIC_CONSTRAINTS = { audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, channelCount: 1 } };
+
+// The user wants the mic question asked as soon as the app opens. The permission
+// prompt needs no tap, but iOS starts audio processing only from a tap, so the
+// stream granted here is kept and switched on by the first tap anywhere.
+let earlyStream = null;
+async function askMicAtLaunch ()
+{
+    if (! window.isSecureContext || ! navigator.mediaDevices) return;
+    try { earlyStream = await navigator.mediaDevices.getUserMedia (MIC_CONSTRAINTS); }
+    catch { return; }      // refused: the mic button asks again when pressed
+    const first = (e) => {
+        if (e.target.closest ("#mic")) return;      // the mic button does it itself
+        removeEventListener ("pointerdown", first, true);
+        micOn().catch (err => { $("status").textContent = err.message || String (err); });
+    };
+    addEventListener ("pointerdown", first, true);
+}
 
 async function ensureContext ()
 {
@@ -92,16 +110,24 @@ async function ensureContext ()
     if (ctx.state !== "running") await ctx.resume();
 }
 
-async function micOn ()
+// One start at a time: the first tap and the Start button can both ask for the mic.
+let micStarting = null;
+function micOn ()
+{
+    micStarting ||= micOnOnce().finally (() => { micStarting = null; });
+    return micStarting;
+}
+
+async function micOnOnce ()
 {
     await ensureContext();
     if (micSource) return;
     setMicButton ("wait");
     try
     {
-        micStream = await navigator.mediaDevices.getUserMedia ({
-            audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, channelCount: 1 },
-        });
+        // The stream asked for at launch (askMicAtLaunch), if it is still live.
+        micStream = earlyStream?.active ? earlyStream : await navigator.mediaDevices.getUserMedia (MIC_CONSTRAINTS);
+        earlyStream = null;
     }
     catch (e) { setMicButton ("off"); throw new Error ("Нет доступа к микрофону: " + (e.message || e.name)); }
 
@@ -384,7 +410,15 @@ async function loadSong (id)
     const fetchAudio = async (which) => {
         const r = await fetch (e[which] || `${api}/audio/${which}`).catch (() => null);
         if (! r?.ok) return null;
-        return await ctx.decodeAudioData (await r.arrayBuffer());
+        const buf = await r.arrayBuffer();
+        try { return await ctx.decodeAudioData (buf); }
+        catch (err)
+        {
+            // Say which file and what arrived, so a report from the phone is enough to fix it.
+            const what = which === "backing" ? "минус" : "подсказку";
+            throw new Error (`не удалось раскодировать ${what} (${r.headers.get ("Content-Type") || "?"}, `
+                             + `${Math.round (buf.byteLength / 1024)} КБ): ${err.message || err.name}`);
+        }
     };
     const [backing, reference] = await Promise.all ([fetchAudio ("backing"), fetchAudio ("reference")]);
     const song = { chart: chartJson, backing, reference };
@@ -961,7 +995,7 @@ function updateTitle ()
     if (S.mode === "exercise") { const d = getDefinition (S.kind); t = d.name + (d.fixedRoot ? "" : ` · от ${noteName (S.root)}`); }
     else if (S.mode === "song") t = songTitle();
     else t = "Свободное пение";
-    $("title").textContent = t;
+    $("titleText").textContent = t;
 }
 
 function openSettings () { syncForm(); $("settings").hidden = false; }
@@ -1012,6 +1046,13 @@ function buildForm ()
     const bind = (id, key, conv = (v) => v, after) => $(id).addEventListener ("input", () => {
         S[key] = conv ($(id).type === "checkbox" ? $(id).checked : $(id).value); save(); syncForm(); applyLevels(); after && after();
     });
+    // The title on the main screen is the song picker: one tap to piece and part.
+    $("title").onclick = () => {
+        if (running) stop();
+        if (S.mode !== "song") { S.mode = "song"; save(); refreshSongList(); }
+        openSettings();
+        $("songBlock").scrollIntoView ({ block: "start" });
+    };
     bind ("kind", "kind");
     bind ("root", "root", Number);
     bind ("bpm", "bpm", Number);
@@ -1064,7 +1105,10 @@ function buildForm ()
 
 function clefLabel ()
 {
-    $("clefBtn").textContent = { bass: "Бас", treble: "Скрип", treble8: "Скрип 8", grand: "Оба" }[S.clef];
+    // Symbols, not words: "Бас" / "Тенор" read like choir parts next to the part names.
+    $("clefBtn").textContent = { bass: "𝄢", treble: "𝄞", treble8: "𝄞₈", grand: "𝄞𝄢" }[S.clef];
+    $("clefBtn").title = { bass: "Басовый ключ", treble: "Скрипичный ключ", treble8: "Скрипичный, октавой ниже",
+                           grand: "Оба ключа" }[S.clef];
     $("app").classList.toggle ("grand", S.clef === "grand");   // two staves need a taller panel
 }
 
@@ -1075,5 +1119,7 @@ requestAnimationFrame (frame);
 window.addEventListener ("error", (e) => { $("status").textContent = "JS: " + e.message; });
 
 // Offline use (sw.js). Not inside the Android wrapper: there the files are already local.
+askMicAtLaunch();
+
 if ("serviceWorker" in navigator && ! window.Capacitor)
     navigator.serviceWorker.register ("sw.js").catch (() => {});

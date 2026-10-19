@@ -26,7 +26,12 @@ body { touch-action: manipulation; }
 }
 header { grid-area: head; display: flex; align-items: center; gap: 6px; padding: 0 8px; background: var(--panel); border-bottom: 1px solid var(--line); }
 header button { flex-shrink: 0; }
-#title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; }
+/* The title is the song picker button: the name of what is loaded, with a ▾. */
+#title { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; font-size: 14px;
+  background: none; border-color: transparent; padding: 6px 4px; }
+#titleText { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#title::after { content: "▾"; color: var(--accent); flex-shrink: 0; margin-left: 4px; }   /* never cut by the ellipsis */
+#clefBtn { font-size: 22px; line-height: 1; padding: 0 6px; min-width: 36px; font-family: "Noto Music", "Apple Symbols", "Segoe UI Symbol", serif; }
 button { font: inherit; color: var(--text); background: #23232c; border: 1px solid #34343f; border-radius: 8px; padding: 6px 10px; min-height: 36px; }
 button:active { filter: brightness(1.3); }
 #menu { font-size: 18px; width: 40px; padding: 0; }

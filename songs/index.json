@@ -19,8 +19,8 @@
   "part": "A",
   "partName": "альт",
   "chart": "songs/antsev-trisvyatoe-alto/chart.json",
-  "backing": "songs/antsev-trisvyatoe-alto/backing.m4a",
-  "reference": "songs/antsev-trisvyatoe-alto/reference.m4a"
+  "backing": "songs/antsev-trisvyatoe-alto/backing.mp3",
+  "reference": "songs/antsev-trisvyatoe-alto/reference.mp3"
  },
  {
   "mail": {
@@ -42,8 +42,8 @@
   "part": "B",
   "partName": "бас",
   "chart": "songs/antsev-trisvyatoe-bass/chart.json",
-  "backing": "songs/antsev-trisvyatoe-bass/backing.m4a",
-  "reference": "songs/antsev-trisvyatoe-bass/reference.m4a"
+  "backing": "songs/antsev-trisvyatoe-bass/backing.mp3",
+  "reference": "songs/antsev-trisvyatoe-bass/reference.mp3"
  },
  {
   "mail": {
@@ -65,8 +65,8 @@
   "part": "S",
   "partName": "сопрано",
   "chart": "songs/antsev-trisvyatoe-soprano/chart.json",
-  "backing": "songs/antsev-trisvyatoe-soprano/backing.m4a",
-  "reference": "songs/antsev-trisvyatoe-soprano/reference.m4a"
+  "backing": "songs/antsev-trisvyatoe-soprano/backing.mp3",
+  "reference": "songs/antsev-trisvyatoe-soprano/reference.mp3"
  },
  {
   "mail": {
@@ -88,7 +88,7 @@
   "part": "T",
   "partName": "тенор",
   "chart": "songs/antsev-trisvyatoe-tenor/chart.json",
-  "backing": "songs/antsev-trisvyatoe-tenor/backing.m4a",
-  "reference": "songs/antsev-trisvyatoe-tenor/reference.m4a"
+  "backing": "songs/antsev-trisvyatoe-tenor/backing.mp3",
+  "reference": "songs/antsev-trisvyatoe-tenor/reference.mp3"
  }
 ]

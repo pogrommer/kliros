@@ -8,7 +8,7 @@
 //              the server the song list shrinks to that song, and it plays from cache.
 // Takes      - POST api/takes is not touched: offline it fails and app.js ignores it.
 
-const VERSION = "vt-shell-v6";
+const VERSION = "vt-shell-v7";
 const SONG_CACHE = "vt-song";
 
 const SHELL = [
@@ -54,7 +54,7 @@ const songIdOf = (url) => decodeURIComponent (new URL (url).pathname.match (/\/s
 async function songFile (req)
 {
     const cache = await caches.open (SONG_CACHE);
-    const isAudio = /\/audio\/|\.m4a$/.test (new URL (req.url).pathname);
+    const isAudio = /\/audio\/|\.(m4a|mp3)$/.test (new URL (req.url).pathname);
     if (Date.now() < serverDownUntil)
         return (await cache.match (req)) || Response.error();
     try
