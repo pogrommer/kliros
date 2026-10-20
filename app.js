@@ -793,17 +793,23 @@ function leaveDrill ()
     drillChart = null;
     hideSummary();
     previewChart();
-    // Drilled because the start went badly: now the song again, from the top.
-    if (drillFromEarly && S.mode === "song") { drillFromEarly = false; start(); }
     drillFromEarly = false;
 }
 
+// After a drill made at the early pause: the song again, from the top or from the pause.
+function backToSong (fromPause)
+{
+    leaveDrill();
+    if (S.mode !== "song") return;
+    fromPause ? resumeSong (earlyPausedAt) : start();
+}
+
 //==============================================================================
-// Too many misses early on: the song pauses and offers the drill - or going on.
-// Judged as everywhere else (the voice on a note, in tune for half of it); asked
-// once per take, after at least 8 notes, while still in the first 40 % of the song.
-const EARLY_NOTES = 8, EARLY_PART = 0.4, EARLY_OK = 0.5;
-let earlyAsked = false, drillFromEarly = false, lastEarlyCheck = 0;
+// Too many misses early on: once the 20th note of the song is past, if fewer than
+// half of the notes sung so far were hit (the voice on a note, in tune for half of
+// it), the song pauses and offers: the drill, going on, or starting over. Once per take.
+const EARLY_AT_NOTE = 20, EARLY_MIN_JUDGED = 5, EARLY_OK = 0.5;
+let earlyAsked = false, drillFromEarly = false, lastEarlyCheck = 0, earlyPausedAt = 0;
 
 function checkEarlyMisses (now)
 {
@@ -811,7 +817,11 @@ function checkEarlyMisses (now)
     const t = performance.now();
     if (t - lastEarlyCheck < 500) return;
     lastEarlyCheck = t;
-    if (now > chart.song.durationSeconds * EARLY_PART) { earlyAsked = true; return; }
+    const sung = chart.notes.filter (n => n.type !== "breath");
+    if (sung.length <= EARLY_AT_NOTE) { earlyAsked = true; return; }          // too short to stop
+    const at = sung[EARLY_AT_NOTE - 1];
+    if (now < at.startSeconds + at.durationSeconds) return;                  // not at note 20 yet
+    earlyAsked = true;
     let judged = 0, ok = 0;
     chart.notes.forEach ((n, i) => {
         const st = noteStats[i];
@@ -819,26 +829,29 @@ function checkEarlyMisses (now)
         ++judged;
         if (st.hit / expectedFrames (n) >= 0.5) ++ok;
     });
-    if (judged >= EARLY_NOTES && ok / judged < EARLY_OK)
+    if (judged >= EARLY_MIN_JUDGED && ok / judged < EARLY_OK)
     {
-        earlyAsked = true;
         stop();
+        earlyPausedAt = lastChartNow;
         const spots = missedSpots();
-        if (! spots.length) return resumeSong();
+        if (! spots.length) return resumeSong();          // nothing to drill: go on
         $("summary").innerHTML = `
             <h2>Много промахов</h2>
             <p class="note">Попали в ${ok} из ${judged} нот. Чаще всего:<br>${spots.map (x => esc (x.text)).join ("<br>")}</p>
-            <div class="seg"><button id="earlyDrill" class="drill">Упражнение</button>
-                <button id="earlyGo">Продолжить песню</button></div>
-            <p class="note">После упражнения песня начнётся сначала.</p>`;
+            <button id="earlyDrill" class="drill">Упражнение на эти места</button>
+            <div class="seg"><button id="earlyGo">Продолжить</button>
+                <button id="earlyRestart">Начать сначала</button></div>`;
         $("summary").hidden = false;
         $("earlyDrill").onclick = () => { drillFromEarly = true; startDrill (spots); start(); };
-        $("earlyGo").onclick = resumeSong;
+        $("earlyGo").onclick = () => resumeSong();
+        $("earlyRestart").onclick = () => start();
     }
 }
 
 // Back into the song where it paused (a second earlier, to find the pitch again).
-async function resumeSong ()
+// at: after a drill, the chart in hand is the drill's: the song's comes back, and
+// the take goes on from the pause (its earlier notes are not scored again).
+async function resumeSong (at = null)
 {
     hideSummary();
     try
@@ -846,6 +859,12 @@ async function resumeSong ()
         await ensureAudio();
         stopSources();
         const song = await loadSong (S.song);
+        if (at != null)
+        {
+            prepareChart (song.chart);
+            earlyAsked = true;
+            lastChartNow = at;
+        }
         const decks = [];
         if (song.backing) decks.push ([song.backing, backGain]);
         if (song.reference) decks.push ([song.reference, guideGain]);
@@ -899,11 +918,14 @@ function showDrillSummary (perPitch)
         <div class="pitches">${perPitch || "нет данных"}</div>
         <p class="note">${left.length ? "Ещё не получилось:<br>" : "Все места спеты чисто. Продолжить — ещё раз то же:<br>"}
             ${next.map (x => esc (x.text)).join ("<br>")}</p>
-        <div class="seg"><button id="sumMore" class="drill">Продолжить упражнение</button>
-            <button id="sumEnd">${drillFromEarly ? "Закончить — песня сначала" : "Закончить"}</button></div>`;
+        <button id="sumMore" class="drill">Продолжить упражнение</button>
+        ${drillFromEarly
+            ? `<div class="seg"><button id="sumResume">Песню с места паузы</button><button id="sumRestart">Песню сначала</button></div>`
+            : `<div class="seg"><button id="sumEnd">Закончить</button></div>`}`;
     $("summary").hidden = false;
     $("sumMore").onclick = () => { startDrill (next); start(); };
-    $("sumEnd").onclick = leaveDrill;
+    if (drillFromEarly) { $("sumResume").onclick = () => backToSong (true); $("sumRestart").onclick = () => backToSong (false); }
+    else $("sumEnd").onclick = leaveDrill;
     saveTake();
 }
 
