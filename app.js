@@ -4,14 +4,15 @@
 import { DEFINITIONS, getDefinition, makeSpec, buildChart, buildDrillChart, LENGTHS, noteName } from "./exercises.js";
 import { renderClickTrack, renderGuideTone, renderSingleNote } from "./synth.js";
 import { drawStaff, midiName } from "./staff.js";
+import { stretch, scaleChart, TEMPO_STEPS } from "./tempo.js";
 import { readPackage, saveSongs, getSong, deleteSong, hasSong, listSongs as listLocalSongs } from "./localsongs.js";
 
 //==============================================================================
 // Settings, remembered per device.
 const DEFAULTS = {
-    mode: "exercise", kind: "tenorG3toD4", root: 55, bpm: 72, length: "medium", labels: "fixed",
+    mode: "song", kind: "tenorG3toD4", root: 55, bpm: 72, length: "medium", labels: "fixed",
     clef: "auto", names: true, tolerance: "practice", guide: true, guideVol: 0.8, backVol: 0.8,
-    latencyMs: 0, song: "", part: "T", view: "staff",
+    latencyMs: 0, song: "antsev-trisvyatoe-tenor", part: "T", view: "staff", tempo: 1,
 };
 const TOLERANCES = { performance: [50, 150], practice: [25, 100], precision: [10, 50] };
 
@@ -394,7 +395,7 @@ async function start ()
     {
         if (S.mode === "exercise" || (S.mode === "drill" && drillChart))
         {
-            prepareChart (S.mode === "drill" ? drillChart : buildChart (makeSpec (S.kind, S.root, S.bpm, LENGTHS[S.length], false)));
+            prepareChart (S.mode === "drill" ? drillChart : exerciseChart());
             const click = renderClickTrack (ctx, chart), guide = renderGuideTone (ctx, chart);
             schedule ([[click, clickGain], [guide, guideGain]]);
         }
@@ -403,11 +404,9 @@ async function start ()
             if (! S.song) { openSettings(); return; }
             $("status").textContent = "Загрузка песни…";
             const song = await loadSong (S.song);
-            prepareChart (song.chart);
+            const decks = await songDecks (song);
+            prepareChart (scaleChart (song.chart, S.tempo));
             earlyAsked = false;
-            const decks = [];
-            if (song.backing) decks.push ([song.backing, backGain]);
-            if (song.reference) decks.push ([song.reference, guideGain]);
             $("status").textContent = "";
             schedule (decks);
         }
@@ -521,7 +520,6 @@ const PART_ORDER = "SATB";
 
 async function refreshSongList ()
 {
-    const sel = $("piece");
     try
     {
         // The home server first; without it (the GitHub Pages copy) the published scores.
@@ -563,33 +561,44 @@ async function refreshSongList ()
                                || a.label.localeCompare (b.label, "ru"));
         renderPieces();
     }
-    catch { sel.innerHTML = `<option value="">(сервер недоступен)</option>`; fillParts (null); syncDeleteButton(); }
+    catch { $("pieceList").innerHTML = `<p class="note">Сервер недоступен</p>`; fillParts (null); syncDeleteButton(); }
 }
 
 const norm = (s) => (s || "").toLowerCase().replace (/ё/g, "е");
 const fmtDate = (iso) => iso ? iso.slice (0, 10).split ("-").reverse().join (".") : "";
 
 // The piece list as filtered by the search box: every word typed must occur somewhere.
+// Typing only filters: the chosen song stays chosen until a piece is tapped.
 function renderPieces ()
 {
-    const sel = $("piece");
+    const list = $("pieceList");
     const words = norm ($("songSearch").value).split (/\s+/).filter (Boolean);
     const shown = pieces.filter (p => words.every (w => p.haystack.includes (w)));
-    sel.innerHTML = "";
-    if (! pieces.length) sel.innerHTML = songsOffline ? `<option value="">(сервер недоступен, сохранённых песен нет)</option>`
-                                                      : `<option value="">(в библиотеке нет песен)</option>`;
-    else if (! shown.length) sel.innerHTML = `<option value="">(ничего не найдено)</option>`;
+    list.innerHTML = "";
+    if (! pieces.length) list.innerHTML = `<p class="note">${songsOffline ? "Сервер недоступен, сохранённых песен нет" : "В библиотеке нет песен"}</p>`;
+    else if (! shown.length) list.innerHTML = `<p class="note">Ничего не найдено</p>`;
     for (const p of shown)
     {
-        const o = document.createElement ("option");
-        o.value = p.key;
-        o.textContent = (songsOffline && ! p.local ? "(без сервера) " : "") + (p.date ? fmtDate (p.date) + " · " : "") + p.label;
-        sel.appendChild (o);
+        const b = document.createElement ("button");
+        b.className = "pi"; b.dataset.key = p.key;
+        b.innerHTML = esc (p.label) + (p.date ? `<small>${fmtDate (p.date)}</small>` : "")
+                    + (songsOffline && ! p.local ? "<small>(без сервера)</small>" : "");
+        b.onclick = () => pickPiece (p.key);
+        list.appendChild (b);
     }
     $("searchCount").textContent = words.length ? `${shown.length} из ${pieces.length}` : "";
-    const cur = shown.find (p => p.parts.some (x => x.id === S.song)) || shown[0];
+    const cur = pieces.find (p => p.parts.some (x => x.id === S.song)) || pieces[0];
     if (cur) choosePiece (cur.key, S.song);
     else { fillParts (null); $("pieceInfo").textContent = ""; }
+}
+
+// A tap in the list: that piece (in the singer's part), the sheet closes.
+function pickPiece (key)
+{
+    S.mode = "song"; save();
+    choosePiece (key);
+    $("songSheet").hidden = true;
+    songChanged();
 }
 
 // Keeps the part across pieces: a tenor opening another piece gets its tenor part.
@@ -599,29 +608,111 @@ function choosePiece (key, songId)
     if (! p) return;
     const pick = p.parts.find (x => x.id === songId) || p.parts.find (x => x.part === S.part) || p.parts[0];
     S.song = pick.id; save();
-    $("piece").value = key;
+    document.querySelectorAll ("#pieceList .pi").forEach (b => b.classList.toggle ("sel", b.dataset.key === key));
     fillParts (p);
     syncDeleteButton();
     // Where it came from: the letter and the collection, for finding it again later.
     $("pieceInfo").textContent = [p.check && `⚠ разбор под вопросом: ${p.check}`,
                                   p.date && `письмо ${fmtDate (p.date)}`, p.subject && `«${p.subject}»`, p.collection]
         .filter (Boolean).join (" · ");
+    updateTitle();
 }
 
+// Партия: a button on the main screen, shown when the piece has more than one part.
+let currentPiece = null;
 function fillParts (p)
 {
-    const sel = $("part");
-    sel.innerHTML = "";
-    $("partRow").hidden = ! p || p.parts.length < 2;
-    if (! p) return;
-    for (const x of p.parts)
+    currentPiece = p;
+    const list = $("partList");
+    list.innerHTML = "";
+    for (const x of p ? p.parts : [])
     {
-        const o = document.createElement ("option");
-        o.value = x.id;
-        o.textContent = x.partName || x.part || x.id;
-        sel.appendChild (o);
+        const b = document.createElement ("button");
+        b.textContent = x.partName || x.part || x.id;
+        b.classList.toggle ("sel", x.id === S.song);
+        b.onclick = () => {
+            S.song = x.id; S.part = x.part || S.part; save();
+            $("partSheet").hidden = true;
+            fillParts (p); syncDeleteButton(); songChanged();
+        };
+        list.appendChild (b);
     }
-    sel.value = S.song;
+    updatePartBtn();
+}
+
+function updatePartBtn ()
+{
+    const p = currentPiece, x = p?.parts.find (y => y.id === S.song);
+    $("partBtn").hidden = S.mode !== "song" || ! p || p.parts.length < 2;
+    $("partText").textContent = x ? (x.partName || x.part || "") : "";
+}
+
+function songChanged ()
+{
+    if (running) stop();
+    updateTitle();
+    previewChart();
+}
+
+//==============================================================================
+// Темп: slower or faster than written, as a percentage. Exercises and drills are
+// rebuilt at the new bpm; a song's recordings are stretched (tempo.js) without
+// changing their pitch, and its chart runs on the stretched clock.
+function tempoLabel ()
+{
+    $("tempoText").textContent = Math.round (S.tempo * 100) + "%";
+    $("tempoBtn").classList.toggle ("on", S.tempo !== 1);
+}
+
+function renderTempo ()
+{
+    $("tempoVal").textContent = Math.round (S.tempo * 100) + "%";
+    const list = $("tempoPresets");
+    list.innerHTML = "";
+    for (const f of TEMPO_STEPS)
+    {
+        const b = document.createElement ("button");
+        b.textContent = Math.round (f * 100) + "%";
+        b.classList.toggle ("sel", Math.abs (f - S.tempo) < 1e-3);
+        b.onclick = () => setTempo (f);
+        list.appendChild (b);
+    }
+}
+
+function setTempo (f)
+{
+    if (running) stop();
+    S.tempo = Math.round (Math.min (1.5, Math.max (0.5, f)) * 100) / 100; save();
+    if (S.mode === "drill" && drillChart)
+    {
+        const part = drillChart.song.part;
+        drillChart = buildDrillChart (drillChart.spots, Math.round (60 * S.tempo));
+        if (part) drillChart.song.part = part;
+    }
+    tempoLabel(); renderTempo(); previewChart();
+}
+
+const exerciseChart = () => buildChart (makeSpec (S.kind, S.root, Math.round (S.bpm * S.tempo), LENGTHS[S.length], false));
+
+// A song's audio at the current tempo: stretched once, kept with the song.
+async function songDecks (song)
+{
+    const f = S.tempo;
+    let b = song;
+    if (Math.abs (f - 1) > 1e-3)
+    {
+        if (song.stretchedFor !== f)
+        {
+            $("status").textContent = `Готовлю темп ${Math.round (f * 100)}%…`;
+            await new Promise (r => setTimeout (r, 40));       // let that line show first
+            song.stretched = { backing: song.backing && stretch (ctx, song.backing, f),
+                               reference: song.reference && stretch (ctx, song.reference, f) };
+            song.stretchedFor = f;
+            $("status").textContent = "";
+        }
+        b = song.stretched;
+    }
+    return [b.backing && [b.backing, backGain], b.reference && [b.reference, guideGain]].filter (Boolean);
 }
 
 //==============================================================================
@@ -650,7 +741,7 @@ async function addSongFile (file)
         songCache.clear();
         await refreshSongList();
         uploadSay (`<span class="ok">✓ Добавлено: ${songs.map (s => esc (s.chart.song.title || s.id)).join (", ")}.</span>
-                    Выбрана в списке выше - «Готово» и ▶.`);
+                    Выбрана — «Готово» и ▶.`);
     }
     catch (err) { uploadSay (`<span class="bad">Не добавлено: ${esc (String (err.message || err))}</span>`); }
     finally { btn.disabled = false; $("addSongFile").value = ""; }
@@ -678,7 +769,7 @@ function songTitle ()
     const p = pieces.find (x => x.parts.some (y => y.id === S.song));
     if (! p) return "Песня";
     const part = p.parts.find (y => y.id === S.song);
-    return p.label + (p.parts.length > 1 && part.partName ? " · " + part.partName : "");
+    return p.label;
 }
 
 async function saveTake ()
@@ -768,7 +859,7 @@ function startDrill (spots)
 {
     if (S.mode !== "drill") S.drillBack = S.mode;
     const part = chart?.song?.part;              // same voice, same automatic clef as the song
-    drillChart = buildDrillChart (spots);
+    drillChart = buildDrillChart (spots, Math.round (60 * S.tempo));
     if (part) drillChart.song.part = part;
     S.mode = "drill"; save();
     hideSummary();
@@ -859,15 +950,13 @@ async function resumeSong (at = null)
         await ensureAudio();
         stopSources();
         const song = await loadSong (S.song);
+        const decks = await songDecks (song);
         if (at != null)
         {
-            prepareChart (song.chart);
+            prepareChart (scaleChart (song.chart, S.tempo));
             earlyAsked = true;
             lastChartNow = at;
         }
-        const decks = [];
-        if (song.backing) decks.push ([song.backing, backGain]);
-        if (song.reference) decks.push ([song.reference, guideGain]);
         schedule (decks, Math.max (0, lastChartNow - 1));
         requestWakeLock();
     }
@@ -971,7 +1060,8 @@ function updateView (now, dt)
     }
     // A song that skips semitones needs fewer rows for an octave.
     const perOctave = pitchRows() ? Math.min (12, Math.max (5, pitchRows().perOctave)) : 12;
-    let span = Math.max (perOctave, hi - lo + perOctave / 2);
+    // Twice the rows a phrase strictly needs: the roll shows more above and below.
+    let span = 2 * Math.max (perOctave, hi - lo + perOctave / 2);
     let low = (lo + hi) / 2 - span / 2;
     if (! viewInit) { viewLow = low; viewSpan = span; viewInit = true; }
     const k = Math.min (1, dt * 2.5);
@@ -1394,6 +1484,7 @@ function updateTitle ()
     else if (S.mode === "drill" && drillChart) t = drillChart.song.title;
     else t = "Свободное пение";
     $("titleText").textContent = t;
+    updatePartBtn();
 }
 
 function openSettings () { syncForm(); $("settings").hidden = false; }
@@ -1403,7 +1494,6 @@ function syncForm ()
 {
     document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === S.mode));
     $("exBlock").hidden = S.mode !== "exercise";
-    $("songBlock").hidden = S.mode !== "song";
     $("kind").value = S.kind;
     $("purpose").textContent = getDefinition (S.kind).purpose;
     $("root").value = S.root;
@@ -1424,10 +1514,10 @@ function syncForm ()
 function previewChart ()
 {
     if (running) return;
-    if (S.mode === "exercise") prepareChart (buildChart (makeSpec (S.kind, S.root, S.bpm, LENGTHS[S.length], false)));
+    if (S.mode === "exercise") prepareChart (exerciseChart());
     else if (S.mode === "drill" && drillChart) prepareChart (drillChart);
     else if (S.mode === "free") { chart = null; estimates = []; }
-    else if (S.mode === "song" && songCache.has (S.song)) prepareChart (songCache.get (S.song).chart);
+    else if (S.mode === "song" && songCache.has (S.song)) prepareChart (scaleChart (songCache.get (S.song).chart, S.tempo));
     else
     {
         chart = null;
@@ -1444,7 +1534,7 @@ async function previewSongChart (id)
         const e = songEntries.get (id) || {};
         const c = e.local ? (await getSong (id))?.chart
                           : await (await fetch (e.chart || `api/songs/${encodeURIComponent (id)}/chart`)).json();
-        if (c && ! running && S.mode === "song" && S.song === id) prepareChart (c);
+        if (c && ! running && S.mode === "song" && S.song === id) prepareChart (scaleChart (c, S.tempo));
     }
     catch {}
 }
@@ -1463,24 +1553,18 @@ function buildForm ()
     const bind = (id, key, conv = (v) => v, after) => $(id).addEventListener ("input", () => {
         S[key] = conv ($(id).type === "checkbox" ? $(id).checked : $(id).value); save(); syncForm(); applyLevels(); after && after();
     });
-    // The title on the main screen is the song picker: one tap to piece and part.
-    const openSongPicker = () => {
-        if (running) stop();
-        if (S.mode !== "song") { S.mode = "song"; save(); }
-        refreshSongList();
-        openSettings();
-        $("songBlock").scrollIntoView ({ block: "start" });
-    };
-    $("title").onclick = openSongPicker;
-    // "+": where a song comes from - the server's (or the site's) tracks, or a zip on this device.
-    const closeAdd = () => { $("addMenu").hidden = true; };
+    // Песня, Партия, Темп: three buttons on the main screen, each with its own chooser.
+    const openSheet = (id) => { if (running) stop(); $(id).hidden = false; };
+    $("title").onclick = () => { refreshSongList(); openSheet ("songSheet"); };
+    $("songClose").onclick = () => { $("songSheet").hidden = true; };
+    $("partBtn").onclick = () => openSheet ("partSheet");
+    $("tempoBtn").onclick = () => { renderTempo(); openSheet ("tempoSheet"); };
+    for (const id of ["songSheet", "partSheet", "tempoSheet"])
+        $(id).addEventListener ("click", (e) => { if (e.target === $(id)) $(id).hidden = true; });
+    $("tempoDown").onclick = () => setTempo (S.tempo - 0.05);
+    $("tempoUp").onclick = () => setTempo (S.tempo + 0.05);
+    $("addHelp").onclick = () => { $("addHelpText").hidden = ! $("addHelpText").hidden; };
     $("viewBtn").onclick = () => { S.view = S.view === "roll" ? "staff" : "roll"; save(); applyView(); };
-    $("addBtn").onclick = () => { if (running) stop(); $("addMenu").hidden = false; };
-    $("addMenu").onclick = (e) => { if (e.target === $("addMenu")) closeAdd(); };
-    $("addCancel").onclick = closeAdd;
-    $("addServer").onclick = () => { closeAdd(); openSongPicker(); };
-    // The file picker first, while this tap still counts as the user's: iOS opens it only then.
-    $("addDevice").onclick = () => { $("addSongFile").click(); closeAdd(); openSongPicker(); };
     bind ("kind", "kind");
     bind ("root", "root", Number);
     bind ("bpm", "bpm", Number);
@@ -1493,17 +1577,10 @@ function buildForm ()
     bind ("guideVol", "guideVol", Number);
     bind ("backVol", "backVol", Number);
     bind ("latency", "latencyMs", Number);
-    $("piece").addEventListener ("input", () => { choosePiece ($("piece").value); });
     $("songSearch").addEventListener ("input", renderPieces);
     $("addSongBtn").onclick = () => $("addSongFile").click();
     $("delSongBtn").onclick = deleteLocalSong;
     $("addSongFile").addEventListener ("change", () => { const f = $("addSongFile").files[0]; if (f) addSongFile (f); });
-    $("part").addEventListener ("input", () => {
-        S.song = $("part").value;
-        const p = pieces.find (x => x.parts.some (y => y.id === S.song));
-        S.part = p?.parts.find (y => y.id === S.song)?.part || S.part;
-        save(); syncDeleteButton();
-    });
 
     $("menu").onclick = () => { if (running) stop(); openSettings(); };
     $("done").onclick = closeSettings;
@@ -1536,7 +1613,7 @@ function buildForm ()
     // Desktop: Space starts and stops, unless typing or a sheet is open.
     document.addEventListener ("keydown", (e) => {
         if (e.code !== "Space" || e.repeat || /INPUT|SELECT|TEXTAREA|BUTTON/.test (e.target.tagName)) return;
-        if (! $("settings").hidden || ! $("addMenu").hidden) return;
+        if (! $("settings").hidden || [...document.querySelectorAll (".overlay")].some (o => ! o.hidden)) return;
         e.preventDefault();
         running ? stop (false, true) : start();
     });
@@ -1580,6 +1657,7 @@ function clefLabel ()
 
 buildForm();
 applyView();
+tempoLabel();
 if (S.mode === "song") refreshSongList().then (previewChart); else previewChart();
 requestAnimationFrame (frame);
 

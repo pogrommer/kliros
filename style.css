@@ -18,12 +18,16 @@ body { touch-action: manipulation; }
   grid-template-areas: "title ctl" "main ctl" "read ctl" "foot ctl";
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
-#title { grid-area: title; min-width: 0; display: flex; align-items: center; font-size: 15px; min-height: 34px;
-  background: var(--panel); border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 4px 10px; }
+/* Top bar: Песня (the name, wide), Партия, Темп - each opens its own chooser. */
+#topbar { grid-area: title; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 4px 8px;
+  background: var(--panel); border-bottom: 1px solid var(--line); }
+#topbar button { min-height: 32px; font-size: 14px; flex: 0 0 auto; }
+#title { flex: 1 1 auto !important; min-width: 0; display: flex; align-items: center; font-size: 15px !important; }
+#partBtn::after, #tempoBtn::after { content: " ▾"; color: var(--accent); }
+#tempoBtn.on { border-color: var(--accent); background: #0f3a52; }
 #controls { grid-area: ctl; display: flex; flex-direction: column; gap: 6px; padding: 6px;
   background: var(--panel); border-left: 1px solid var(--line); }
 #controls button { width: 100%; min-height: 40px; padding: 0; flex: 0 1 auto; }
-#addBtn { font-size: 20px; }
 #viewBtn { font-size: 11px; }
 #titleText { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #title::after { content: "▾"; color: var(--accent); flex-shrink: 0; margin-left: 4px; }   /* never cut by the ellipsis */
@@ -65,8 +69,19 @@ footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; wh
 #mic[data-state="on"].voiced { box-shadow: 0 0 0 2px rgba(0,158,115,.5); }
 @keyframes micwait { from { opacity: .4; } to { opacity: 1; } }
 
-#settings, #addMenu { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; z-index: 10; }
-#addDevice, #addServer { font-size: 16px; padding: 12px; }
+#settings, .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; z-index: 10; }
+.sheetHead { display: flex; justify-content: space-between; align-items: center; }
+/* A low landscape screen: nothing in a sheet shrinks to nothing - the sheet scrolls instead. */
+.sheet > * { flex-shrink: 0; }
+#pieceList { display: flex; flex-direction: column; gap: 4px; min-height: 120px; max-height: 50vh; overflow-y: auto; }
+#pieceList .pi { text-align: left; padding: 10px; font-size: 15px; }
+#pieceList .pi small { color: var(--dim); margin-left: 6px; }
+#pieceList .pi.sel { background: #0f3a52; border-color: var(--accent); }
+.seg.wrap { flex-wrap: wrap; }
+.seg.wrap button { flex: 1 0 auto; min-width: 64px; }
+#partList button.sel, #tempoPresets button.sel { background: #0f3a52; border-color: var(--accent); }
+#addHelp { flex: 0 0 44px; }
+#tempoVal { flex: 0 0 90px; text-align: center; align-self: center; font-size: 22px; font-variant-numeric: tabular-nums; }
 #settings[hidden], #summary[hidden], [hidden] { display: none !important; }
 .sheet { width: 100%; max-width: 560px; margin: 0 auto; max-height: 88dvh; overflow-y: auto; background: var(--panel); border-radius: 14px 14px 0 0;
   padding: 14px 14px calc(14px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
@@ -132,7 +147,7 @@ footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; wh
   #mic svg { flex: 0 0 auto; }
   button:hover { filter: brightness(1.2); }
   #readout { font-size: 17px; }
-  #settings, #addMenu { align-items: center; }
+  #settings, .overlay { align-items: center; }
   .sheet { border-radius: 14px; max-height: 86vh; }
   #summary { top: 12%; }
 }

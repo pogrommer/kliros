@@ -17,11 +17,14 @@
 <body>
 <div id="app">
   <!-- Landscape only: the track name along the top, the buttons in a column on the right. -->
-  <button id="title" title="Выбрать песню и партию"><span id="titleText">Kliros</span></button>
+  <div id="topbar">
+    <button id="title" title="Выбрать песню"><span id="titleText">Kliros</span></button>
+    <button id="partBtn" title="Партия" hidden><span id="partText"></span></button>
+    <button id="tempoBtn" title="Темп: медленнее или быстрее">♩ <span id="tempoText">100%</span></button>
+  </div>
   <nav id="controls">
     <!-- data-label: the words beside the icons on a desktop screen (style.css). -->
     <button id="menu" aria-label="Настройки" data-label="Настройки">☰</button>
-    <button id="addBtn" aria-label="Добавить песню" title="Добавить песню" data-label="Добавить">＋</button>
     <button id="viewBtn" title="Ноты или piano roll" data-label="вид">ноты</button>
     <button id="clefBtn" class="chip" aria-label="Ключ" data-label="Ключ">𝄢</button>
     <button id="guide" class="chip" title="Подсказка (пианино / голос)" data-label="Подсказка">♪</button>
@@ -43,16 +46,42 @@
 
   <div id="summary" hidden></div>
 
-
-  <div id="addMenu" hidden>
+  <!-- Песня: the list, a search box, and a song from this device. -->
+  <div id="songSheet" class="overlay" hidden>
     <div class="sheet">
-      <button id="addServer">Треки с сервера…</button>
-      <p class="note">Песни с домашнего ПК или опубликованные на сайте: выбрать произведение и партию.</p>
-      <button id="addDevice">Загрузить с устройства (zip)…</button>
-      <p class="note">Пакет песни: chart.json + голос и минус. Песня останется только на этом телефоне.</p>
-      <button id="addCancel">Отмена</button>
+      <div class="sheetHead"><b>Песня</b><button id="songClose">Готово</button></div>
+      <input id="songSearch" type="search" placeholder="Поиск: название, автор, слова, дата письма" autocomplete="off">
+      <span id="searchCount"></span>
+      <div id="pieceList"></div>
+      <p id="pieceInfo"></p>
+      <div id="addSong">
+        <div class="seg"><button id="addSongBtn" type="button">Загрузить с устройства (zip)…</button>
+          <button id="addHelp" type="button" aria-label="Справка" title="Что за файл">?</button>
+          <button id="delSongBtn" type="button" hidden>Удалить с телефона</button></div>
+        <p id="addHelpText" class="note" hidden>Пакет песни — zip-архив: <b>chart.json</b> (ноты, слова, время) и звук,
+          который он называет: голос-подсказка и минус, в WAV, FLAC, MP3 или M4A. Песня может лежать в корне архива
+          или в папке; несколько папок с chart.json (партии хора) добавятся разом. Такой архив можно прислать в Telegram:
+          на iPhone «Сохранить в Файлы», на Android он в «Загрузках». Песня хранится только на этом телефоне и работает без сети.</p>
+        <input id="addSongFile" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
+        <div id="uploadInfo"></div>
+      </div>
     </div>
   </div>
+
+  <div id="partSheet" class="overlay" hidden>
+    <div class="sheet"><b>Партия</b><div id="partList" class="seg wrap"></div></div>
+  </div>
+
+  <div id="tempoSheet" class="overlay" hidden>
+    <div class="sheet">
+      <b>Темп</b>
+      <div class="seg"><button id="tempoDown">− 5%</button><span id="tempoVal">100%</span><button id="tempoUp">+ 5%</button></div>
+      <div id="tempoPresets" class="seg wrap"></div>
+      <p class="note">Медленнее или быстрее без изменения высоты. Песня перестраивается под темп за пару секунд.</p>
+    </div>
+  </div>
+
+
 
   <div id="settings" hidden>
     <div class="sheet">
@@ -70,20 +99,6 @@
         <label>Длительность
           <select id="length"><option value="short">Коротко (~45 с)</option><option value="medium">Средне (~1:45)</option><option value="long">Долго (~3:30)</option></select>
         </label>
-      </div>
-
-      <div id="songBlock">
-        <label>Поиск: название, автор, тема или дата письма, слова <span id="searchCount"></span>
-          <input id="songSearch" type="search" placeholder="например: трисвятое, 12.10, херувимская" autocomplete="off"></label>
-        <label>Произведение <select id="piece"></select></label>
-        <p id="pieceInfo"></p>
-        <label id="partRow">Партия <select id="part"></select></label>
-        <div id="addSong">
-          <div class="seg"><button id="addSongBtn" type="button">＋ Добавить песню (zip)…</button>
-            <button id="delSongBtn" type="button" hidden>Удалить с телефона</button></div>
-          <input id="addSongFile" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
-          <div id="uploadInfo"></div>
-        </div>
       </div>
 
       <label>Вид
