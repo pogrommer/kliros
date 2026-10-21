@@ -219,25 +219,27 @@ export function drawStaff (g, W, H, view)
     }
 
     // A reference note (a tapped key) on the play line, where nothing else is to be sung:
-    // a whole note, white, green while the voice is on it.
+    // a whole note, white; on a hit its head alone turns green, nothing drawn over it.
     const ref = view.reference && ! items.some (n => n.state === "active") ? view.reference : null;
     if (ref && view.nowX != null)
     {
-        const x = view.nowX + s * 1.6, p = place (view.mode, ref.midi), colour = ref.hit ? COLOURS.good : COLOURS.head;
+        const x = view.nowX + s * 1.6, p = place (view.mode, ref.midi);
         drawLedgers (g, defs, p, x, s, centres, h);
-        drawNote (g, x, yFor (p.staff, p.d), s, colour, 4, false, p.d % 2 === 0);
-        if (isSharp (ref.midi)) drawSharp (g, x - s * 1.25, yFor (p.staff, p.d), s, colour);
+        // A hit fills the head: the round lights up green.
+        if (ref.hit) drawHead (g, x, yFor (p.staff, p.d), s, COLOURS.good, true, false, true);
+        else drawNote (g, x, yFor (p.staff, p.d), s, COLOURS.head, 4, false, p.d % 2 === 0);
+        if (isSharp (ref.midi)) drawSharp (g, x - s * 1.25, yFor (p.staff, p.d), s, COLOURS.head);
         if (view.showNames)
         {
             g.font = `600 ${Math.round (Math.max (9, s * 0.62))}px -apple-system, system-ui, sans-serif`;
             g.textAlign = "center"; g.textBaseline = "alphabetic";
-            g.fillStyle = colour; g.fillText (name (ref.midi), x, yText);
+            g.fillStyle = COLOURS.text; g.fillText (name (ref.midi), x, yText);
         }
     }
 
     // The voice where there is no note to sing: on the play line.
     // Against a reference note it is a ring over it, as over a note being sung.
-    if (view.live && ! items.some (n => n.state === "active") && view.nowX != null)
+    if (view.live && ! items.some (n => n.state === "active") && view.nowX != null && ! (ref && ref.hit))
     {
         const x = view.nowX + s * (ref ? 1.6 : 0.62), p = place (view.mode, view.live.midi);
         drawLedgers (g, defs, p, x, s, centres, h);

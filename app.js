@@ -1345,14 +1345,15 @@ function canvasXY (cv, ev)
 }
 
 // The key last tapped stays up as a reference note to sing against: white on the
-// play line, green while the voice is on it (any octave, as notes are judged).
+// play line, its head green while the voice is on it - that very note, octave and all
+// (A2 is not A3: the user's rule, 2026-10-22).
 // It stands until another key is tapped; a running song or exercise hides it.
 let refMidi = null;
 function reference ()
 {
     if (refMidi == null || (running && chart)) return null;
     const live = liveEst && Number.isFinite (liveEst.smooth) && performance.now() - liveEst.wall < 150 ? liveEst : null;
-    const cents = live ? remainder (live.smooth - refMidi, 12) * 100 : null, full = TOLERANCES[S.tolerance][0];
+    const cents = live ? (live.smooth - refMidi) * 100 : null, full = TOLERANCES[S.tolerance][0];
     // The voice wobbles around the pitch: green comes on within the tolerance, stays on
     // within twice it, and lingers a moment - else it only flickers and never reads as lit.
     const on = cents != null && Math.abs (cents) <= (refLit ? 2 * full : full);
