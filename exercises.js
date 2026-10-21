@@ -16,53 +16,80 @@ const solfegeFor = (o) => (o === 12 || o === -12) ? "do" : SOLFEGE[((o % 12) + 1
 const INTERVALS = ["Unison", "Minor 2nd", "Major 2nd", "Minor 3rd", "Major 3rd", "Perfect 4th",
                    "Tritone", "Perfect 5th", "Minor 6th", "Major 6th", "Minor 7th", "Major 7th", "Octave"];
 
-// kind, name (ru), purpose (ru), defaultRepeats, transposeStep, ceilingMidi, fixedRootMidi
+// Every exercise is built inside the singer's voice range ([lo, hi], app.js VOICE_RANGE),
+// so a soprano and a bass get the same list, each on their own notes, and neither can
+// set one up in the other's range. Names and texts say nothing about the voice type.
+//
+// kind, name (ru), purpose (ru), defaultRepeats, transposeStep,
+// start (semitones above the range's bottom), fixed (the same notes every time)
+// The kinds keep their old ids (tenor...): saved settings and counts refer to them.
 export const DEFINITIONS = [
-    ["tenorG3toD4",   "Тенор: G3–D4 (1-2-3-4-5-4-3-2-1)",
-     "Фиксированный диапазон: G3 вверх до D4 и обратно, на одних и тех же нотах. Стартовая нота не учитывается. Нижне-средний регистр, до переходной зоны.", 6, 0, 0, 55],
-    ["tenorNineNote", "Тенор: девять нот (1-2-3-4-5-4-3-2-1)",
-     "Основная теноровая распевка. Поступенно через средний голос, каждый раз на полутон выше, разворот на B4. Начинать около G3.", 4, 1, 71],
-    ["tenorDescFive", "Тенор: нисходящие пять (5-4-3-2-1)",
-     "Начинается с верхней ноты и спускается. Сохраняет лёгкую головную координацию на спуске. Начинать около C4.", 5, 1, 71],
-    ["tenorPassaggio","Тенор: арпеджио через переход (1-3-5-3-1)",
-     "Скачки через переходную зону (примерно E4–G4). Начинать около C4 и следить за верхом каждого повтора.", 6, 1, 71],
-    ["tenorOctaveArp","Тенор: октавное арпеджио (1-5-8-5-1)",
-     "Диапазон и позиция. Доходит до октавы над стартовой нотой — начинать низко (около F3).", 4, 1, 71],
+    ["tenorG3toD4",   "Квинта на месте (1-2-3-4-5-4-3-2-1)",
+     "На одних и тех же нотах в нижней половине вашего диапазона: на квинту вверх и обратно. Стартовая нота не учитывается.", 6, 0, 7, true],
+    ["tenorNineNote", "Девять нот (1-2-3-4-5-4-3-2-1)",
+     "Основная распевка. Поступенно через средний голос, каждый раз на полутон выше, до верха вашего диапазона.", 4, 1, 2],
+    ["tenorDescFive", "Нисходящие пять (5-4-3-2-1)",
+     "Начинается с верхней ноты и спускается. Сохраняет лёгкую головную координацию на спуске.", 5, 1, 2],
+    ["tenorPassaggio","Арпеджио через переход (1-3-5-3-1)",
+     "Скачки через переходную зону, к верху вашего диапазона. Следить за верхом каждого повтора.", 6, 1, 4],
+    ["tenorOctaveArp","Октавное арпеджио (1-5-8-5-1)",
+     "Диапазон и позиция. Доходит до октавы над стартовой нотой, поэтому начинается снизу.", 4, 1, 0],
     ["sustainedTone", "Долгие ноты",
-     "Опора дыхания и ровность. Держать каждую ноту неподвижно.", 4, 0],
+     "Опора дыхания и ровность. Держать каждую ноту неподвижно.", 4, 0, 5],
     ["fiveNoteRun",   "Пять нот (1-2-3-2-1)",
-     "Стандартная распевка. Каждый раз на полутон выше.", 5, 1],
+     "Стандартная распевка. Каждый раз на полутон выше.", 5, 1, 2],
     ["majorScale",    "Мажорная гамма",
-     "Поступенная точность вверх и вниз. На спуске большинство занижает.", 2, 1],
+     "Поступенная точность вверх и вниз. На спуске большинство занижает.", 2, 1, 2],
     ["minorScale",    "Натуральный минор",
-     "Пониженные 3, 6 и 7 ступени обычно поют слишком высоко.", 2, 1],
+     "Пониженные 3, 6 и 7 ступени обычно поют слишком высоко.", 2, 1, 2],
     ["pentatonicScale","Мажорная пентатоника",
-     "Без полутонов — изолирует точность интервалов. Хорошая первая гамма.", 2, 1],
+     "Без полутонов — изолирует точность интервалов. Хорошая первая гамма.", 2, 1, 2],
     ["majorArpeggio", "Мажорное арпеджио (1-3-5-8)",
-     "Скачки внутри аккорда. Учит слышать следующую ноту до того, как её спеть.", 2, 1],
+     "Скачки внутри аккорда. Учит слышать следующую ноту до того, как её спеть.", 2, 1, 2],
     ["fifthLeaps",    "Скачки на квинту (1-5-1)",
-     "Самый частый интервал в мелодиях. Каждый повтор на полутон выше.", 5, 1],
+     "Самый частый интервал в мелодиях. Каждый повтор на полутон выше.", 5, 1, 2],
     ["octaveLeaps",   "Скачки на октаву (1-8-1)",
-     "Работа над диапазоном.", 3, 1],
+     "Работа над диапазоном.", 3, 1, 0],
     ["intervalDrill", "Все интервалы (12)",
-     "Каждый интервал от малой секунды до октавы, с возвратом к тонике.", 1, 0],
+     "Каждый интервал от малой секунды до октавы, с возвратом к тонике.", 1, 0, 2],
     ["chromaticScale","Хроматическая гамма",
-     "Каждый полутон. Самый трудный тест строя.", 1, 1],
-].map (([kind, name, purpose, repeats, step, ceiling = 0, fixedRoot = 0]) =>
-    ({ kind, name, purpose, repeats, step, ceiling, fixedRoot }));
+     "Каждый полутон. Самый трудный тест строя.", 1, 1, 2],
+].map (([kind, name, purpose, repeats, step, start, fixed = false]) =>
+    ({ kind, name, purpose, repeats, step, start, fixed }));
 
 export const getDefinition = (kind) => DEFINITIONS.find (d => d.kind === kind) || DEFINITIONS[0];
 
-export function makeSpec (kind, rootMidi, bpm, targetSeconds, useSolfege = true)
+// The lowest and highest note one pass of the exercise reaches, above its root.
+function span (kind)
+{
+    return midiRange ({ kind, rootMidi: 0, repeats: 1, transposeStep: 0, ceilingMidi: 0, descending: false, bpm: 60 });
+}
+
+// The roots the exercise can start on and stay inside the voice: [first, last].
+export function rootChoices (kind, range)
+{
+    const [lo, hi] = span (kind);
+    const a = range[0] - lo, b = Math.max (a, range[1] - hi);
+    return [a, b];
+}
+
+// Where the exercise starts for this voice unless the singer chose otherwise.
+export function defaultRoot (kind, range)
+{
+    const [a, b] = rootChoices (kind, range);
+    return clamp (range[0] + getDefinition (kind).start, a, b);
+}
+
+export function makeSpec (kind, rootMidi, bpm, targetSeconds, useSolfege = true, range = [LOWEST_MIDI, HIGHEST_MIDI])
 {
     const def = getDefinition (kind);
+    const [a, b] = rootChoices (kind, range);
     const spec = {
         kind, bpm: clamp (bpm, 30, 200), useSolfege,
-        rootMidi: clamp (rootMidi, LOWEST_MIDI, HIGHEST_MIDI),
-        transposeStep: def.step, ceilingMidi: def.ceiling, repeats: 1,
+        rootMidi: def.fixed || rootMidi == null ? defaultRoot (kind, range) : clamp (rootMidi, a, b),
+        transposeStep: def.fixed ? 0 : def.step, ceilingMidi: def.step ? range[1] : 0, repeats: 1,
         referenceBeats: 2, countInBeats: 4, descending: false,
     };
-    if (def.fixedRoot > 0) { spec.rootMidi = def.fixedRoot; spec.transposeStep = 0; }
     spec.repeats = Math.max (1, def.repeats, repeatsForTarget (spec, targetSeconds));
     return spec;
 }

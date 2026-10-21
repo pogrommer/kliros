@@ -1,7 +1,7 @@
 // app.js — the phone version of Vocal Trainer: highway + five-line staff.
 // Geometry and colours follow DESIGN.md §7; analysis lives in pitch-worklet.js.
 
-import { DEFINITIONS, getDefinition, makeSpec, buildChart, buildDrillChart, LENGTHS, noteName } from "./exercises.js";
+import { DEFINITIONS, getDefinition, makeSpec, buildChart, buildDrillChart, LENGTHS, noteName, rootChoices } from "./exercises.js";
 import { renderClickTrack, renderGuideTone, renderSingleNote } from "./synth.js";
 import { drawStaff, midiName, isSharp } from "./staff.js";
 import { stretch, scaleChart, TEMPO_STEPS } from "./tempo.js";
@@ -707,7 +707,11 @@ function setTempo (f)
     tempoLabel(); renderTempo(); previewChart();
 }
 
-const exerciseChart = () => buildChart (makeSpec (S.kind, S.root, Math.round (S.bpm * S.tempo), LENGTHS[S.length], false));
+// The root the singer chose counts only for the voice it was chosen for; a new voice
+// starts its exercises where they sit in that voice (exercises.js defaultRoot).
+const chosenRoot = () => S.rootVoice === S.voice ? S.root : null;
+const exerciseSpec = () => makeSpec (S.kind, chosenRoot(), Math.round (S.bpm * S.tempo), LENGTHS[S.length], false, voiceRange());
+const exerciseChart = () => buildChart (exerciseSpec());
 
 // A song's audio at the current tempo: stretched once, kept with the song.
 async function songDecks (song)
@@ -795,7 +799,7 @@ async function saveTake ()
         id: S.mode === "song" ? S.song : S.mode === "drill" ? "drill" : S.kind,
         title: chart.song.title || "",
         startedAt: new Date().toISOString(),
-        settings: { bpm: S.bpm, root: S.root, tolerance: S.tolerance, clef: effectiveClef() },
+        settings: { bpm: S.bpm, root: chart?.exercise?.rootMidi ?? S.root, tolerance: S.tolerance, clef: effectiveClef() },
         percent: overallPercent(),
         phrases: (chart.phrases || []).map (p => ({ text: p.text, percent: phrasePercent (p) })),
         notes: chart.notes.map ((n, i) => ({
@@ -1584,7 +1588,7 @@ function updateTitle ()
     document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === S.mode));
     voiceLabel();
     let t;
-    if (S.mode === "exercise") { const d = getDefinition (S.kind); t = d.name + (d.fixedRoot ? "" : ` · от ${noteName (S.root)}`); }
+    if (S.mode === "exercise") { const d = getDefinition (S.kind); t = d.name + (d.fixed ? "" : ` · от ${noteName (exerciseSpec().rootMidi)}`); }
     else if (S.mode === "song") t = songTitle();
     else if (S.mode === "drill" && drillChart) t = drillChart.song.title;
     else t = "Свободное пение";
@@ -1601,8 +1605,12 @@ function syncForm ()
     $("exBlock").hidden = S.mode !== "exercise";
     $("kind").value = S.kind;
     $("purpose").textContent = getDefinition (S.kind).purpose;
-    $("root").value = S.root;
-    $("root").disabled = getDefinition (S.kind).fixedRoot > 0;
+    // Only roots that keep the exercise inside the singer's voice.
+    const [ra, rb] = rootChoices (S.kind, voiceRange()), root = $("root");
+    root.innerHTML = "";
+    for (let m = ra; m <= rb; ++m) { const o = document.createElement ("option"); o.value = m; o.textContent = noteName (m); root.appendChild (o); }
+    root.value = exerciseSpec().rootMidi;
+    root.disabled = getDefinition (S.kind).fixed;
     $("bpm").value = S.bpm; $("bpmVal").textContent = S.bpm;
     $("length").value = S.length;
     $("labels").value = S.labels;
@@ -1648,8 +1656,6 @@ function buildForm ()
 {
     const kind = $("kind");
     for (const d of DEFINITIONS) { const o = document.createElement ("option"); o.value = d.kind; o.textContent = d.name; kind.appendChild (o); }
-    const root = $("root");
-    for (let m = 40; m <= 72; ++m) { const o = document.createElement ("option"); o.value = m; o.textContent = noteName (m); root.appendChild (o); }
 
     const bind = (id, key, conv = (v) => v, after) => $(id).addEventListener ("input", () => {
         S[key] = conv ($(id).type === "checkbox" ? $(id).checked : $(id).value); save(); syncForm(); applyLevels(); after && after();
@@ -1699,7 +1705,7 @@ function buildForm ()
     $("addHelp").onclick = () => { $("addHelpText").hidden = ! $("addHelpText").hidden; };
     $("viewBtn").onclick = () => { S.view = S.view === "roll" ? "staff" : "roll"; save(); applyView(); };
     bind ("kind", "kind");
-    bind ("root", "root", Number);
+    bind ("root", "root", Number, () => { S.rootVoice = S.voice; save(); });
     bind ("bpm", "bpm", Number);
     bind ("length", "length");
     bind ("labels", "labels");
