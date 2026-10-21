@@ -21,6 +21,7 @@ const VOICES = [["S", "сопрано"], ["A", "альт"], ["T", "тенор"],
 // are always drawn whole, with their keys, even where the range ends inside them.
 const VOICE_RANGE = { S: [60, 79], A: [55, 72], T: [48, 67], B: [41, 60] };
 const voiceRange = () => VOICE_RANGE[S.voice] || VOICE_RANGE.T;
+const VOICE_CLEF = { S: "treble", A: "treble", T: "treble8", B: "bass" };
 const TOLERANCES = { performance: [50, 150], practice: [25, 100], precision: [10, 50] };
 
 let S = { ...DEFAULTS };
@@ -1679,7 +1680,8 @@ function buildForm ()
             const b = document.createElement ("button");
             b.textContent = name; b.classList.toggle ("sel", v === S.voice);
             b.onclick = () => {
-                S.voice = v; S.part = v; save(); track ("voice", v);
+                // A new voice brings its own clef: a clef picked by hand gives way to auto.
+                S.voice = v; S.part = v; S.clef = "auto"; save(); track ("voice", v);
                 $("voiceSheet").hidden = true; voiceLabel();
                 const p = currentPiece, x = p?.parts.find (y => y.part === v);
                 if (x && x.id !== S.song) { S.song = x.id; save(); fillParts (p); syncDeleteButton(); songChanged(); }
@@ -1767,8 +1769,9 @@ function buildForm ()
 function effectiveClef ()
 {
     if (S.clef !== "auto") return S.clef;
-    if (! chart || ! chart.notes.length) return { S: "treble", A: "treble", T: "treble8", B: "bass" }[S.voice] || "treble8";
-    const part = { S: "treble", A: "treble", T: "treble8", B: "bass" }[chart.song?.part];
+    // Free singing and exercises: the clef of the singer's voice type.
+    if (! chart || ! chart.notes.length || chart.exercise) return VOICE_CLEF[S.voice] || "treble8";
+    const part = VOICE_CLEF[chart.song?.part];
     if (part) return part;
     let lo = Infinity, hi = -Infinity;
     for (const n of chart.notes) { lo = Math.min (lo, n.midi); hi = Math.max (hi, n.midi); }
