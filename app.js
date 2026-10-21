@@ -1352,9 +1352,15 @@ function reference ()
 {
     if (refMidi == null || (running && chart)) return null;
     const live = liveEst && Number.isFinite (liveEst.smooth) && performance.now() - liveEst.wall < 150 ? liveEst : null;
-    const cents = live ? remainder (live.smooth - refMidi, 12) * 100 : null;
-    return { midi: refMidi, hit: cents != null && Math.abs (cents) <= TOLERANCES[S.tolerance][0] };
+    const cents = live ? remainder (live.smooth - refMidi, 12) * 100 : null, full = TOLERANCES[S.tolerance][0];
+    // The voice wobbles around the pitch: green comes on within the tolerance, stays on
+    // within twice it, and lingers a moment - else it only flickers and never reads as lit.
+    const on = cents != null && Math.abs (cents) <= (refLit ? 2 * full : full);
+    if (on) refHitUntil = performance.now() + 300;
+    refLit = performance.now() < refHitUntil;
+    return { midi: refMidi, hit: refLit };
 }
+let refLit = false, refHitUntil = 0;
 
 async function playKey (midi)
 {
@@ -1831,19 +1837,11 @@ function watchTilt ()
             document.documentElement.classList.toggle ("flip", gx < 0);
     });
 }
-if (matchMedia ("(pointer: coarse)").matches && "DeviceOrientationEvent" in window)
-{
-    // iOS asks once ("Motion & Orientation"), and only from a tap; Android just gives it.
-    if (typeof DeviceOrientationEvent.requestPermission === "function")
-    {
-        const ask = () => {
-            removeEventListener ("click", ask, true);
-            DeviceOrientationEvent.requestPermission().then (r => { if (r === "granted") watchTilt(); }).catch (() => {});
-        };
-        addEventListener ("click", ask, true);
-    }
-    else watchTilt();
-}
+// iOS would have to ASK for the sensor ("Motion & Orientation") - the user did not want
+// the prompt (2026-10-22): there the turn is fixed, top to the left. Android gives it freely.
+if (matchMedia ("(pointer: coarse)").matches && "DeviceOrientationEvent" in window
+    && typeof DeviceOrientationEvent.requestPermission !== "function")
+    watchTilt();
 
 // Offline use (sw.js). Not inside the Android wrapper: there the files are already local.
 askMicAtLaunch();

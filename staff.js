@@ -90,7 +90,7 @@ export function drawStaff (g, W, H, view)
     let halfSpaces;
     if (defs.length === 2) halfSpaces = 8 + 8 + Math.max (6, under[0] + over[1] + 2) + over[0] + under[1] + 6;
     else halfSpaces = 8 + over[0] + under[0] + 7;
-    halfSpaces += nameRows * 2.6 + lyricRows;
+    halfSpaces += nameRows * 1.8 + lyricRows;
 
     // Line gap: fit the height, and no larger than the song's quick notes allow
     // (maxS, from the time axis) so their heads do not run into each other.
@@ -99,7 +99,8 @@ export function drawStaff (g, W, H, view)
     const h = s / 2;
 
     // Staff centre lines.
-    const top = (H - halfSpaces * h) / 2 + (3 + over[0] + lyricRows) * h;
+    // Room left over goes mostly above: no gap between the names and the screen's bottom.
+    const top = (H - halfSpaces * h) * 0.85 + (3 + over[0] + lyricRows) * h;
     const centres = [];
     centres[0] = top + 4 * h;
     if (defs.length === 2) centres[1] = centres[0] + 8 * h + Math.max (6, under[0] + over[1] + 2) * h;
@@ -145,7 +146,7 @@ export function drawStaff (g, W, H, view)
 
     let nameEnd = -Infinity;
     const name = view.label || midiName;
-    const yText = yBot + (2.2 + under[defs.length - 1]) * h + s * 0.9;
+    const yText = yBot + (2.2 + under[defs.length - 1]) * h + s * 0.7;
     for (const note of items)
     {
         // Heads sit just right of the note's start, so the head is under its bar.
@@ -183,13 +184,13 @@ export function drawStaff (g, W, H, view)
         {
             // A name that would print over the one before it is left out.
             g.textAlign = "center"; g.textBaseline = "alphabetic";
-            g.font = `${Math.round (Math.max (10, s * 0.9))}px -apple-system, system-ui, sans-serif`;
+            g.font = `${Math.round (Math.max (9, s * 0.62))}px -apple-system, system-ui, sans-serif`;
             const t = name (note.midi), w = g.measureText (t).width;
             if (x - w / 2 > nameEnd + 3 || note.state === "active")
             {
                 g.fillStyle = note.state === "active" ? COLOURS.active : COLOURS.text;
                 g.fillText (t, x, yText);
-                if (missed) { g.fillStyle = COLOURS.miss; g.fillText (name (note.sung.midi), x, yText + s * 1.15); }
+                if (missed) { g.fillStyle = COLOURS.miss; g.fillText (name (note.sung.midi), x, yText + s * 0.8); }
                 nameEnd = x + w / 2;
             }
         }
@@ -225,7 +226,7 @@ export function drawStaff (g, W, H, view)
         if (isSharp (ref.midi)) drawSharp (g, x - s * 1.25, yFor (p.staff, p.d), s, colour);
         if (view.showNames)
         {
-            g.font = `600 ${Math.round (Math.max (12, s * 1.0))}px -apple-system, system-ui, sans-serif`;
+            g.font = `600 ${Math.round (Math.max (9, s * 0.62))}px -apple-system, system-ui, sans-serif`;
             g.textAlign = "center"; g.textBaseline = "alphabetic";
             g.fillStyle = colour; g.fillText (name (ref.midi), x, yText);
         }
