@@ -21,8 +21,17 @@ body { touch-action: manipulation; }
 /* Top bar: Песня (the name, wide), Партия, Темп - each opens its own chooser. */
 #topbar { grid-area: title; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 4px 8px;
   background: var(--panel); border-bottom: 1px solid var(--line); }
+#topbar { flex-wrap: wrap; }
 #topbar button { min-height: 32px; font-size: 14px; flex: 0 0 auto; }
-#title { flex: 1 1 auto !important; min-width: 0; display: flex; align-items: center; font-size: 15px !important; }
+#modeSeg button { font-size: 12px; padding: 4px 8px; flex: 0 0 auto; }
+#voiceBtn::after { content: " ▾"; color: var(--accent); }
+#exList { display: flex; flex-direction: column; gap: 4px; }
+#exList button { text-align: left; }
+#exList small { display: block; color: #8a8a96; font-size: 12px; }
+#exList button.sel { background: #0f3a52; border-color: var(--accent); }
+#title:disabled { opacity: .6; }
+#title:disabled::after { content: ""; }
+#title { flex: 1 1 140px !important; min-width: 0; display: flex; align-items: center; font-size: 15px !important; }
 #partBtn::after, #tempoBtn::after { content: " ▾"; color: var(--accent); }
 #tempoBtn.on { border-color: var(--accent); background: #0f3a52; }
 #controls { grid-area: ctl; display: flex; flex-direction: column; gap: 6px; padding: 6px;

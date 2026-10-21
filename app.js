@@ -3,17 +3,22 @@
 
 import { DEFINITIONS, getDefinition, makeSpec, buildChart, buildDrillChart, LENGTHS, noteName } from "./exercises.js";
 import { renderClickTrack, renderGuideTone, renderSingleNote } from "./synth.js";
-import { drawStaff, midiName } from "./staff.js";
+import { drawStaff, midiName, isSharp } from "./staff.js";
 import { stretch, scaleChart, TEMPO_STEPS } from "./tempo.js";
+import { pageview, track } from "./analytics.js";
 import { readPackage, saveSongs, getSong, deleteSong, hasSong, listSongs as listLocalSongs } from "./localsongs.js";
 
 //==============================================================================
 // Settings, remembered per device.
 const DEFAULTS = {
-    mode: "song", kind: "tenorG3toD4", root: 55, bpm: 72, length: "medium", labels: "fixed",
+    mode: "free", kind: "tenorG3toD4", root: 55, bpm: 72, length: "medium", labels: "fixed",
     clef: "auto", names: true, tolerance: "practice", guide: true, guideVol: 0.8, backVol: 0.8,
-    latencyMs: 0, song: "antsev-trisvyatoe-tenor", part: "T", view: "staff", tempo: 1,
+    latencyMs: 0, song: "antsev-trisvyatoe-tenor", part: "T", view: "staff", tempo: 1, voice: "",
 };
+const VOICES = [["S", "сопрано"], ["A", "альт"], ["T", "тенор"], ["B", "бас"]];
+// Each voice's whole range: the keyboards and the free piano roll show all of it.
+const VOICE_RANGE = { S: [60, 84], A: [53, 77], T: [48, 72], B: [40, 64] };
+const voiceRange = () => VOICE_RANGE[S.voice] || VOICE_RANGE.T;
 const TOLERANCES = { performance: [50, 150], practice: [25, 100], precision: [10, 50] };
 
 let S = { ...DEFAULTS };
@@ -24,8 +29,12 @@ const save = () => { try { localStorage.setItem ("vt-web", JSON.stringify (S)); 
 if (! S.clefAutoSet) { S.clef = "auto"; S.clefAutoSet = true; save(); }
 // Once: notes OR piano roll, the notes by default (2026-10-20).
 if (! S.viewSet) { S.view = "staff"; S.viewSet = true; save(); }
+// Once: the app opens in free singing (2026-10-22), a phone that had a song saved too.
+if (! S.freeSet) { S.mode = "free"; S.freeSet = true; save(); }
 // A drill lives only in memory: after a reload, back to what it was made from.
 if (S.mode === "drill") S.mode = S.drillBack || "exercise";
+// Voice type: new to this phone -> what its last part was (the tenor had been the default).
+if (! VOICES.some (v => v[0] === S.voice)) { S.voice = VOICES.some (v => v[0] === S.part) ? S.part : "T"; save(); }
 
 const C = {
     bg: "#101014", grid: "#2A2A32", gridC: "#3a3a46", label: "#6a6a78",
@@ -390,6 +399,7 @@ async function start ()
     catch (err) { $("status").textContent = err.message || String (err); return; }
 
     stopSources();
+    track ("start", S.mode);
 
     try
     {
@@ -597,6 +607,7 @@ function pickPiece (key)
 {
     S.mode = "song"; save();
     choosePiece (key);
+    if (! pieces.find (p => p.key === key)?.local) track ("piece", key);   // not phone-only uploads
     $("songSheet").hidden = true;
     songChanged();
 }
@@ -606,7 +617,7 @@ function choosePiece (key, songId)
 {
     const p = pieces.find (x => x.key === key);
     if (! p) return;
-    const pick = p.parts.find (x => x.id === songId) || p.parts.find (x => x.part === S.part) || p.parts[0];
+    const pick = p.parts.find (x => x.id === songId) || p.parts.find (x => x.part === S.voice) || p.parts[0];
     S.song = pick.id; save();
     document.querySelectorAll ("#pieceList .pi").forEach (b => b.classList.toggle ("sel", b.dataset.key === key));
     fillParts (p);
@@ -1052,17 +1063,13 @@ function updateView (now, dt)
         }
         if (lo > hi) { lo = rowOf (chart.notes[0].midi); hi = lo; }
     }
-    else
-    {
-        const recent = estimates.filter (e => Number.isFinite (e.smooth)).slice (-125).map (e => e.smooth);
-        const m = recent.length ? median (recent) : 52;
-        lo = m; hi = m;
-    }
     // A song that skips semitones needs fewer rows for an octave.
     const perOctave = pitchRows() ? Math.min (12, Math.max (5, pitchRows().perOctave)) : 12;
     // Twice the rows a phrase strictly needs: the roll shows more above and below.
     let span = 2 * Math.max (perOctave, hi - lo + perOctave / 2);
     let low = (lo + hi) / 2 - span / 2;
+    // Free singing: the voice type's whole range, a key for every note of it.
+    if (! (chart && chart.notes.length)) { const [a, b] = voiceRange(); low = a - 0.5; span = b - a + 1; }
     if (! viewInit) { viewLow = low; viewSpan = span; viewInit = true; }
     const k = Math.min (1, dt * 2.5);
     viewLow += (low - viewLow) * k;
@@ -1113,7 +1120,7 @@ function pitchOfRow (r)
 // Time axis of the highway, shared with the staff so a note sits under its bar.
 function laneGeometry (W)
 {
-    const gutter = S.labels === "fixed" ? 38 : 30;
+    const gutter = S.labels === "fixed" ? 44 : 36;
     const laneW = W - gutter;
     return { gutter, pps: laneW / SPAN, nowX: gutter + laneW * (HISTORY / SPAN) };
 }
@@ -1129,9 +1136,12 @@ function drawHighway (now)
     const xOf = (t) => nowX + (t - now) * pps;
     const [full, zero] = TOLERANCES[S.tolerance];
 
-    // Grid + labels: one line per row (per pitch the song uses).
-    g.font = "10px -apple-system, system-ui, sans-serif";
-    g.textBaseline = "middle"; g.textAlign = "left";
+    // Grid: one line per row (per pitch the song uses). The gutter is a keyboard,
+    // a key per row, each named; a tap plays it.
+    const target = chart ? noteIndexAt (now) : -1, ref = reference();
+    const liveM = liveEst && Number.isFinite (liveEst.smooth) && performance.now() - liveEst.wall < 150 ? Math.round (liveEst.smooth) : null;
+    g.font = `400 ${Math.round (Math.max (7, Math.min (11, ppRow * 0.8)))}px -apple-system, system-ui, sans-serif`;
+    g.textBaseline = "middle"; g.textAlign = "right";
     for (let r = Math.floor (viewLow); r <= Math.ceil (viewLow + viewSpan); ++r)
     {
         const m = pitchOfRow (r);
@@ -1139,7 +1149,17 @@ function drawHighway (now)
         const isC = ((m % 12) + 12) % 12 === 0;
         g.strokeStyle = isC ? C.gridC : C.grid; g.lineWidth = 1;
         g.beginPath(); g.moveTo (gutter, y); g.lineTo (W, y); g.stroke();
-        if (ppRow >= 9 || isC) { g.fillStyle = C.label; g.fillText (label (m), 3, y); }
+
+        const black = isSharp (m);
+        const lit = pressedMidi() === m ? "#F0E442"
+                  : liveM === m ? "#009E73" : target >= 0 && chart.notes[target].midi === m ? "#56B4E9"
+                  : ref && ref.midi === m ? (ref.hit ? "#009E73" : "#56B4E9") : null;
+        g.fillStyle = lit || (black ? "#18181e" : "#d6d6de");
+        g.fillRect (0, y - ppRow / 2, gutter - 3, ppRow);
+        g.strokeStyle = "#55555f";
+        g.strokeRect (0.5, Math.round (y - ppRow / 2) + 0.5, gutter - 4, Math.max (1, Math.round (ppRow) - 1));
+        g.fillStyle = lit ? "#101014" : black ? "#6c6c78" : "#8c8c98";
+        g.fillText (label (m), gutter - 6, y);
     }
 
     if (chart)
@@ -1215,6 +1235,18 @@ function drawHighway (now)
         });
     }
 
+    // The reference note from a tapped key: a bar from the play line on, its name in it.
+    if (ref)
+    {
+        const y = yOf (rowOf (ref.midi)), barH = Math.max (14, Math.min (22, ppRow * 0.9)), x0 = nowX - 0.25 * pps;
+        roundRect (g, x0, y - barH / 2, W - x0 - 4, barH, Math.min (4, barH / 2));
+        g.fillStyle = ref.hit ? "rgba(0,158,115,0.75)" : C.barFill; g.fill();
+        g.strokeStyle = ref.hit ? "rgb(0,158,115)" : C.barEdge; g.lineWidth = 1; g.stroke();
+        g.font = `600 ${Math.round (Math.min (16, barH * 0.7))}px -apple-system, system-ui, sans-serif`;
+        g.fillStyle = ref.hit ? "#ffffff" : "#cfe9f8"; g.textAlign = "left"; g.textBaseline = "middle";
+        g.fillText (label (ref.midi), x0 + 4, y + 0.5);
+    }
+
     // Live trace: smoothed, octave-folded onto the note it was sung against.
     const visible = estimates.filter (e => e.tc >= now - HISTORY - 0.1 && e.tc <= now + 0.05);
     const yForEst = (e, v) => {
@@ -1287,6 +1319,43 @@ function roundRect (g, x, y, w, h, r)
     g.lineTo (x, y + r); g.quadraticCurveTo (x, y, x + r, y);
 }
 
+// Tapped keys sound as a struck piano note, and light for a moment.
+let staffKeys = [], pressed = null;
+const pressedMidi = () => pressed && performance.now() < pressed.until ? pressed.midi : null;
+const inKey = (k, x, y) => x >= k.x && x <= k.x + k.w && y >= k.y && y <= k.y + k.h;
+// A black key lies over the white ones, so it is tried first.
+const keyAt = (keys, x, y) => keys.find (k => k.black && inKey (k, x, y)) || keys.find (k => ! k.black && inKey (k, x, y));
+// A pointer in the canvas's own coordinates, from the bounding box: offsetX/Y come
+// out scaled under browser zoom. A turned #app (upright phone) swaps the box's sides.
+function canvasXY (cv, ev)
+{
+    const r = cv.getBoundingClientRect(), turned = Math.abs (r.width - cv.clientWidth) > Math.abs (r.width - cv.clientHeight);
+    if (! turned) return [(ev.clientX - r.left) * cv.clientWidth / r.width, (ev.clientY - r.top) * cv.clientHeight / r.height];
+    const flip = document.documentElement.classList.contains ("flip");
+    const along = flip ? r.bottom - ev.clientY : ev.clientY - r.top, across = flip ? ev.clientX - r.left : r.right - ev.clientX;
+    return [along * cv.clientWidth / r.height, across * cv.clientHeight / r.width];
+}
+
+// The key last tapped stays up as a reference note to sing against: white on the
+// play line, green while the voice is on it (any octave, as notes are judged).
+// It stands until another key is tapped; a running song or exercise hides it.
+let refMidi = null;
+function reference ()
+{
+    if (refMidi == null || (running && chart)) return null;
+    const live = liveEst && Number.isFinite (liveEst.smooth) && performance.now() - liveEst.wall < 150 ? liveEst : null;
+    const cents = live ? remainder (live.smooth - refMidi, 12) * 100 : null;
+    return { midi: refMidi, hit: cents != null && Math.abs (cents) <= TOLERANCES[S.tolerance][0] };
+}
+
+async function playKey (midi)
+{
+    pressed = { midi, until: performance.now() + 350 };
+    refMidi = midi;
+    try { await ensureContext(); } catch (e) { $("status").textContent = e.message; return; }
+    const s = ctx.createBufferSource(); s.buffer = renderSingleNote (ctx, midi); s.connect (clickGain); s.start();
+}
+
 function drawStaffPanel (now)
 {
     const cv = $("staff");
@@ -1329,8 +1398,8 @@ function drawStaffPanel (now)
         liveView = { midi: Math.round (live.smooth), cents, colour: cents == null ? "#9ad" : colourFor (cents) };
     }
 
-    drawStaff (g, W, H, { mode: effectiveClef(), showNames: S.names, notes, bars, nowX, live: liveView,
-                          range: chartRange(), label, maxS: quickGap() * pps / 1.5, lyricsAbove: words, meter: meterAt (now) });
+    staffKeys = drawStaff (g, W, H, { mode: effectiveClef(), showNames: S.names, notes, bars, nowX, live: liveView, pressed: pressedMidi(), reference: reference(),
+                          range: staffRange(), label, maxS: quickGap() * pps / 1.5, lyricsAbove: words, meter: meterAt (now) });
 
     // Readout under the staff.
     // The note to sing in white; green while the voice is on it (within the
@@ -1395,6 +1464,13 @@ function chartRange ()
         rangeFor = chart; rangeVal = [lo - 2, hi + 2];      // a third of room for a stray voice
     }
     return rangeVal;
+}
+
+// The staff is scaled to the chart AND the voice's whole range, so its keyboard has every key of the voice.
+function staffRange ()
+{
+    const c = chartRange(), [a, b] = voiceRange();
+    return c ? [Math.min (c[0], a), Math.max (c[1], b)] : [a, b];
 }
 
 function drawFooter (now)
@@ -1476,8 +1552,33 @@ addEventListener ("pageshow", () => { lastCheck = 0; });
 
 //==============================================================================
 // UI
+function voiceLabel ()
+{
+    $("voiceText").textContent = VOICES.find (v => v[0] === S.voice)[1];
+}
+
+function renderExercises ()
+{
+    const list = $("exList");
+    list.innerHTML = "";
+    for (const d of DEFINITIONS)
+    {
+        const b = document.createElement ("button");
+        b.innerHTML = `${esc (d.name)}<small>${esc (d.purpose || "")}</small>`;
+        b.classList.toggle ("sel", d.kind === S.kind);
+        b.onclick = () => {
+            S.kind = d.kind; save(); $("exSheet").hidden = true; track ("exercise", d.kind);
+            syncForm(); updateTitle(); previewChart();
+        };
+        list.appendChild (b);
+    }
+}
+
 function updateTitle ()
 {
+    $("title").disabled = S.mode === "free";
+    document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === S.mode));
+    voiceLabel();
     let t;
     if (S.mode === "exercise") { const d = getDefinition (S.kind); t = d.name + (d.fixedRoot ? "" : ` · от ${noteName (S.root)}`); }
     else if (S.mode === "song") t = songTitle();
@@ -1546,20 +1647,47 @@ function buildForm ()
     const root = $("root");
     for (let m = 40; m <= 72; ++m) { const o = document.createElement ("option"); o.value = m; o.textContent = noteName (m); root.appendChild (o); }
 
-    document.querySelectorAll ("[data-mode]").forEach (b => b.onclick = () => {
-        S.mode = b.dataset.mode; save(); syncForm();
-        if (S.mode === "song") refreshSongList();
-    });
     const bind = (id, key, conv = (v) => v, after) => $(id).addEventListener ("input", () => {
         S[key] = conv ($(id).type === "checkbox" ? $(id).checked : $(id).value); save(); syncForm(); applyLevels(); after && after();
     });
     // Песня, Партия, Темп: three buttons on the main screen, each with its own chooser.
     const openSheet = (id) => { if (running) stop(); $(id).hidden = false; };
-    $("title").onclick = () => { refreshSongList(); openSheet ("songSheet"); };
     $("songClose").onclick = () => { $("songSheet").hidden = true; };
     $("partBtn").onclick = () => openSheet ("partSheet");
     $("tempoBtn").onclick = () => { renderTempo(); openSheet ("tempoSheet"); };
-    for (const id of ["songSheet", "partSheet", "tempoSheet"])
+    // Режимы: свободный / композиция / упражнения; the name button opens that mode's chooser.
+    document.querySelectorAll ("[data-mode]").forEach (b => b.onclick = () => {
+        if (running) stop();
+        S.mode = b.dataset.mode; save(); syncForm(); track ("mode", S.mode);
+        if (S.mode === "song") refreshSongList();
+        updateTitle(); previewChart();
+    });
+    $("title").onclick = () => {
+        if (S.mode === "free") return;
+        if (S.mode === "exercise") { renderExercises(); openSheet ("exSheet"); }
+        else { refreshSongList(); openSheet ("songSheet"); }
+    };
+    $("exClose").onclick = () => { $("exSheet").hidden = true; };
+    // Тип голоса: the part of every piece opened from now on; the open piece switches too.
+    $("voiceBtn").onclick = () => {
+        const list = $("voiceList");
+        list.innerHTML = "";
+        for (const [v, name] of VOICES)
+        {
+            const b = document.createElement ("button");
+            b.textContent = name; b.classList.toggle ("sel", v === S.voice);
+            b.onclick = () => {
+                S.voice = v; S.part = v; save(); track ("voice", v);
+                $("voiceSheet").hidden = true; voiceLabel();
+                const p = currentPiece, x = p?.parts.find (y => y.part === v);
+                if (x && x.id !== S.song) { S.song = x.id; save(); fillParts (p); syncDeleteButton(); songChanged(); }
+                else { clefLabel(); previewChart(); }
+            };
+            list.appendChild (b);
+        }
+        openSheet ("voiceSheet");
+    };
+    for (const id of ["songSheet", "partSheet", "tempoSheet", "voiceSheet", "exSheet"])
         $(id).addEventListener ("click", (e) => { if (e.target === $(id)) $(id).hidden = true; });
     $("tempoDown").onclick = () => setTempo (S.tempo - 0.05);
     $("tempoUp").onclick = () => setTempo (S.tempo + 0.05);
@@ -1593,10 +1721,21 @@ function buildForm ()
     };
     clefLabel();
 
+    // The keyboards play: the piano roll's gutter and the one left of the clef.
+    $("highway").addEventListener ("pointerdown", (ev) => {
+        const cv = $("highway"), { gutter } = laneGeometry (cv.clientWidth), [x, y] = canvasXY (cv, ev);
+        if (x > gutter) return;
+        playKey (pitchOfRow (Math.round (viewLow + (cv.clientHeight - y) * viewSpan / cv.clientHeight)));
+    });
+    $("staff").addEventListener ("pointerdown", (ev) => {
+        const k = keyAt (staffKeys, ...canvasXY ($("staff"), ev));
+        if (k) playKey (k.midi);
+    });
+
     // Tap a note on the staff to hear it. offsetX is in the canvas's own (possibly
     // turned) coordinates; back through the time axis to the nearest note.
     $("staff").addEventListener ("click", async (ev) => {
-        if (running || ! chart) return;
+        if (running || ! chart || keyAt (staffKeys, ...canvasXY ($("staff"), ev))) return;
         try { await ensureContext(); } catch (e) { $("status").textContent = e.message; return; }
         const { pps, nowX } = laneGeometry ($("staff").clientWidth);
         const t = lastChartNow + (ev.offsetX - nowX) / pps;
@@ -1626,7 +1765,7 @@ function buildForm ()
 function effectiveClef ()
 {
     if (S.clef !== "auto") return S.clef;
-    if (! chart || ! chart.notes.length) return "bass";
+    if (! chart || ! chart.notes.length) return { S: "treble", A: "treble", T: "treble8", B: "bass" }[S.voice] || "treble8";
     const part = { S: "treble", A: "treble", T: "treble8", B: "bass" }[chart.song?.part];
     if (part) return part;
     let lo = Infinity, hi = -Infinity;
@@ -1656,6 +1795,7 @@ function clefLabel ()
 }
 
 buildForm();
+pageview();
 applyView();
 tempoLabel();
 if (S.mode === "song") refreshSongList().then (previewChart); else previewChart();

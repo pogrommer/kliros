@@ -18,7 +18,14 @@
 <div id="app">
   <!-- Landscape only: the track name along the top, the buttons in a column on the right. -->
   <div id="topbar">
-    <button id="title" title="Выбрать песню"><span id="titleText">Kliros</span></button>
+    <!-- Voice type first: everything else follows from it. -->
+    <button id="voiceBtn" title="Тип голоса"><span id="voiceText"></span></button>
+    <div id="modeSeg" class="seg">
+      <button data-mode="free">свободный</button>
+      <button data-mode="song">композиция</button>
+      <button data-mode="exercise">упражнения</button>
+    </div>
+    <button id="title" title="Выбрать"><span id="titleText">Kliros</span></button>
     <button id="partBtn" title="Партия" hidden><span id="partText"></span></button>
     <button id="tempoBtn" title="Темп: медленнее или быстрее">♩ <span id="tempoText">100%</span></button>
   </div>
@@ -68,6 +75,16 @@
     </div>
   </div>
 
+  <div id="voiceSheet" class="overlay" hidden>
+    <div class="sheet"><b>Тип голоса</b><div id="voiceList" class="seg wrap"></div>
+      <p class="note">Композиция открывается в партии вашего голоса.</p></div>
+  </div>
+
+  <div id="exSheet" class="overlay" hidden>
+    <div class="sheet"><div class="sheetHead"><b>Упражнение</b><button id="exClose">Готово</button></div>
+      <div id="exList"></div></div>
+  </div>
+
   <div id="partSheet" class="overlay" hidden>
     <div class="sheet"><b>Партия</b><div id="partList" class="seg wrap"></div></div>
   </div>
@@ -85,12 +102,6 @@
 
   <div id="settings" hidden>
     <div class="sheet">
-      <div class="seg">
-        <button data-mode="exercise">Упражнение</button>
-        <button data-mode="song">Песня</button>
-        <button data-mode="free">Свободно</button>
-      </div>
-
       <div id="exBlock">
         <label>Упражнение <select id="kind"></select></label>
         <p id="purpose"></p>

@@ -80,6 +80,8 @@ export function drawStaff (g, W, H, view)
     // a note strayed above or below the phrase.
     if (view.range) { consider (view.range[0]); consider (view.range[1]); }
     else { for (const n of items) consider (n.midi); if (view.live) consider (view.live.midi); }
+    // A tapped reference note gets room too: it changes only when a key is tapped.
+    if (view.reference) consider (view.reference.midi);
 
     const nameRows = view.showNames ? 2 : 0;
     // The words over the staff take a band of their own, above anything on ledger lines.
@@ -103,7 +105,9 @@ export function drawStaff (g, W, H, view)
     if (defs.length === 2) centres[1] = centres[0] + 8 * h + Math.max (6, under[0] + over[1] + 2) * h;
 
     const meterW = view.meter ? s * 1.9 : 0;
-    const clefW = s * 3.4, left = s * 0.6, right = W - s * 0.6, x0 = left + clefW + meterW;
+    // A short piano keyboard stands on its side left of the clef, a key per staff step.
+    const kbW = s * 2.9;
+    const clefW = s * 3.4, left = kbW + s * 0.5, right = W - s * 0.6, x0 = left + clefW + meterW;
     const yFor = (staff, d) => centres[staff] - (d - defs[staff].mid) * h;
     const yTop = centres[0] - 2 * s, yBot = centres[centres.length - 1] + 2 * s;
 
@@ -210,12 +214,30 @@ export function drawStaff (g, W, H, view)
         }
     }
 
+    // A reference note (a tapped key) on the play line, where nothing else is to be sung:
+    // a whole note, white, green while the voice is on it.
+    const ref = view.reference && ! items.some (n => n.state === "active") ? view.reference : null;
+    if (ref && view.nowX != null)
+    {
+        const x = view.nowX + s * 1.6, p = place (view.mode, ref.midi), colour = ref.hit ? COLOURS.good : COLOURS.head;
+        drawLedgers (g, defs, p, x, s, centres, h);
+        drawNote (g, x, yFor (p.staff, p.d), s, colour, 4, false, p.d % 2 === 0);
+        if (isSharp (ref.midi)) drawSharp (g, x - s * 1.25, yFor (p.staff, p.d), s, colour);
+        if (view.showNames)
+        {
+            g.font = `600 ${Math.round (Math.max (12, s * 1.0))}px -apple-system, system-ui, sans-serif`;
+            g.textAlign = "center"; g.textBaseline = "alphabetic";
+            g.fillStyle = colour; g.fillText (name (ref.midi), x, yText);
+        }
+    }
+
     // The voice where there is no note to sing: on the play line.
+    // Against a reference note it is a ring over it, as over a note being sung.
     if (view.live && ! items.some (n => n.state === "active") && view.nowX != null)
     {
-        const x = view.nowX + s * 0.62, p = place (view.mode, view.live.midi);
+        const x = view.nowX + s * (ref ? 1.6 : 0.62), p = place (view.mode, view.live.midi);
         drawLedgers (g, defs, p, x, s, centres, h);
-        drawHead (g, x, yFor (p.staff, p.d), s, view.live.colour, true, false, true);
+        drawHead (g, x, yFor (p.staff, p.d), s * (ref ? 1.05 : 1), view.live.colour, ! ref, false, true);
         if (isSharp (view.live.midi)) drawSharp (g, x - s * 1.1, yFor (p.staff, p.d), s * 0.8, view.live.colour);
     }
 
@@ -229,7 +251,7 @@ export function drawStaff (g, W, H, view)
 
     // Clefs last, on a plain ground, so the notes scroll in from under them.
     g.fillStyle = view.background || "#131318";
-    g.fillRect (0, yTop - 6 * h, x0 - 1, yBot - yTop + 12 * h);
+    g.fillRect (0, 0, x0 - 1, H);
     g.lineWidth = Math.max (1, s * 0.08);
     g.strokeStyle = COLOURS.line;
     defs.forEach ((def, i) => {
@@ -246,6 +268,74 @@ export function drawStaff (g, W, H, view)
     {
         g.beginPath(); g.moveTo (left + 0.5, yTop); g.lineTo (left + 0.5, yBot); g.stroke();
     }
+
+    const active = items.find (n => n.state === "active");
+    return drawKeyboard (g, view, defs, centres, s, h, kbW, H, over, under, name,
+                         active ? active.midi : ref ? ref.midi : null, view.live ? view.live : null);
+}
+
+// The keyboard turned on its side: low notes at the bottom, the black keys at
+// the back (left), each white key level with its line or space, so a note and
+// its key are read on one level. In treble8 the keys sound an octave below
+// where they stand, as the notes do.
+const WHITE = [0, 2, 4, 5, 7, 9, 11];
+// Returns the keys as [{ x, y, w, h, midi, black }], for tapping.
+function drawKeyboard (g, view, defs, centres, s, h, kbW, H, over, under, name, target, live)
+{
+    const keys = [];
+    const x = s * 0.25, bw = kbW * 0.58, shift = view.mode === "treble8" ? 12 : 0;
+    const midiAt = (d) => (Math.floor (d / 7) + 1) * 12 + WHITE[((d % 7) + 7) % 7] - shift;
+    const fill = (m) => view.pressed === m ? "#F0E442" : live && live.midi === m ? live.colour : target === m ? COLOURS.active : null;
+    const fs = Math.max (7, Math.min (h * 1.0, s * 0.9));
+
+    defs.forEach ((def, i) => {
+        let lo = def.mid - 5 - under[i], hi = def.mid + 5 + over[i];
+        if (view.mode === "grand") { if (i === 0) lo = diatonic (60); else hi = diatonic (59); }
+        const yOf = (d) => centres[i] - (d - def.mid) * h;
+        while (yOf (hi) - h / 2 < 0) --hi;
+        while (yOf (lo) + h / 2 > H) ++lo;
+
+        // White keys, labelled at the front.
+        g.lineWidth = 1;
+        for (let d = lo; d <= hi; ++d)
+        {
+            const m = midiAt (d), y = yOf (d);
+            g.fillStyle = fill (m) || "#d6d6de";
+            g.fillRect (x, y - h / 2, kbW, h);
+            keys.push ({ x, y: y - h / 2, w: kbW, h, midi: m, black: false });
+            g.strokeStyle = "#55555f";
+            g.strokeRect (x + 0.5, Math.round (y - h / 2) + 0.5, kbW - 1, Math.round (h));
+            {
+                // Names quiet: there to look up, not to read all the time.
+                g.fillStyle = fill (m) ? "#1c1c22" : "#8c8c98";
+                g.font = `400 ${Math.round (fs)}px -apple-system, system-ui, sans-serif`;
+                g.textAlign = "right"; g.textBaseline = "middle";
+                g.fillText (name (m), x + kbW - s * 0.18, y + 0.5);
+            }
+        }
+        // Black keys, on the border above C D F G A.
+        for (let d = lo; d < hi; ++d)
+        {
+            if (! [0, 1, 3, 4, 5].includes (((d % 7) + 7) % 7)) continue;
+            const m = midiAt (d) + 1, y = yOf (d) - h / 2, bh = h * 0.8;
+            g.fillStyle = fill (m) || "#18181e";
+            g.fillRect (x, y - bh / 2, bw, bh);
+            keys.push ({ x, y: y - bh / 2, w: bw, h: bh, midi: m, black: true });
+            g.strokeStyle = "#000";
+            g.strokeRect (x + 0.5, y - bh / 2 + 0.5, bw - 1, bh - 1);
+            // Every key is named: a long name shrinks to fit its key, never below 7 px.
+            let bf = Math.max (7, Math.min (bh, s * 0.7));
+            g.font = `400 ${Math.round (bf)}px -apple-system, system-ui, sans-serif`;
+            const tw = g.measureText (name (m)).width, room = bw - s * 0.2;
+            if (tw > room) { bf = Math.max (7, bf * room / tw); g.font = `400 ${Math.round (bf)}px -apple-system, system-ui, sans-serif`; }
+            {
+                g.fillStyle = fill (m) ? "#101014" : "#6c6c78";
+                g.textAlign = "right"; g.textBaseline = "middle";
+                g.fillText (name (m), x + bw - s * 0.12, y + 0.5);
+            }
+        }
+    });
+    return keys;
 }
 
 // The time signature from the measure's length in quarters: 4 -> 4/4, 1.5 -> 3/8.
