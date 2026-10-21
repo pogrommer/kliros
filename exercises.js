@@ -46,6 +46,10 @@ export const DEFINITIONS = [
      "Без полутонов — изолирует точность интервалов. Хорошая первая гамма.", 2, 1, 2],
     ["majorArpeggio", "Мажорное арпеджио (1-3-5-8)",
      "Скачки внутри аккорда. Учит слышать следующую ноту до того, как её спеть.", 2, 1, 2],
+    ["thirdsScale",   "Терции по гамме (1-3, 2-4, 3-5…)",
+     "Мажорная гамма терциями вверх до октавы и обратно. Терция — основа хорового строя: держать большие и малые точно.", 2, 1, 2],
+    ["thirdLeaps",    "Скачки на терцию (1-3-1, 1-♭3-1)",
+     "Большая терция, затем малая от той же ноты. Слышать разницу в полтона. Каждый повтор на полутон выше.", 5, 1, 2],
     ["fifthLeaps",    "Скачки на квинту (1-5-1)",
      "Самый частый интервал в мелодиях. Каждый повтор на полутон выше.", 5, 1, 2],
     ["octaveLeaps",   "Скачки на октаву (1-8-1)",
@@ -190,6 +194,32 @@ export function buildPattern (spec)
             for (let r = 0; r < repeats; ++r) { notes (shape, 1, tr (r), phrase (name + (r + 1))); rest (2); }
             break;
         }
+
+        case "thirdsScale":
+        {
+            // Up the scale in thirds (1-3, 2-4 ... 6-8), the top, then down (8-6 ... 3-1) and home.
+            const deg = [0, 2, 4, 5, 7, 9, 11, 12];
+            const up = [], down = [];
+            for (let i = 0; i + 2 < deg.length; ++i) up.push (deg[i], deg[i + 2]);
+            for (let i = deg.length - 1; i - 2 >= 0; --i) down.push (deg[i], deg[i - 2]);
+            for (let r = 0; r < repeats; ++r)
+            {
+                const sfx = repeats > 1 ? " " + (r + 1) : "";
+                notes (up, 1, tr (r), phrase ("Терции вверх" + sfx));
+                notes ([...down, 0], 1, tr (r), phrase ("Терции вниз" + sfx));
+                rest (2);
+            }
+            break;
+        }
+
+        case "thirdLeaps":
+            for (let r = 0; r < repeats; ++r)
+            {
+                notes ([0, 4, 0], 1, tr (r), phrase ("Большая терция " + (r + 1)));
+                notes ([0, 3, 0], 1, tr (r), phrase ("Малая терция " + (r + 1)));
+                rest (2);
+            }
+            break;
 
         case "fifthLeaps":
             for (let r = 0; r < repeats; ++r) { notes ([0, 7 * sign, 0], 1, tr (r), phrase ("Квинта " + (r + 1))); rest (1); }
