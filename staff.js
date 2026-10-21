@@ -83,14 +83,17 @@ export function drawStaff (g, W, H, view)
     // A tapped reference note gets room too: it changes only when a key is tapped.
     if (view.reference) consider (view.reference.midi);
 
-    const nameRows = view.showNames ? 2 : 0;
     // The words over the staff take a band of their own, above anything on ledger lines.
-    const lyricRows = view.lyricsAbove ? 7 : 0;
+    // 4.5: the syllables' own height (1.15 s) and their gap above the top ledger (1.2 s), less MARGIN.
+    const lyricRows = view.lyricsAbove ? 4.5 : 0;
+    // Margins kept tight: every half-space saved makes the notes and the keys bigger.
+    // Above, a half-space and a bit; below, the names (gap, the name, a missed name) or the same bit.
+    const MARGIN = 1.5, below = view.showNames ? 5.2 : MARGIN;
     // Total height in half-spaces: staff = 8, plus overflows, plus margins.
     let halfSpaces;
-    if (defs.length === 2) halfSpaces = 8 + 8 + Math.max (6, under[0] + over[1] + 2) + over[0] + under[1] + 6;
-    else halfSpaces = 8 + over[0] + under[0] + 7;
-    halfSpaces += nameRows * 1.8 + lyricRows;
+    if (defs.length === 2) halfSpaces = 8 + 8 + Math.max (6, under[0] + over[1] + 2) + over[0] + under[1];
+    else halfSpaces = 8 + over[0] + under[0];
+    halfSpaces += MARGIN + below + lyricRows;
 
     // Line gap: fit the height, and no larger than the song's quick notes allow
     // (maxS, from the time axis) so their heads do not run into each other.
@@ -100,7 +103,7 @@ export function drawStaff (g, W, H, view)
 
     // Staff centre lines.
     // Room left over goes mostly above: no gap between the names and the screen's bottom.
-    const top = (H - halfSpaces * h) * 0.85 + (3 + over[0] + lyricRows) * h;
+    const top = (H - halfSpaces * h) * 0.85 + (MARGIN + over[0] + lyricRows) * h;
     const centres = [];
     centres[0] = top + 4 * h;
     if (defs.length === 2) centres[1] = centres[0] + 8 * h + Math.max (6, under[0] + over[1] + 2) * h;
