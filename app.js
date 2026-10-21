@@ -16,8 +16,10 @@ const DEFAULTS = {
     latencyMs: 0, song: "antsev-trisvyatoe-tenor", part: "T", view: "staff", tempo: 1, voice: "",
 };
 const VOICES = [["S", "сопрано"], ["A", "альт"], ["T", "тенор"], ["B", "бас"]];
-// Each voice's whole range: the keyboards and the free piano roll show all of it.
-const VOICE_RANGE = { S: [60, 84], A: [53, 77], T: [48, 72], B: [40, 64] };
+// Each voice's range in an Orthodox church choir (not opera): S C4-G5, A G3-C5, T C3-G4,
+// B F2-C4. The keyboards and the free piano roll show all of it; the staff's five lines
+// are always drawn whole, with their keys, even where the range ends inside them.
+const VOICE_RANGE = { S: [60, 79], A: [55, 72], T: [48, 67], B: [41, 60] };
 const voiceRange = () => VOICE_RANGE[S.voice] || VOICE_RANGE.T;
 const TOLERANCES = { performance: [50, 150], practice: [25, 100], precision: [10, 50] };
 
