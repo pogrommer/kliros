@@ -21,7 +21,8 @@ const VOICES = [["S", "сопрано"], ["A", "альт"], ["T", "тенор"],
 // are always drawn whole, with their keys, even where the range ends inside them.
 const VOICE_RANGE = { S: [60, 79], A: [55, 72], T: [48, 67], B: [41, 60] };
 const voiceRange = () => VOICE_RANGE[S.voice] || VOICE_RANGE.T;
-const VOICE_CLEF = { S: "treble", A: "treble", T: "treble8", B: "bass" };
+// Tenors usually read the bass clef (the user's choir), not the octave treble.
+const VOICE_CLEF = { S: "treble", A: "treble", T: "bass", B: "bass" };
 const TOLERANCES = { performance: [50, 150], practice: [25, 100], precision: [10, 50] };
 
 let S = { ...DEFAULTS };
@@ -1770,7 +1771,7 @@ function effectiveClef ()
 {
     if (S.clef !== "auto") return S.clef;
     // Free singing and exercises: the clef of the singer's voice type.
-    if (! chart || ! chart.notes.length || chart.exercise) return VOICE_CLEF[S.voice] || "treble8";
+    if (! chart || ! chart.notes.length || chart.exercise) return VOICE_CLEF[S.voice] || "bass";
     const part = VOICE_CLEF[chart.song?.part];
     if (part) return part;
     let lo = Infinity, hi = -Infinity;
