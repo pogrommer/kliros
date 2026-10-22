@@ -81,9 +81,9 @@
    "type": "normal",
    "syllable": "Го",
    "syllableRole": "wordStart",
+   "quarters": 1.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.5
+   "confidence": 1.0
   },
   {
    "id": 1,
@@ -94,9 +94,9 @@
    "type": "normal",
    "syllable": "спо",
    "syllableRole": "wordStart",
+   "quarters": 0.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 0.5
+   "confidence": 1.0
   },
   {
    "id": 2,
@@ -107,9 +107,9 @@
    "type": "normal",
    "syllable": "ди",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 3,
@@ -120,9 +120,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 4,
@@ -133,9 +133,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 5,
@@ -146,9 +146,9 @@
    "type": "normal",
    "syllable": null,
    "syllableRole": "melisma",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 6,
@@ -159,9 +159,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 7,
@@ -172,9 +172,9 @@
    "type": "normal",
    "syllable": "Го",
    "syllableRole": "wordStart",
+   "quarters": 1.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.5
+   "confidence": 1.0
   },
   {
    "id": 8,
@@ -185,9 +185,9 @@
    "type": "normal",
    "syllable": "спо",
    "syllableRole": "wordStart",
+   "quarters": 0.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 0.5
+   "confidence": 1.0
   },
   {
    "id": 9,
@@ -198,9 +198,9 @@
    "type": "normal",
    "syllable": "ди",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 10,
@@ -211,9 +211,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 11,
@@ -224,9 +224,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 12,
@@ -237,9 +237,9 @@
    "type": "normal",
    "syllable": null,
    "syllableRole": "melisma",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 13,
@@ -250,9 +250,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 14,
@@ -263,9 +263,9 @@
    "type": "normal",
    "syllable": "Го",
    "syllableRole": "wordStart",
+   "quarters": 1.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.5
+   "confidence": 1.0
   },
   {
    "id": 15,
@@ -276,9 +276,9 @@
    "type": "normal",
    "syllable": "спо",
    "syllableRole": "wordStart",
+   "quarters": 0.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 0.5
+   "confidence": 1.0
   },
   {
    "id": 16,
@@ -289,9 +289,9 @@
    "type": "normal",
    "syllable": "ди",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 17,
@@ -302,9 +302,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 18,
@@ -315,9 +315,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 19,
@@ -328,9 +328,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 20,
@@ -341,9 +341,9 @@
    "type": "normal",
    "syllable": "Го",
    "syllableRole": "wordStart",
+   "quarters": 1.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.5
+   "confidence": 1.0
   },
   {
    "id": 21,
@@ -354,9 +354,9 @@
    "type": "normal",
    "syllable": "спо",
    "syllableRole": "wordStart",
+   "quarters": 0.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 0.5
+   "confidence": 1.0
   },
   {
    "id": 22,
@@ -367,9 +367,9 @@
    "type": "normal",
    "syllable": "ди",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 23,
@@ -380,9 +380,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 24,
@@ -393,9 +393,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 25,
@@ -406,9 +406,9 @@
    "type": "normal",
    "syllable": null,
    "syllableRole": "melisma",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 26,
@@ -419,9 +419,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 27,
@@ -432,9 +432,9 @@
    "type": "normal",
    "syllable": "Го",
    "syllableRole": "wordStart",
+   "quarters": 1.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.5
+   "confidence": 1.0
   },
   {
    "id": 28,
@@ -445,9 +445,9 @@
    "type": "normal",
    "syllable": "спо",
    "syllableRole": "wordStart",
+   "quarters": 0.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 0.5
+   "confidence": 1.0
   },
   {
    "id": 29,
@@ -458,9 +458,9 @@
    "type": "normal",
    "syllable": "ди",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 30,
@@ -471,9 +471,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 31,
@@ -484,9 +484,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 32,
@@ -497,9 +497,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 33,
@@ -510,9 +510,9 @@
    "type": "normal",
    "syllable": "Те",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 34,
@@ -523,9 +523,9 @@
    "type": "normal",
    "syllable": "бе",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 35,
@@ -536,9 +536,9 @@
    "type": "normal",
    "syllable": null,
    "syllableRole": "melisma",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 36,
@@ -549,9 +549,9 @@
    "type": "normal",
    "syllable": null,
    "syllableRole": "melisma",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 37,
@@ -562,9 +562,9 @@
    "type": "normal",
    "syllable": "Гос",
    "syllableRole": "wordStart",
+   "quarters": 1.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.5
+   "confidence": 1.0
   },
   {
    "id": 38,
@@ -575,9 +575,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 0.5,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 0.5
+   "confidence": 1.0
   },
   {
    "id": 39,
@@ -588,9 +588,9 @@
    "type": "normal",
    "syllable": "ди",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   }
  ],
  "warnings": [],

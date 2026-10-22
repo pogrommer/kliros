@@ -578,7 +578,9 @@ async function refreshSongList ()
             byKey.get (key).parts.push ({ id: s.id, part: s.part || "", partName: s.partName || "" });
         }
         pieces = [...byKey.values()];
-        for (const p of pieces) p.parts.sort ((a, b) => PART_ORDER.indexOf (a.part) - PART_ORDER.indexOf (b.part));
+        // S, then S2 (a divided voice's second half), A, A2...
+        const order = (x) => PART_ORDER.indexOf ((x.part || "")[0]) * 2 + ((x.part || "").endsWith ("2") ? 1 : 0);
+        for (const p of pieces) p.parts.sort ((a, b) => order (a) - order (b));
         // Added on this phone first, then the newest letter; pieces without a letter after them, by name.
         pieces.sort ((a, b) => (b.local || 0) - (a.local || 0) || (b.date > a.date) - (b.date < a.date)
                                || a.label.localeCompare (b.label, "ru"));
@@ -1804,7 +1806,7 @@ function effectiveClef ()
     if (S.clef !== "auto") return S.clef;
     // Free singing and exercises: the clef of the singer's voice type.
     if (! chart || ! chart.notes.length || chart.exercise) return VOICE_CLEF[S.voice] || "bass";
-    const part = VOICE_CLEF[chart.song?.part];
+    const part = VOICE_CLEF[(chart.song?.part || "")[0]];       // "T2" (tenor II) reads as a tenor
     if (part) return part;
     let lo = Infinity, hi = -Infinity;
     for (const n of chart.notes) { lo = Math.min (lo, n.midi); hi = Math.max (hi, n.midi); }

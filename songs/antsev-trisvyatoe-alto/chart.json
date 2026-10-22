@@ -6,13 +6,13 @@
  },
  "song": {
   "id": "antsev-trisvyatoe-alto",
-  "title": "Трисвятое (Анцев) — альт",
+  "title": "Трисвятое (Анцев) — альт I",
   "artist": "М. Анцев, ор. 15",
   "piece": "antsev-trisvyatoe",
   "pieceTitle": "Трисвятое (Анцев)",
   "part": "A",
-  "partName": "альт",
-  "durationSeconds": 119.73,
+  "partName": "альт I",
+  "durationSeconds": 118.48,
   "referenceAudio": "stems/vocals.wav",
   "backingAudio": "backing.wav",
   "tuningHz": 440.0,
@@ -258,8 +258,8 @@
   {
    "id": 15,
    "startSeconds": 105.7303,
-   "endSeconds": 118.1703,
-   "text": "Свя тый Без смерт ный по ми  луй нас",
+   "endSeconds": 116.9203,
+   "text": "Свя тый Без смерт ный по ми луй нас",
    "noteIds": [
     113,
     114,
@@ -269,8 +269,7 @@
     118,
     119,
     120,
-    121,
-    122
+    121
    ]
   }
  ],
@@ -284,9 +283,9 @@
    "type": "normal",
    "syllable": "Гос",
    "syllableRole": "wordStart",
+   "quarters": 3.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 3.0
+   "confidence": 1.0
   },
   {
    "id": 1,
@@ -297,9 +296,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 2,
@@ -310,9 +309,9 @@
    "type": "normal",
    "syllable": "ди",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 0,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 3,
@@ -323,9 +322,9 @@
    "type": "normal",
    "syllable": "спа",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 4,
@@ -336,9 +335,9 @@
    "type": "normal",
    "syllable": "си",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 5,
@@ -349,9 +348,9 @@
    "type": "normal",
    "syllable": "бла",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 6,
@@ -362,9 +361,9 @@
    "type": "normal",
    "syllable": "го",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 7,
@@ -375,9 +374,9 @@
    "type": "normal",
    "syllable": "чес",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 8,
@@ -388,9 +387,9 @@
    "type": "normal",
    "syllable": "ти",
    "syllableRole": "wordStart",
+   "quarters": 3.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 3.0
+   "confidence": 1.0
   },
   {
    "id": 9,
@@ -401,9 +400,9 @@
    "type": "normal",
    "syllable": "вы",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 10,
@@ -414,9 +413,9 @@
    "type": "normal",
    "syllable": "я",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 11,
@@ -427,9 +426,9 @@
    "type": "normal",
    "syllable": "и",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 12,
@@ -440,9 +439,9 @@
    "type": "normal",
    "syllable": "у",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 13,
@@ -453,9 +452,9 @@
    "type": "normal",
    "syllable": "слы",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 14,
@@ -466,9 +465,9 @@
    "type": "normal",
    "syllable": "ши",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 15,
@@ -479,9 +478,9 @@
    "type": "normal",
    "syllable": "ны",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 1,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   },
   {
    "id": 16,
@@ -492,9 +491,9 @@
    "type": "normal",
    "syllable": "А",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 2,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 17,
@@ -505,9 +504,9 @@
    "type": "normal",
    "syllable": "минь",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 2,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   },
   {
    "id": 18,
@@ -518,9 +517,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 3,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 19,
@@ -531,9 +530,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 3,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 20,
@@ -544,9 +543,9 @@
    "type": "normal",
    "syllable": "Бо",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 3,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 21,
@@ -557,9 +556,9 @@
    "type": "normal",
    "syllable": "же",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 3,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 22,
@@ -570,9 +569,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 3,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 23,
@@ -583,9 +582,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 3,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 24,
@@ -596,9 +595,9 @@
    "type": "normal",
    "syllable": "Креп",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 3,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 25,
@@ -609,9 +608,9 @@
    "type": "normal",
    "syllable": "кий",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 3,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 26,
@@ -622,9 +621,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 27,
@@ -635,9 +634,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 28,
@@ -648,9 +647,9 @@
    "type": "normal",
    "syllable": "Без",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 29,
@@ -661,9 +660,9 @@
    "type": "normal",
    "syllable": "смерт",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 30,
@@ -674,9 +673,9 @@
    "type": "normal",
    "syllable": "ный",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 31,
@@ -687,9 +686,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 32,
@@ -700,9 +699,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 33,
@@ -713,9 +712,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 34,
@@ -726,9 +725,9 @@
    "type": "normal",
    "syllable": "нас",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 4,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   },
   {
    "id": 35,
@@ -739,9 +738,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 5,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 36,
@@ -752,9 +751,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 5,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 37,
@@ -765,9 +764,9 @@
    "type": "normal",
    "syllable": "Бо",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 5,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 38,
@@ -778,9 +777,9 @@
    "type": "normal",
    "syllable": "же",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 5,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 39,
@@ -791,9 +790,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 5,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 40,
@@ -804,9 +803,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 5,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 41,
@@ -817,9 +816,9 @@
    "type": "normal",
    "syllable": "Креп",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 5,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 42,
@@ -830,9 +829,9 @@
    "type": "normal",
    "syllable": "кий",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 5,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 43,
@@ -843,9 +842,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 44,
@@ -856,9 +855,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 45,
@@ -869,9 +868,9 @@
    "type": "normal",
    "syllable": "Без",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 46,
@@ -882,9 +881,9 @@
    "type": "normal",
    "syllable": "смерт",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 47,
@@ -895,9 +894,9 @@
    "type": "normal",
    "syllable": "ный",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 48,
@@ -908,9 +907,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 49,
@@ -921,9 +920,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 50,
@@ -934,9 +933,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 51,
@@ -947,9 +946,9 @@
    "type": "normal",
    "syllable": "нас",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 6,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   },
   {
    "id": 52,
@@ -960,9 +959,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 7,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 53,
@@ -973,9 +972,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 7,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 54,
@@ -986,9 +985,9 @@
    "type": "normal",
    "syllable": "Бо",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 7,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 55,
@@ -999,9 +998,9 @@
    "type": "normal",
    "syllable": "же",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 7,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 56,
@@ -1012,9 +1011,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 7,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 57,
@@ -1025,9 +1024,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 7,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 58,
@@ -1038,9 +1037,9 @@
    "type": "normal",
    "syllable": "Креп",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 7,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 59,
@@ -1051,9 +1050,9 @@
    "type": "normal",
    "syllable": "кий",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 7,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 60,
@@ -1064,9 +1063,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 61,
@@ -1077,9 +1076,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 62,
@@ -1090,9 +1089,9 @@
    "type": "normal",
    "syllable": "Без",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 63,
@@ -1103,9 +1102,9 @@
    "type": "normal",
    "syllable": "смерт",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 64,
@@ -1116,9 +1115,9 @@
    "type": "normal",
    "syllable": "ный",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 65,
@@ -1129,9 +1128,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 66,
@@ -1142,9 +1141,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 67,
@@ -1155,9 +1154,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 68,
@@ -1168,9 +1167,9 @@
    "type": "normal",
    "syllable": "нас",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 8,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   },
   {
    "id": 69,
@@ -1181,9 +1180,9 @@
    "type": "normal",
    "syllable": "Сла",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 70,
@@ -1194,9 +1193,9 @@
    "type": "normal",
    "syllable": "ва",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 71,
@@ -1207,9 +1206,9 @@
    "type": "normal",
    "syllable": "От",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 72,
@@ -1220,9 +1219,9 @@
    "type": "normal",
    "syllable": "цу",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 73,
@@ -1233,9 +1232,9 @@
    "type": "normal",
    "syllable": "и",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 74,
@@ -1246,9 +1245,9 @@
    "type": "normal",
    "syllable": "Сы",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 75,
@@ -1259,9 +1258,9 @@
    "type": "normal",
    "syllable": "ну",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 76,
@@ -1272,9 +1271,9 @@
    "type": "normal",
    "syllable": "и",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 77,
@@ -1285,9 +1284,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 78,
@@ -1298,9 +1297,9 @@
    "type": "normal",
    "syllable": "то",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   },
   {
    "id": 79,
@@ -1311,9 +1310,9 @@
    "type": "normal",
    "syllable": "му",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 80,
@@ -1324,9 +1323,9 @@
    "type": "normal",
    "syllable": "Ду",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 81,
@@ -1337,9 +1336,9 @@
    "type": "normal",
    "syllable": "ху",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 9,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 82,
@@ -1350,9 +1349,9 @@
    "type": "normal",
    "syllable": "и",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 10,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 83,
@@ -1363,9 +1362,9 @@
    "type": "normal",
    "syllable": "ны",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 10,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 84,
@@ -1376,9 +1375,9 @@
    "type": "normal",
    "syllable": "не",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 10,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 85,
@@ -1389,9 +1388,9 @@
    "type": "normal",
    "syllable": "и",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 86,
@@ -1402,9 +1401,9 @@
    "type": "normal",
    "syllable": "прис",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 87,
@@ -1415,9 +1414,9 @@
    "type": "normal",
    "syllable": "но",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 88,
@@ -1428,9 +1427,9 @@
    "type": "normal",
    "syllable": "и",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 89,
@@ -1441,9 +1440,9 @@
    "type": "normal",
    "syllable": "во",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 90,
@@ -1454,9 +1453,9 @@
    "type": "normal",
    "syllable": "ве",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 91,
@@ -1467,9 +1466,9 @@
    "type": "normal",
    "syllable": "ки",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 92,
@@ -1480,9 +1479,9 @@
    "type": "normal",
    "syllable": "ве",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 93,
@@ -1493,9 +1492,9 @@
    "type": "normal",
    "syllable": "ков",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 94,
@@ -1506,9 +1505,9 @@
    "type": "normal",
    "syllable": "А",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 95,
@@ -1519,9 +1518,9 @@
    "type": "normal",
    "syllable": "минь",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 11,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   },
   {
    "id": 96,
@@ -1532,9 +1531,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 97,
@@ -1545,9 +1544,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 98,
@@ -1558,9 +1557,9 @@
    "type": "normal",
    "syllable": "Без",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 99,
@@ -1571,9 +1570,9 @@
    "type": "normal",
    "syllable": "смерт",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 100,
@@ -1584,9 +1583,9 @@
    "type": "normal",
    "syllable": "ный",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 101,
@@ -1597,9 +1596,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 102,
@@ -1610,9 +1609,9 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 103,
@@ -1623,9 +1622,9 @@
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 104,
@@ -1636,9 +1635,9 @@
    "type": "normal",
    "syllable": "нас",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 12,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   },
   {
    "id": 105,
@@ -1649,9 +1648,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 13,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 106,
@@ -1662,9 +1661,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 13,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 107,
@@ -1675,9 +1674,9 @@
    "type": "normal",
    "syllable": "Бо",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 13,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 108,
@@ -1688,9 +1687,9 @@
    "type": "normal",
    "syllable": "же",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 13,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 109,
@@ -1701,9 +1700,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 14,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 110,
@@ -1714,9 +1713,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 14,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 111,
@@ -1727,9 +1726,9 @@
    "type": "normal",
    "syllable": "Креп",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 14,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 112,
@@ -1740,9 +1739,9 @@
    "type": "normal",
    "syllable": "кий",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 14,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 113,
@@ -1753,9 +1752,9 @@
    "type": "normal",
    "syllable": "Свя",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 114,
@@ -1766,9 +1765,9 @@
    "type": "normal",
    "syllable": "тый",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 115,
@@ -1779,9 +1778,9 @@
    "type": "normal",
    "syllable": "Без",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 116,
@@ -1792,9 +1791,9 @@
    "type": "normal",
    "syllable": "смерт",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 117,
@@ -1805,9 +1804,9 @@
    "type": "normal",
    "syllable": "ный",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 118,
@@ -1818,9 +1817,9 @@
    "type": "normal",
    "syllable": "по",
    "syllableRole": "wordStart",
+   "quarters": 1.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 1.0
+   "confidence": 1.0
   },
   {
    "id": 119,
@@ -1831,48 +1830,35 @@
    "type": "normal",
    "syllable": "ми",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
    "id": 120,
    "startSeconds": 111.3553,
-   "durationSeconds": 1.19,
-   "midi": 65,
-   "centsOffset": 0.0,
-   "type": "normal",
-   "syllable": null,
-   "syllableRole": "melisma",
-   "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 2.0
-  },
-  {
-   "id": 121,
-   "startSeconds": 112.6053,
    "durationSeconds": 1.19,
    "midi": 67,
    "centsOffset": 0.0,
    "type": "normal",
    "syllable": "луй",
    "syllableRole": "wordStart",
+   "quarters": 2.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 2.0
+   "confidence": 1.0
   },
   {
-   "id": 122,
-   "startSeconds": 113.8553,
+   "id": 121,
+   "startSeconds": 112.6053,
    "durationSeconds": 4.315,
    "midi": 65,
    "centsOffset": 0.0,
    "type": "normal",
    "syllable": "нас",
    "syllableRole": "wordStart",
+   "quarters": 4.0,
    "phraseId": 15,
-   "confidence": 1.0,
-   "quarters": 4.0
+   "confidence": 1.0
   }
  ],
  "warnings": [],
@@ -1924,8 +1910,8 @@
   105.1053,
   107.6053,
   110.1053,
-  113.8553,
-  118.2303
+  112.6053,
+  116.9803
  ],
  "meter": [
   {
@@ -1974,14 +1960,6 @@
   },
   {
    "timeSeconds": 80.6053,
-   "quarters": 4.0
-  },
-  {
-   "timeSeconds": 110.1053,
-   "quarters": 6.0
-  },
-  {
-   "timeSeconds": 113.8553,
    "quarters": 4.0
   }
  ]

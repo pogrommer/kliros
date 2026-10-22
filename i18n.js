@@ -18,6 +18,8 @@ const EN = {
     "Ключ": "Clef", "Подсказка (пианино / голос)": "Guide (piano / voice)", "Подсказка": "Guide", "Микрофон": "Microphone",
     "Старт": "Start", "Стоп": "Stop",
     "Сопрано": "Soprano", "Альт": "Alto", "Тенор": "Tenor", "Бас": "Bass",
+    "Сопрано I": "Soprano I", "Сопрано II": "Soprano II", "Альт I": "Alto I", "Альт II": "Alto II",
+    "Тенор I": "Tenor I", "Тенор II": "Tenor II", "Бас I": "Bass I", "Бас II": "Bass II",
     // Song sheet
     "Песня": "Song", "Готово": "Done", "Поиск: название, автор, слова, дата письма": "Search: title, composer, words, letter date",
     "Загрузить с устройства (zip)…": "Load from device (zip)…", "Справка": "Help", "Что за файл": "What file",
