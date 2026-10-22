@@ -1346,6 +1346,11 @@ let staffKeys = [], pressed = null;
 const pressedMidi = () => pressed && performance.now() < pressed.until ? pressed.midi : null;
 const inKey = (k, x, y) => x >= k.x && x <= k.x + k.w && y >= k.y && y <= k.y + k.h;
 // A black key lies over the white ones, so it is tried first.
+// The staff's keyboard starts folded in упражнение and композиция (the notes want
+// the room there), open in свободный; a tap on the tab or the clef flips it, per mode, until reload.
+const kbOpen = {};
+const kbMode = () => S.mode === "drill" ? "exercise" : S.mode;
+const kbFolded = () => ! (kbOpen[kbMode()] ?? S.mode === "free");
 const keyAt = (keys, x, y) => keys.find (k => k.black && inKey (k, x, y)) || keys.find (k => ! k.black && inKey (k, x, y));
 // A pointer in the canvas's own coordinates, from the bounding box: offsetX/Y come
 // out scaled under browser zoom. A turned #app (upright phone) swaps the box's sides.
@@ -1401,7 +1406,7 @@ function drawStaffPanel (now)
     {
         chart.notes.forEach ((n, i) => {
             const x = xOf (n.startSeconds), x1 = xOf (n.startSeconds + n.durationSeconds);
-            if (x1 < gutter - 40 || x > W + 20) return;
+            if (x1 < gutter - 40 || x > W * 1.6) return;   // the staff pulls its time axis left
             const st = noteStats[i];
             const past = now > n.startSeconds + n.durationSeconds;
             // Judged as the drill judges it: the voice was on it, and in tune for half of it.
@@ -1427,7 +1432,7 @@ function drawStaffPanel (now)
         liveView = { midi: Math.round (live.smooth), cents, colour: cents == null ? "#9ad" : colourFor (cents) };
     }
 
-    staffKeys = drawStaff (g, W, H, { mode: effectiveClef(), showNames: S.names, notes, bars, nowX, live: liveView, pressed: pressedMidi(), reference: reference(),
+    staffKeys = drawStaff (g, W, H, { mode: effectiveClef(), kbFolded: kbFolded(), showNames: S.names, notes, bars, nowX, live: liveView, pressed: pressedMidi(), reference: reference(),
                           range: staffRange(), label, maxS: quickGap() * pps / 1.5, lyricsAbove: words, meter: meterAt (now) });
 
     // Readout under the staff.
@@ -1767,17 +1772,20 @@ function buildForm ()
         playKey (pitchOfRow (Math.round (viewLow + (cv.clientHeight - y) * viewSpan / cv.clientHeight)));
     });
     $("staff").addEventListener ("pointerdown", (ev) => {
-        const k = keyAt (staffKeys, ...canvasXY ($("staff"), ev));
+        const [x, y] = canvasXY ($("staff"), ev);
+        if (staffKeys.toggle && inKey (staffKeys.toggle, x, y)) { kbOpen[kbMode()] = kbFolded(); return; }
+        const k = keyAt (staffKeys, x, y);
         if (k) playKey (k.midi);
     });
 
     // Tap a note on the staff to hear it. offsetX is in the canvas's own (possibly
     // turned) coordinates; back through the time axis to the nearest note.
     $("staff").addEventListener ("click", async (ev) => {
-        if (running || ! chart || keyAt (staffKeys, ...canvasXY ($("staff"), ev))) return;
+        const xy = canvasXY ($("staff"), ev);
+        if (running || ! chart || keyAt (staffKeys, ...xy) || (staffKeys.toggle && inKey (staffKeys.toggle, ...xy))) return;
         try { await ensureContext(); } catch (e) { $("status").textContent = e.message; return; }
         const { pps, nowX } = laneGeometry ($("staff").clientWidth);
-        const t = lastChartNow + (ev.offsetX - nowX) / pps;
+        const t = lastChartNow + (xy[0] - nowX - (staffKeys.dx || 0)) / pps;
         let n = null;
         for (const x of chart.notes)
             if (! n || Math.abs (x.startSeconds + 0.1 - t) < Math.abs (n.startSeconds + 0.1 - t)) n = x;

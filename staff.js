@@ -66,7 +66,7 @@ export function drawStaff (g, W, H, view)
 {
     g.clearRect (0, 0, W, H);
     const defs = staffDefs (view.mode);
-    const items = view.notes || [];
+    let items = view.notes || [];
 
     // Vertical extent needed beyond the staff, in diatonic steps.
     let over = [0, 0], under = [0, 0];
@@ -110,8 +110,16 @@ export function drawStaff (g, W, H, view)
 
     const meterW = view.meter ? s * 1.9 : 0;
     // A short piano keyboard stands on its side left of the clef, a key per staff step.
-    const kbW = s * 2.9;
-    const clefW = s * 3.4, left = kbW + s * 0.5, right = W - s * 0.6, x0 = left + clefW + meterW;
+    // Folded (view.kbFolded) it is a narrow tab that opens it.
+    const kbW = view.kbFolded ? s * 0.9 : s * 2.34;
+    const clefW = s * 2.4, left = kbW + s * 0.3, right = W - s * 0.6, x0 = left + clefW + meterW;
+    // The play line comes in close behind the clef: the piano roll's two seconds of
+    // history are dead room on the staff, a past note or two is enough. Everything
+    // in time moves left by dx (keys.dx tells a tap where the time axis went).
+    const dx = view.nowX != null ? Math.min (0, x0 + s * 2.5 - view.nowX) : 0;
+    const nowX = view.nowX != null ? view.nowX + dx : null;
+    if (dx) items = items.map (n => ({ ...n, x: n.x + dx, x1: n.x1 + dx }));
+    const bars = (view.bars || []).map (bx => bx + dx);
     const yFor = (staff, d) => centres[staff] - (d - defs[staff].mid) * h;
     const yTop = centres[0] - 2 * s, yBot = centres[centres.length - 1] + 2 * s;
 
@@ -132,7 +140,7 @@ export function drawStaff (g, W, H, view)
 
     // Barlines, through both staves of a grand staff.
     g.lineWidth = Math.max (1, s * 0.1);
-    for (const bx of view.bars || [])
+    for (const bx of bars)
     {
         if (bx < x0 - 2 || bx > right) continue;
         const x = Math.round (bx) + 0.5;
@@ -221,9 +229,9 @@ export function drawStaff (g, W, H, view)
     // A reference note (a tapped key) on the play line, where nothing else is to be sung:
     // a whole note, white; on a hit its head alone turns green, nothing drawn over it.
     const ref = view.reference && ! items.some (n => n.state === "active") ? view.reference : null;
-    if (ref && view.nowX != null)
+    if (ref && nowX != null)
     {
-        const x = view.nowX + s * 1.6, p = place (view.mode, ref.midi);
+        const x = nowX + s * 1.6, p = place (view.mode, ref.midi);
         drawLedgers (g, defs, p, x, s, centres, h);
         // A hit fills the head: the round lights up green.
         if (ref.hit) drawHead (g, x, yFor (p.staff, p.d), s, COLOURS.good, true, false, true);
@@ -239,19 +247,19 @@ export function drawStaff (g, W, H, view)
 
     // The voice where there is no note to sing: on the play line.
     // Against a reference note it is a ring over it, as over a note being sung.
-    if (view.live && ! items.some (n => n.state === "active") && view.nowX != null && ! (ref && ref.hit))
+    if (view.live && ! items.some (n => n.state === "active") && nowX != null && ! (ref && ref.hit))
     {
-        const x = view.nowX + s * (ref ? 1.6 : 0.62), p = place (view.mode, view.live.midi);
+        const x = nowX + s * (ref ? 1.6 : 0.62), p = place (view.mode, view.live.midi);
         drawLedgers (g, defs, p, x, s, centres, h);
         drawHead (g, x, yFor (p.staff, p.d), s * (ref ? 1.05 : 1), view.live.colour, ! ref, false, true);
         if (isSharp (view.live.midi)) drawSharp (g, x - s * 1.1, yFor (p.staff, p.d), s * 0.8, view.live.colour);
     }
 
     // Play line, the same as the piano roll's.
-    if (view.nowX != null)
+    if (nowX != null)
     {
         g.strokeStyle = "#8a8a96"; g.lineWidth = 1.5;
-        g.beginPath(); g.moveTo (view.nowX, yTop - 2 * h); g.lineTo (view.nowX, yBot + 2 * h); g.stroke();
+        g.beginPath(); g.moveTo (nowX, yTop - 2 * h); g.lineTo (nowX, yBot + 2 * h); g.stroke();
     }
     g.restore();
 
@@ -266,8 +274,9 @@ export function drawStaff (g, W, H, view)
             const y = Math.round (centres[i] + k * s) + 0.5;
             g.beginPath(); g.moveTo (left, y); g.lineTo (x0, y); g.stroke();
         }
-        if (def.clef === "G") drawTrebleClef (g, left + s * 0.5, centres[i] + s, s, def.eight);
-        else                  drawBassClef   (g, left + s * 0.4, centres[i] - s, s);
+        // Clefs a little under engraving size: they only name the lines, the room goes to the notes.
+        if (def.clef === "G") drawTrebleClef (g, left + s * 0.5, centres[i] + s, s * 0.8, def.eight);
+        else                  drawBassClef   (g, left + s * 0.25, centres[i] - s, s * 0.7);
         if (view.meter) drawMeter (g, left + clefW + meterW / 2, centres[i], s, view.meter);
     });
     if (defs.length === 2)
@@ -275,9 +284,25 @@ export function drawStaff (g, W, H, view)
         g.beginPath(); g.moveTo (left + 0.5, yTop); g.lineTo (left + 0.5, yBot); g.stroke();
     }
 
+    // keys.toggle: where a tap folds or opens the keyboard — the tab, or the clef.
+    if (view.kbFolded)
+    {
+        const x = s * 0.25, y = yTop - s, hh = yBot - yTop + 2 * s;
+        g.fillStyle = "#2a2a32"; g.fillRect (x, y, kbW, hh);
+        g.fillStyle = "#8c8c98"; g.font = `400 ${Math.round (s * 0.9)}px -apple-system, system-ui, sans-serif`;
+        g.textAlign = "center"; g.textBaseline = "middle";
+        g.fillText ("»", x + kbW / 2, (yTop + yBot) / 2);
+        const keys = [];
+        keys.toggle = { x: 0, y, w: left, h: hh };
+        keys.dx = dx;
+        return keys;
+    }
     const active = items.find (n => n.state === "active");
-    return drawKeyboard (g, view, defs, centres, s, h, kbW, H, over, under, name,
-                         active ? active.midi : ref ? ref.midi : null, view.live ? view.live : null);
+    const keys = drawKeyboard (g, view, defs, centres, s, h, kbW, H, over, under, name,
+                               active ? active.midi : ref ? ref.midi : null, view.live ? view.live : null);
+    keys.toggle = { x: left, y: yTop - s, w: clefW, h: yBot - yTop + 2 * s };
+    keys.dx = dx;
+    return keys;
 }
 
 // The keyboard turned on its side: low notes at the bottom, the black keys at
@@ -289,7 +314,7 @@ const WHITE = [0, 2, 4, 5, 7, 9, 11];
 function drawKeyboard (g, view, defs, centres, s, h, kbW, H, over, under, name, target, live)
 {
     const keys = [];
-    const x = s * 0.25, bw = kbW * 0.58, shift = view.mode === "treble8" ? 12 : 0;
+    const x = s * 0.25, bw = s * 1.12, shift = view.mode === "treble8" ? 12 : 0;
     const midiAt = (d) => (Math.floor (d / 7) + 1) * 12 + WHITE[((d % 7) + 7) % 7] - shift;
     const fill = (m) => view.pressed === m ? "#F0E442" : live && live.midi === m ? live.colour : target === m ? COLOURS.active : null;
     const fs = Math.max (7, Math.min (h * 1.0, s * 0.9));
