@@ -146,6 +146,10 @@ export function buildPattern (spec)
     const sign = spec.descending ? -1 : 1;
     const phrase = (label) => { labels.push (label); return labels.length - 1; };
     const notes = (offsets, beats, transpose, ph) => { for (const o of offsets) events.push ({ offset: o + transpose, beats, phrase: ph }); };
+    // Each note its own length: [[offset, beats], ...].
+    const seq = (pairs, transpose, ph) => { for (const [o, beats] of pairs) events.push ({ offset: o + transpose, beats, phrase: ph }); };
+    // For beginners (2026-10-22): a leap's TARGET note is held twice as long - time to find
+    // it and settle - and every phrase is followed by a breath (at least two beats).
     const rest = (beats) => events.push ({ beats, rest: true });
 
     const climb = climbSteps (spec);
@@ -154,7 +158,8 @@ export function buildPattern (spec)
     switch (spec.kind)
     {
         case "sustainedTone":
-            for (let r = 0; r < repeats; ++r) { notes ([0], 8, tr (r), phrase ("Долгая нота " + (r + 1))); rest (4); }
+            // 6 beats: at the beginners' 56 bpm about as long as the old 8 at 72.
+            for (let r = 0; r < repeats; ++r) { notes ([0], 6, tr (r), phrase ("Долгая нота " + (r + 1))); rest (4); }
             break;
 
         case "majorScale": case "minorScale": case "pentatonicScale": case "chromaticScale":
@@ -167,9 +172,11 @@ export function buildPattern (spec)
             for (let r = 0; r < repeats; ++r)
             {
                 const sfx = repeats > 1 ? " " + (r + 1) : "";
-                notes (up, 1, tr (r), phrase ("Вверх" + sfx));
-                notes (down, 1, tr (r), phrase ("Вниз" + sfx));
-                rest (2);
+                // The chromatic scale is too long for one breath both ways: halves, a breath between.
+                const halves = spec.kind === "chromaticScale" ? (a) => [a.slice (0, 7), a.slice (7)] : (a) => [a];
+                for (const part of halves (up))   { notes (part, 1, tr (r), phrase ("Вверх" + sfx)); rest (1); }
+                for (const part of halves (down)) { notes (part, 1, tr (r), phrase ("Вниз" + sfx)); rest (1); }
+                rest (1);
             }
             break;
         }
@@ -179,7 +186,7 @@ export function buildPattern (spec)
             break;
 
         case "fiveNoteRun":
-            for (let r = 0; r < repeats; ++r) { notes ([0,2,4,2,0], 1, tr (r), phrase ("Пробег " + (r + 1))); rest (1); }
+            for (let r = 0; r < repeats; ++r) { notes ([0,2,4,2,0], 1, tr (r), phrase ("Пробег " + (r + 1))); rest (2); }
             break;
 
         case "tenorNineNote": case "tenorG3toD4": case "tenorDescFive": case "tenorPassaggio": case "tenorOctaveArp":
@@ -205,8 +212,11 @@ export function buildPattern (spec)
             for (let r = 0; r < repeats; ++r)
             {
                 const sfx = repeats > 1 ? " " + (r + 1) : "";
-                notes (up, 1, tr (r), phrase ("Терции вверх" + sfx));
-                notes ([...down, 0], 1, tr (r), phrase ("Терции вниз" + sfx));
+                // Three thirds to a breath: 1-3 2-4 3-5 | 4-6 5-7 6-8, and the same down.
+                notes (up.slice (0, 6), 1, tr (r), phrase ("Терции вверх" + sfx)); rest (1);
+                notes (up.slice (6), 1, tr (r), phrase ("Терции вверх" + sfx));    rest (1);
+                notes (down.slice (0, 6), 1, tr (r), phrase ("Терции вниз" + sfx)); rest (1);
+                notes ([...down.slice (6), 0], 1, tr (r), phrase ("Терции вниз" + sfx));
                 rest (2);
             }
             break;
@@ -215,25 +225,26 @@ export function buildPattern (spec)
         case "thirdLeaps":
             for (let r = 0; r < repeats; ++r)
             {
-                notes ([0, 4, 0], 1, tr (r), phrase ("Большая терция " + (r + 1)));
-                notes ([0, 3, 0], 1, tr (r), phrase ("Малая терция " + (r + 1)));
+                seq ([[0, 1], [4, 2], [0, 1]], tr (r), phrase ("Большая терция " + (r + 1)));
+                rest (1);
+                seq ([[0, 1], [3, 2], [0, 1]], tr (r), phrase ("Малая терция " + (r + 1)));
                 rest (2);
             }
             break;
 
         case "fifthLeaps":
-            for (let r = 0; r < repeats; ++r) { notes ([0, 7 * sign, 0], 1, tr (r), phrase ("Квинта " + (r + 1))); rest (1); }
+            for (let r = 0; r < repeats; ++r) { seq ([[0, 1], [7 * sign, 2], [0, 1]], tr (r), phrase ("Квинта " + (r + 1))); rest (2); }
             break;
 
         case "octaveLeaps":
-            for (let r = 0; r < repeats; ++r) { notes ([0, 12 * sign, 0], 2, tr (r), phrase ("Октава " + (r + 1))); rest (2); }
+            for (let r = 0; r < repeats; ++r) { seq ([[0, 2], [12 * sign, 4], [0, 2]], tr (r), phrase ("Октава " + (r + 1))); rest (2); }
             break;
 
         case "intervalDrill":
             for (let r = 0; r < repeats; ++r)
                 for (let i = 1; i <= 12; ++i)
                 {
-                    notes ([0, i * sign, 0], 1, tr (r), phrase (INTERVALS[i]));
+                    seq ([[0, 1], [i * sign, 2], [0, 1]], tr (r), phrase (INTERVALS[i]));
                     rest (2);
                 }
             break;

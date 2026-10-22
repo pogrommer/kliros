@@ -11,7 +11,7 @@ import { readPackage, saveSongs, getSong, deleteSong, hasSong, listSongs as list
 //==============================================================================
 // Settings, remembered per device.
 const DEFAULTS = {
-    mode: "free", kind: "tenorG3toD4", root: 55, bpm: 72, length: "medium", labels: "fixed",
+    mode: "free", kind: "tenorG3toD4", root: 55, bpm: 56, length: "medium", labels: "fixed",
     clef: "auto", names: true, tolerance: "practice", guide: true, guideVol: 0.8, backVol: 0.8,
     latencyMs: 0, song: "antsev-trisvyatoe-tenor", part: "T", view: "staff", tempo: 1, voice: "",
 };
@@ -33,6 +33,8 @@ const save = () => { try { localStorage.setItem ("vt-web", JSON.stringify (S)); 
 if (! S.clefAutoSet) { S.clef = "auto"; S.clefAutoSet = true; save(); }
 // Once: notes OR piano roll, the notes by default (2026-10-20).
 if (! S.viewSet) { S.view = "staff"; S.viewSet = true; save(); }
+// Once: exercises for beginners go slower, 56 instead of 72 (2026-10-22); a tempo chosen by hand stays.
+if (! S.bpmSet) { if (S.bpm === 72) S.bpm = 56; S.bpmSet = true; save(); }
 // Once: the app opens in free singing (2026-10-22), a phone that had a song saved too.
 if (! S.freeSet) { S.mode = "free"; S.freeSet = true; save(); }
 // A drill lives only in memory: after a reload, back to what it was made from.
