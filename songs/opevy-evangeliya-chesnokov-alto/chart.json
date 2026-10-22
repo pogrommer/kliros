@@ -1,0 +1,200 @@
+{
+ "schemaVersion": "1.0",
+ "generator": {
+  "name": "pdf_score_to_chart",
+  "lyricSource": "manual"
+ },
+ "song": {
+  "id": "opevy-evangeliya-chesnokov-alto",
+  "title": "Опевы Евангелия (Чесноков) — альт",
+  "artist": "П. Чесноков",
+  "piece": "opevy-evangeliya-chesnokov",
+  "pieceTitle": "Опевы Евангелия (Чесноков)",
+  "part": "A",
+  "partName": "альт",
+  "durationSeconds": 16.5,
+  "referenceAudio": "stems/vocals.wav",
+  "backingAudio": "backing.wav",
+  "tuningHz": 440.0,
+  "vocalRangeMidi": {
+   "min": 65,
+   "max": 65
+  }
+ },
+ "phrases": [
+  {
+   "id": 0,
+   "startSeconds": 3.0,
+   "endSeconds": 14.94,
+   "text": "Сла ва Те бе Гос по ди сла ва Те бе",
+   "noteIds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ]
+  }
+ ],
+ "notes": [
+  {
+   "id": 0,
+   "startSeconds": 3.0,
+   "durationSeconds": 1.44,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "Сла",
+   "syllableRole": "wordStart",
+   "quarters": 3.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 1,
+   "startSeconds": 4.5,
+   "durationSeconds": 0.44,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "ва",
+   "syllableRole": "wordStart",
+   "quarters": 1.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 2,
+   "startSeconds": 5.0,
+   "durationSeconds": 0.44,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "Те",
+   "syllableRole": "wordStart",
+   "quarters": 1.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 3,
+   "startSeconds": 5.5,
+   "durationSeconds": 0.44,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "бе",
+   "syllableRole": "wordStart",
+   "quarters": 1.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 4,
+   "startSeconds": 6.0,
+   "durationSeconds": 0.94,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "Гос",
+   "syllableRole": "wordStart",
+   "quarters": 2.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 5,
+   "startSeconds": 7.0,
+   "durationSeconds": 0.94,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "по",
+   "syllableRole": "wordStart",
+   "quarters": 2.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 6,
+   "startSeconds": 8.0,
+   "durationSeconds": 0.94,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "ди",
+   "syllableRole": "wordStart",
+   "quarters": 2.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 7,
+   "startSeconds": 9.0,
+   "durationSeconds": 1.94,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "сла",
+   "syllableRole": "wordStart",
+   "quarters": 4.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 8,
+   "startSeconds": 11.0,
+   "durationSeconds": 0.94,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "ва",
+   "syllableRole": "wordStart",
+   "quarters": 2.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 9,
+   "startSeconds": 12.0,
+   "durationSeconds": 0.94,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "Те",
+   "syllableRole": "wordStart",
+   "quarters": 2.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 10,
+   "startSeconds": 13.0,
+   "durationSeconds": 1.94,
+   "midi": 65,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "бе",
+   "syllableRole": "wordStart",
+   "quarters": 4.0,
+   "phraseId": 0,
+   "confidence": 1.0
+  }
+ ],
+ "warnings": [],
+ "barSeconds": [
+  15.0
+ ],
+ "meter": [
+  {
+   "timeSeconds": 3.0,
+   "quarters": 24.0
+  }
+ ]
+}

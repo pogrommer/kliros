@@ -18,6 +18,7 @@
   "pieceTitle": "Трисвятое (Анцев)",
   "part": "A",
   "partName": "альт",
+  "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
   "chart": "songs/antsev-trisvyatoe-alto/chart.json",
   "backing": "songs/antsev-trisvyatoe-alto/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-alto/reference.mp3"
@@ -41,6 +42,7 @@
   "pieceTitle": "Трисвятое (Анцев)",
   "part": "B",
   "partName": "бас",
+  "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
   "chart": "songs/antsev-trisvyatoe-bass/chart.json",
   "backing": "songs/antsev-trisvyatoe-bass/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-bass/reference.mp3"
@@ -64,6 +66,7 @@
   "pieceTitle": "Трисвятое (Анцев)",
   "part": "S",
   "partName": "сопрано",
+  "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
   "chart": "songs/antsev-trisvyatoe-soprano/chart.json",
   "backing": "songs/antsev-trisvyatoe-soprano/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-soprano/reference.mp3"
@@ -87,6 +90,7 @@
   "pieceTitle": "Трисвятое (Анцев)",
   "part": "T",
   "partName": "тенор",
+  "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
   "chart": "songs/antsev-trisvyatoe-tenor/chart.json",
   "backing": "songs/antsev-trisvyatoe-tenor/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-tenor/reference.mp3"
@@ -109,6 +113,7 @@
   "pieceTitle": "Благослови",
   "part": "A",
   "partName": "альт",
+  "pdf": "songs/pdf/blagoslovi.pdf",
   "chart": "songs/blagoslovi-alto/chart.json",
   "backing": "songs/blagoslovi-alto/backing.mp3",
   "reference": "songs/blagoslovi-alto/reference.mp3"
@@ -131,6 +136,7 @@
   "pieceTitle": "Благослови",
   "part": "B",
   "partName": "бас",
+  "pdf": "songs/pdf/blagoslovi.pdf",
   "chart": "songs/blagoslovi-bass/chart.json",
   "backing": "songs/blagoslovi-bass/backing.mp3",
   "reference": "songs/blagoslovi-bass/reference.mp3"
@@ -153,6 +159,7 @@
   "pieceTitle": "Благослови",
   "part": "S",
   "partName": "сопрано",
+  "pdf": "songs/pdf/blagoslovi.pdf",
   "chart": "songs/blagoslovi-soprano/chart.json",
   "backing": "songs/blagoslovi-soprano/backing.mp3",
   "reference": "songs/blagoslovi-soprano/reference.mp3"
@@ -175,9 +182,102 @@
   "pieceTitle": "Благослови",
   "part": "T",
   "partName": "тенор",
+  "pdf": "songs/pdf/blagoslovi.pdf",
   "chart": "songs/blagoslovi-tenor/chart.json",
   "backing": "songs/blagoslovi-tenor/backing.mp3",
   "reference": "songs/blagoslovi-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Сла ва Отцу и Сыну и Святому Духу и ныне и присно и во веки ве ков А минь Е ди но род ный Сы не Бо жий без смер тен сый на ше го ра ди Бо го ро ди цы не пре лож но во че ло ве чи вый ся Хрис те Бо же смер ти ю смерть по пра вый е дин сый Свя ты я Тро и цы спро слав ля е мый От цу и Свя то му Ду ху спа си нас Гос по ди по ми луй Гос по ди по ми луй Те бе Гос по ди А минь",
+  "id": "imamutdinov-edinorodnyy-syne-alto",
+  "title": "Единородный Сыне — альт",
+  "artist": "Р. Имамутдинов",
+  "durationSeconds": 114.0,
+  "range": {
+   "min": 58,
+   "max": 67
+  },
+  "piece": "imamutdinov-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/imamutdinov-edinorodnyy-syne.pdf",
+  "chart": "songs/imamutdinov-edinorodnyy-syne-alto/chart.json",
+  "backing": "songs/imamutdinov-edinorodnyy-syne-alto/backing.mp3",
+  "reference": "songs/imamutdinov-edinorodnyy-syne-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Сла ва Отцу и Сыну и Святому Духу и ныне и присно и во веки ве ков А минь Е ди но род ный Сы не и Сло ве Бо жий без смер тен сый и из во ли вый спа се ни я на ше го ра ди Бо го ро ди цы не пре лож но во че ло ве чи вый ся Хрис те Бо же смер ти ю смерть по пра вый е дин сый Свя ты я Тро и цы спро слав ля е мый От цу и Свя то му Ду ху спа си  нас Гос по ди по ми луй Гос по ди по ми луй Те бе Гос по ди А минь",
+  "id": "imamutdinov-edinorodnyy-syne-bass",
+  "title": "Единородный Сыне — бас",
+  "artist": "Р. Имамутдинов",
+  "durationSeconds": 114.0,
+  "range": {
+   "min": 41,
+   "max": 56
+  },
+  "piece": "imamutdinov-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/imamutdinov-edinorodnyy-syne.pdf",
+  "chart": "songs/imamutdinov-edinorodnyy-syne-bass/chart.json",
+  "backing": "songs/imamutdinov-edinorodnyy-syne-bass/backing.mp3",
+  "reference": "songs/imamutdinov-edinorodnyy-syne-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Сла ва Отцу и Сыну и Святому Духу и ныне и присно и во веки ве ков А минь Е ди но род ный Сы не и Сло ве Бо жий без смер тен сый и из во ли вый спа се ни я на ше го ра ди во пло ти ти ся от свя ты я Бо го ро ди цы и Прис но Де вы Ма ри и не пре лож но во че ло ве чи вый ся рас пный ся же Хрис те Бо же смер ти ю смерть по пра вый е дин сый Свя ты я Тро и цы спро слав ля е мый От цу и Свя то му Ду ху спа си  нас Гос по ди по ми луй Гос по ди по ми луй Те бе Гос по ди А минь",
+  "id": "imamutdinov-edinorodnyy-syne-soprano",
+  "title": "Единородный Сыне — сопрано",
+  "artist": "Р. Имамутдинов",
+  "durationSeconds": 114.0,
+  "range": {
+   "min": 63,
+   "max": 73
+  },
+  "piece": "imamutdinov-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/imamutdinov-edinorodnyy-syne.pdf",
+  "chart": "songs/imamutdinov-edinorodnyy-syne-soprano/chart.json",
+  "backing": "songs/imamutdinov-edinorodnyy-syne-soprano/backing.mp3",
+  "reference": "songs/imamutdinov-edinorodnyy-syne-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Сла ва Отцу и Сыну и Святому Духу и ныне и присно и во веки ве ков А минь Е ди но род ный Сы не Бо жий без смер тен сый на ше го ра ди во пло ти ти ся от свя ты я Бо го ро ди цы и Прис но Де вы Ма ри и не пре лож но во че ло ве чи вый ся рас пный ся же Хрис те Бо же смер ти ю смерть по пра вый е дин сый Свя ты я Тро и цы спро слав ля е мый От цу и Свя то му Ду ху спа си  нас Гос по ди по ми луй Гос по ди по ми луй Те бе Гос по ди А минь",
+  "id": "imamutdinov-edinorodnyy-syne-tenor",
+  "title": "Единородный Сыне — тенор",
+  "artist": "Р. Имамутдинов",
+  "durationSeconds": 114.0,
+  "range": {
+   "min": 51,
+   "max": 61
+  },
+  "piece": "imamutdinov-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/imamutdinov-edinorodnyy-syne.pdf",
+  "chart": "songs/imamutdinov-edinorodnyy-syne-tenor/chart.json",
+  "backing": "songs/imamutdinov-edinorodnyy-syne-tenor/backing.mp3",
+  "reference": "songs/imamutdinov-edinorodnyy-syne-tenor/reference.mp3"
  },
  {
   "mail": {
@@ -197,6 +297,7 @@
   "pieceTitle": "Приидите, поклонимся",
   "part": "A",
   "partName": "альт",
+  "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
   "chart": "songs/imamutdinov-priidite-poklonimsya-alto/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-alto/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-alto/reference.mp3"
@@ -219,6 +320,7 @@
   "pieceTitle": "Приидите, поклонимся",
   "part": "B",
   "partName": "бас",
+  "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
   "chart": "songs/imamutdinov-priidite-poklonimsya-bass/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-bass/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-bass/reference.mp3"
@@ -241,6 +343,7 @@
   "pieceTitle": "Приидите, поклонимся",
   "part": "S",
   "partName": "сопрано",
+  "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
   "chart": "songs/imamutdinov-priidite-poklonimsya-soprano/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-soprano/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-soprano/reference.mp3"
@@ -263,9 +366,102 @@
   "pieceTitle": "Приидите, поклонимся",
   "part": "T",
   "partName": "тенор",
+  "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
   "chart": "songs/imamutdinov-priidite-poklonimsya-tenor/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-tenor/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "До  стой  но  есть я ко во ис ти ну бла  жи    ти  Тя  Бо го ро  ди  цу При  сно бла жен ну  ю и Пре не по роч ну ю и  Ма терь Бо  га  Бо га на  ше  го Чест  ней шу  ю  Хе ру вим     и Слав ней шу ю  без срав не ни я Се ра фим без ис тле  ни  я Бо га Сло ва рожд шу ю су щу ю Бо го ро ди  цу  Тя  ве ли ча  ем",
+  "id": "ivanov-dostoyno-est-alto",
+  "title": "Достойно есть — альт",
+  "artist": "А. Иванов",
+  "durationSeconds": 81.084,
+  "range": {
+   "min": 60,
+   "max": 70
+  },
+  "piece": "ivanov-dostoyno-est",
+  "pieceTitle": "Достойно есть",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/ivanov-dostoyno-est.pdf",
+  "chart": "songs/ivanov-dostoyno-est-alto/chart.json",
+  "backing": "songs/ivanov-dostoyno-est-alto/backing.mp3",
+  "reference": "songs/ivanov-dostoyno-est-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "До  стой   но есть я  ко во ис ти ну  бла  жи   ти Тя Бо го ро ди цу При  сно бла жен ну ю  и Пре не по роч ну ю  и  Ма терь Бо га  Бо га на  ше го без ис тле   ни я  Бо га Сло ва рожд шу ю  су щу ю Бо го ро ди цу Тя ве ли ча ем",
+  "id": "ivanov-dostoyno-est-bass",
+  "title": "Достойно есть — бас",
+  "artist": "А. Иванов",
+  "durationSeconds": 81.084,
+  "range": {
+   "min": 45,
+   "max": 57
+  },
+  "piece": "ivanov-dostoyno-est",
+  "pieceTitle": "Достойно есть",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/ivanov-dostoyno-est.pdf",
+  "chart": "songs/ivanov-dostoyno-est-bass/chart.json",
+  "backing": "songs/ivanov-dostoyno-est-bass/backing.mp3",
+  "reference": "songs/ivanov-dostoyno-est-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "До  стой   но  есть я  ко во ис ти  ну бла  жи   ти  Тя Бо го ро ди цу При  сно бла жен ну  ю  и Пре не по роч ну  ю и Ма терь Бо  га Бо га на ше го Чест ней   шу  ю  Хе ру вим    и Слав  ней шу ю без срав не ни я Се ра фим без ис тле   ни  я  Бо га Сло ва рожд шу  ю су щу ю Бо го ро ди цу  Тя  ве ли ча ем",
+  "id": "ivanov-dostoyno-est-soprano",
+  "title": "Достойно есть — сопрано",
+  "artist": "А. Иванов",
+  "durationSeconds": 81.084,
+  "range": {
+   "min": 65,
+   "max": 74
+  },
+  "piece": "ivanov-dostoyno-est",
+  "pieceTitle": "Достойно есть",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/ivanov-dostoyno-est.pdf",
+  "chart": "songs/ivanov-dostoyno-est-soprano/chart.json",
+  "backing": "songs/ivanov-dostoyno-est-soprano/backing.mp3",
+  "reference": "songs/ivanov-dostoyno-est-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "До  стой  но  есть я ко во ис ти ну бла жи   ти Тя  Бо го ро ди цу При  сно бла жен ну  ю и Пре не по роч ну ю и Ма терь Бо  га Бо га на  ше го Чест  ней   шу ю Хе ру вим    и  Слав  ней шу ю   без  срав не ни я Се ра фим  без ис тле  ни  я Бо га Сло ва рожд шу ю су щу ю Бо го ро ди цу Тя  ве ли ча ем",
+  "id": "ivanov-dostoyno-est-tenor",
+  "title": "Достойно есть — тенор",
+  "artist": "А. Иванов",
+  "durationSeconds": 81.084,
+  "range": {
+   "min": 53,
+   "max": 65
+  },
+  "piece": "ivanov-dostoyno-est",
+  "pieceTitle": "Достойно есть",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/ivanov-dostoyno-est.pdf",
+  "chart": "songs/ivanov-dostoyno-est-tenor/chart.json",
+  "backing": "songs/ivanov-dostoyno-est-tenor/backing.mp3",
+  "reference": "songs/ivanov-dostoyno-est-tenor/reference.mp3"
  },
  {
   "mail": {
@@ -285,6 +481,7 @@
   "pieceTitle": "Хвалите Господа с небес",
   "part": "A",
   "partName": "альт",
+  "pdf": "songs/pdf/khvalite-gospoda-s-nebes.pdf",
   "chart": "songs/khvalite-gospoda-s-nebes-alto/chart.json",
   "backing": "songs/khvalite-gospoda-s-nebes-alto/backing.mp3",
   "reference": "songs/khvalite-gospoda-s-nebes-alto/reference.mp3"
@@ -307,6 +504,7 @@
   "pieceTitle": "Хвалите Господа с небес",
   "part": "B",
   "partName": "бас",
+  "pdf": "songs/pdf/khvalite-gospoda-s-nebes.pdf",
   "chart": "songs/khvalite-gospoda-s-nebes-bass/chart.json",
   "backing": "songs/khvalite-gospoda-s-nebes-bass/backing.mp3",
   "reference": "songs/khvalite-gospoda-s-nebes-bass/reference.mp3"
@@ -329,6 +527,7 @@
   "pieceTitle": "Хвалите Господа с небес",
   "part": "S",
   "partName": "сопрано",
+  "pdf": "songs/pdf/khvalite-gospoda-s-nebes.pdf",
   "chart": "songs/khvalite-gospoda-s-nebes-soprano/chart.json",
   "backing": "songs/khvalite-gospoda-s-nebes-soprano/backing.mp3",
   "reference": "songs/khvalite-gospoda-s-nebes-soprano/reference.mp3"
@@ -351,9 +550,942 @@
   "pieceTitle": "Хвалите Господа с небес",
   "part": "T",
   "partName": "тенор",
+  "pdf": "songs/pdf/khvalite-gospoda-s-nebes.pdf",
   "chart": "songs/khvalite-gospoda-s-nebes-tenor/chart.json",
   "backing": "songs/khvalite-gospoda-s-nebes-tenor/backing.mp3",
   "reference": "songs/khvalite-gospoda-s-nebes-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ве ру ю во единаго Бога Отца Все дер жи  те ля Твор ца небу и земли, видимым же всем и не ви      ди мым И во единаго Господа Иисуса Хри ста Сы на Бо жи я  Е динороднаго, Иже от Отца рожден на го преж де всех век Све та от Света, Бога истинна от Бо га ис      тин на рож денна, несотворенна, единосущна От цу Им же вся бы ша  Нас ради, человек, и нашего ради спасени я сшед ша го с не бес и воплотившагося от Духа Свята и Марии Девы, и во че ло веч      ша ся Рас пятаго же за ны при Пон тий стем Пи ла те  и стра дав ша, и погребенна. И воскресшаго в третий день по Пи са   ни ем И возшедшаго на небеса, и седяща о дес ну     ю От ца И паки грядущаго со славою судити живым и мертвым, Егоже Царст ви ю не бу дет кон ца  И в Духа Святаго, Господа Животворящаго, иже от От ца ис хо дя  ща го И же со Отцем и Сыном спокланяема и сславима, глаголавшаго про ро        ки Во е ди ну Святую, Соборную и Апос толь ску ю Цер ковь  И споведую едино крещение во ос тав ле ни е гре хов Ча ю воскресе ни я мерт       вых и жиз ни бу ду ща го ве ка А минь",
+  "id": "kievskiy-simvol-very-alto",
+  "title": "Символ веры — альт",
+  "artist": "Киевский распев",
+  "durationSeconds": 179.489,
+  "range": {
+   "min": 63,
+   "max": 71
+  },
+  "piece": "kievskiy-simvol-very",
+  "pieceTitle": "Символ веры",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "chart": "songs/kievskiy-simvol-very-alto/chart.json",
+  "backing": "songs/kievskiy-simvol-very-alto/backing.mp3",
+  "reference": "songs/kievskiy-simvol-very-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ве ру ю во единаго Бога Отца Все дер жи  те ля  Твор ца небу и земли, видимым же всем и не ви  ди мым И во единаго Господа Иисуса Хри ста Сы на Бо жи я  Е динороднаго, Иже от Отца рожден на го преж де всех век  Све та от Света, Бога истинна от Бо га ис  тин на рож денна, несотворенна, единосущна От цу Им же вся бы ша  Нас ради, человек, и нашего ради спасени я сшед ша го с не бес  и воплотившагося от Духа Свята и Марии Девы, и во че ло веч  ша ся Рас пятаго же за ны при Пон тий стем Пи ла те  и стра дав ша, и погребенна. И воскресшаго в третий день по Пи са   ни ем  И возшедшаго на небеса, и седяща о дес ну ю От ца И паки грядущаго со славою судити живым и мертвым, Егоже Царст ви ю не бу дет кон ца  И в Духа Святаго, Господа Животворящаго, иже от От ца ис хо дя  ща го  И же со Отцем и Сыном спокланяема и сславима, глаголавшаго про ро    ки Во е ди ну Святую, Соборную и Апос толь ску ю Цер ковь  И споведую едино крещение во ос тав ле ни е гре хов  Ча ю воскресе ни я мерт   вых и жиз ни бу ду ща го ве ка А минь",
+  "id": "kievskiy-simvol-very-bass",
+  "title": "Символ веры — бас",
+  "artist": "Киевский распев",
+  "durationSeconds": 179.489,
+  "range": {
+   "min": 47,
+   "max": 55
+  },
+  "piece": "kievskiy-simvol-very",
+  "pieceTitle": "Символ веры",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "chart": "songs/kievskiy-simvol-very-bass/chart.json",
+  "backing": "songs/kievskiy-simvol-very-bass/backing.mp3",
+  "reference": "songs/kievskiy-simvol-very-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ве ру ю во единаго Бога Отца Все дер жи  те ля  Твор ца небу и земли, видимым же всем и не ви      ди мым И во единаго Господа Иисуса Хри ста Сы на Бо жи я  Е динороднаго, Иже от Отца рожден на го преж де всех век  Све та от Света, Бога истинна от Бо га ис      тин на рож денна, несотворенна, единосущна От цу Им же вся бы ша  Нас ради, человек, и нашего ради спасени я сшед ша го с не бес  и воплотившагося от Духа Свята и Марии Девы, и во че ло веч      ша ся Рас пятаго же за ны при Пон тий стем Пи ла те  и стра дав ша, и погребенна. И воскресшаго в третий день по Пи са   ни ем  И возшедшаго на небеса, и седяща о дес ну     ю От ца И паки грядущаго со славою судити живым и мертвым, Егоже Царст ви ю не бу дет кон ца  И в Духа Святаго, Господа Животворящаго, иже от От ца ис хо дя  ща го  И же со Отцем и Сыном спокланяема и сславима, глаголавшаго про ро        ки Во е ди ну Святую, Соборную и Апос толь ску ю Цер ковь  И споведую едино крещение во ос тав ле ни е гре хов  Ча ю воскресе ни я мерт       вых и жиз ни бу ду ща го ве ка А минь",
+  "id": "kievskiy-simvol-very-soprano",
+  "title": "Символ веры — сопрано",
+  "artist": "Киевский распев",
+  "durationSeconds": 179.489,
+  "range": {
+   "min": 66,
+   "max": 74
+  },
+  "piece": "kievskiy-simvol-very",
+  "pieceTitle": "Символ веры",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "chart": "songs/kievskiy-simvol-very-soprano/chart.json",
+  "backing": "songs/kievskiy-simvol-very-soprano/backing.mp3",
+  "reference": "songs/kievskiy-simvol-very-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ве ру ю во единаго Бога Отца Все дер жи те ля  Твор ца небу и земли, видимым же всем и не ви ди мым И во единаго Господа Иисуса Хри ста Сы на Бо жи я  Е динороднаго, Иже от Отца рожден на го преж де всех век  Све та от Света, Бога истинна от Бо га ис тин на рож денна, несотворенна, единосущна От цу Им же вся бы ша  Нас ради, человек, и нашего ради спасени я сшед ша го с не бес  и воплотившагося от Духа Свята и Марии Девы, и во че ло веч  ша ся Рас пятаго же за ны при Пон тий стем Пи ла те  и стра дав ша, и погребенна. И воскресшаго в третий день по Пи са  ни ем  И возшедшаго на небеса, и седяща о дес ну ю От ца И паки грядущаго со славою судити живым и мертвым, Егоже Царст ви ю не бу дет кон ца  И в Духа Святаго, Господа Животворящаго, иже от От ца ис хо дя ща го  И же со Отцем и Сыном спокланяема и сславима, глаголавшаго про ро  ки Во е ди ну Святую, Соборную и Апос толь ску ю Цер ковь  И споведую едино крещение во ос тав ле ни е гре хов  Ча ю воскресе ни я мерт вых и жиз ни бу ду ща го ве ка А минь",
+  "id": "kievskiy-simvol-very-tenor",
+  "title": "Символ веры — тенор",
+  "artist": "Киевский распев",
+  "durationSeconds": 179.489,
+  "range": {
+   "min": 59,
+   "max": 62
+  },
+  "piece": "kievskiy-simvol-very",
+  "pieceTitle": "Символ веры",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "chart": "songs/kievskiy-simvol-very-tenor/chart.json",
+  "backing": "songs/kievskiy-simvol-very-tenor/backing.mp3",
+  "reference": "songs/kievskiy-simvol-very-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ми лость ми ра жерт   ву хва ле ни я И со ду хом тво им И ма мы ко Го спо ду До стой  но и пра вед но есть по кла ня ти ся От цу  и Сы ну и Свя то му Ду ху Трой це Е ди но сущ ней и Не раз дель  ней Свят  Свят Свят Го  сподь  Го сподь Свят Го сподь Са ва оф ис полнь не бо и зем ля   ис полнь  сла вы сла      вы Тво е я О сан на  в вы  шних о сан на в вы шних бла го вен гря дый во И мя  Го спод не О сан на в вы  шних А минь А минь Те бе по ем Те бе бла го сло вим   Те бе   бла го да рим  Гос по ди и  мо лим ти  ся Бо   же Бо  же наш",
+  "id": "nikolskiy-milost-mira-alto",
+  "title": "Милость мира — альт",
+  "artist": "А. Никольский",
+  "durationSeconds": 264.595,
+  "range": {
+   "min": 59,
+   "max": 69
+  },
+  "piece": "nikolskiy-milost-mira",
+  "pieceTitle": "Милость мира",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "chart": "songs/nikolskiy-milost-mira-alto/chart.json",
+  "backing": "songs/nikolskiy-milost-mira-alto/backing.mp3",
+  "reference": "songs/nikolskiy-milost-mira-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ми лость ми ра жерт ву хва ле  ни я И со ду хом тво им И ма мы ко Го спо ду До стой но и пра вед но есть по кла ня ти ся От цу и Сы ну и Свя то му Ду ху Трой це Е ди но сущ ней и Не  раз  дель    ней Свят  Свят    Свят    Свят  Го  сподь Свят Го сподь Са ва оф ис  полнь ис полнь не бо и зем ля   сла   вы Тво е я сан на в вы шних о сан на в вы шних бла го вен гря дый во И мя  Го спод не О сан на в вы   шних А минь А минь Те бе по ем Те бе бла го сло вим  Те бе   бла го да рим  Гос по ди и мо лим ти ся Бо же наш",
+  "id": "nikolskiy-milost-mira-bass",
+  "title": "Милость мира — бас",
+  "artist": "А. Никольский",
+  "durationSeconds": 264.595,
+  "range": {
+   "min": 42,
+   "max": 59
+  },
+  "piece": "nikolskiy-milost-mira",
+  "pieceTitle": "Милость мира",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "chart": "songs/nikolskiy-milost-mira-bass/chart.json",
+  "backing": "songs/nikolskiy-milost-mira-bass/backing.mp3",
+  "reference": "songs/nikolskiy-milost-mira-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ми лость  ми ра жерт ву хва ле  ни я И со ду хом тво им И ма мы ко Го спо ду До стой  но и пра вед но есть по кла ня ти ся От цу и Сы ну и Свя то му Ду ху Трой це Е ди  но  сущ ней и Не  раз дель    ней Свят    Свят Го сподь Са ва  оф   ис полнь не бо и зем ля   сла      вы Тво е я  сла    вы Тво е я О сан на в вы  шних о сан   на в вы шних бла го сло вен гря дый во И мя  Го спод не О сан на в вы    шних А минь А минь Те бе по  ем Те бе бла го сло вим   Те бе   бла го да рим  Гос по ди и  мо  лим ти  ся Бо же Бо  же наш",
+  "id": "nikolskiy-milost-mira-soprano",
+  "title": "Милость мира — сопрано",
+  "artist": "А. Никольский",
+  "durationSeconds": 264.595,
+  "range": {
+   "min": 61,
+   "max": 76
+  },
+  "piece": "nikolskiy-milost-mira",
+  "pieceTitle": "Милость мира",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "chart": "songs/nikolskiy-milost-mira-soprano/chart.json",
+  "backing": "songs/nikolskiy-milost-mira-soprano/backing.mp3",
+  "reference": "songs/nikolskiy-milost-mira-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ми лость ми ра жерт   ву хва ле  ни я И со ду хом тво им И ма мы ко Го спо ду До стой но и пра вед но есть по кла ня ти ся От цу и Сы ну и Свя то му Ду ху Трой це Е ди но сущ ней и Не  раз  дель  ней Свят Свят Свят    Свят Го сподь  Го  сподь Са ва оф ис полнь не бо и зем ля сла вы сла    вы Тво е я О сан на в вы шних о сан на в вы шних бла го вен гря дый во И мя  Го спод не О сан  на в вы    шних А минь А минь Те бе по ем Те бе бла го сло вим  Те бе   бла го да рим  Гос по ди и мо  лим ти ся  Бо  же Бо же Бо же наш",
+  "id": "nikolskiy-milost-mira-tenor",
+  "title": "Милость мира — тенор",
+  "artist": "А. Никольский",
+  "durationSeconds": 264.595,
+  "range": {
+   "min": 52,
+   "max": 66
+  },
+  "piece": "nikolskiy-milost-mira",
+  "pieceTitle": "Милость мира",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "chart": "songs/nikolskiy-milost-mira-tenor/chart.json",
+  "backing": "songs/nikolskiy-milost-mira-tenor/backing.mp3",
+  "reference": "songs/nikolskiy-milost-mira-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ви де хом свет ис тин ный при я хом Ду ха Не бес на го об ре то хом ве ру ис ти ну ю Не раз дель ней Тро и це по кла ня ем ся Та бо нас спа сла   есть А минь Да ис пол нят ся ус та на ша хва ле ни я Тво е го Гос по ди я ко да по ем сла ву Тво ю я ко спо до бил е си нас при час ти ти ся Свя тым Тво им Бо жест вен ным без смерт ным и жи во тво ря щим Тай ном со блю ди нас во Тво ей свя ты ни весь день по у ча ти ся прав де Тво ей Ал ли лу и я Ал ли лу и я Ал ли лу   и я Гос по ди по ми луй Гос по ди по ми  луй Те бе Гос по ди А минь    О и ме ни Гос под ни Гос по ди по  ми луй Гос по ди по ми  луй",
+  "id": "obikhod-okonchanie-liturgii-alto",
+  "title": "Окончание литургии — альт",
+  "artist": "Обиход (Р. Имамутдинов)",
+  "durationSeconds": 153.0,
+  "range": {
+   "min": 60,
+   "max": 69
+  },
+  "piece": "obikhod-okonchanie-liturgii",
+  "pieceTitle": "Окончание литургии",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/obikhod-okonchanie-liturgii.pdf",
+  "chart": "songs/obikhod-okonchanie-liturgii-alto/chart.json",
+  "backing": "songs/obikhod-okonchanie-liturgii-alto/backing.mp3",
+  "reference": "songs/obikhod-okonchanie-liturgii-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ви де хом свет ис тин ный при я хом Ду ха Не бес на го об ре то хом ве ру ис ти ну ю Не раз дель ней Тро и це по кла ня ем ся Та бо нас спа сла   есть А минь Да ис пол нят ся ус та на ша хва ле ни я Тво е го Гос по ди я ко да по ем сла ву Тво ю я ко спо до бил е си нас при час ти ти ся Свя тым Тво им Бо жест вен ным без смерт ным и жи во тво ря щим Тай ном со блю ди нас во Тво ей свя ты ни весь день по у ча ти ся прав де Тво ей Ал ли лу и я Ал ли лу и я Ал ли лу   и я Гос по ди по ми луй Гос по ди по ми  луй Те бе  Гос по ди А  минь     О и ме ни Гос под ни Гос по ди по ми  луй Гос по ди по ми  луй",
+  "id": "obikhod-okonchanie-liturgii-bass",
+  "title": "Окончание литургии — бас",
+  "artist": "Обиход (Р. Имамутдинов)",
+  "durationSeconds": 153.0,
+  "range": {
+   "min": 40,
+   "max": 52
+  },
+  "piece": "obikhod-okonchanie-liturgii",
+  "pieceTitle": "Окончание литургии",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/obikhod-okonchanie-liturgii.pdf",
+  "chart": "songs/obikhod-okonchanie-liturgii-bass/chart.json",
+  "backing": "songs/obikhod-okonchanie-liturgii-bass/backing.mp3",
+  "reference": "songs/obikhod-okonchanie-liturgii-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ви де хом свет ис тин ный при я хом Ду ха Не бес на го об ре то хом ве ру ис ти ну ю Не раз дель ней Тро и це по кла ня ем ся Та бо нас спа сла   есть А минь Да ис пол нят ся ус та на ша хва ле ни я Тво е го Гос по ди я ко да по ем сла ву Тво ю я ко спо до бил е си нас при час ти ти ся Свя тым Тво им Бо жест вен ным без смерт ным и жи во тво ря щим Тай ном со блю ди нас во Тво ей свя ты ни весь день по у ча ти ся прав де Тво ей Ал ли лу и я Ал ли лу и я Ал ли лу   и я Гос по ди по ми луй Гос по ди по ми  луй Те бе Гос по ди А минь    О и ме ни Гос под ни Гос по ди по  ми  луй Гос по ди по  ми  луй",
+  "id": "obikhod-okonchanie-liturgii-soprano",
+  "title": "Окончание литургии — сопрано",
+  "artist": "Обиход (Р. Имамутдинов)",
+  "durationSeconds": 153.0,
+  "range": {
+   "min": 69,
+   "max": 76
+  },
+  "piece": "obikhod-okonchanie-liturgii",
+  "pieceTitle": "Окончание литургии",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/obikhod-okonchanie-liturgii.pdf",
+  "chart": "songs/obikhod-okonchanie-liturgii-soprano/chart.json",
+  "backing": "songs/obikhod-okonchanie-liturgii-soprano/backing.mp3",
+  "reference": "songs/obikhod-okonchanie-liturgii-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Ви де хом свет ис тин ный при я хом Ду ха Не бес на го об ре то хом ве ру ис ти ну ю Не раз дель ней Тро и це по кла ня ем ся Та бо нас спа сла   есть А минь Да ис пол нят ся ус та на ша хва ле ни я Тво е го Гос по ди я ко да по ем сла ву Тво ю я ко спо до бил е си нас при час ти ти ся Свя тым Тво им Бо жест вен ным без смерт ным и жи во тво ря щим Тай ном со блю ди нас во Тво ей свя ты ни весь день по у ча ти ся прав де Тво ей Ал ли лу и я Ал ли лу и я Ал ли лу   и я Гос по ди по ми луй Гос по ди по ми  луй Те бе  Гос по ди А  минь    О и ме ни Гос под ни Гос по ди по ми  луй Гос по ди по  ми  луй",
+  "id": "obikhod-okonchanie-liturgii-tenor",
+  "title": "Окончание литургии — тенор",
+  "artist": "Обиход (Р. Имамутдинов)",
+  "durationSeconds": 153.0,
+  "range": {
+   "min": 52,
+   "max": 60
+  },
+  "piece": "obikhod-okonchanie-liturgii",
+  "pieceTitle": "Окончание литургии",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/obikhod-okonchanie-liturgii.pdf",
+  "chart": "songs/obikhod-okonchanie-liturgii-tenor/chart.json",
+  "backing": "songs/obikhod-okonchanie-liturgii-tenor/backing.mp3",
+  "reference": "songs/obikhod-okonchanie-liturgii-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла ва Те бе Гос по ди сла ва Те бе",
+  "id": "opevy-evangeliya-chesnokov-alto",
+  "title": "Опевы Евангелия (Чесноков) — альт",
+  "artist": "П. Чесноков",
+  "durationSeconds": 16.5,
+  "range": {
+   "min": 65,
+   "max": 65
+  },
+  "piece": "opevy-evangeliya-chesnokov",
+  "pieceTitle": "Опевы Евангелия (Чесноков)",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/opevy-evangeliya-chesnokov.pdf",
+  "chart": "songs/opevy-evangeliya-chesnokov-alto/chart.json",
+  "backing": "songs/opevy-evangeliya-chesnokov-alto/backing.mp3",
+  "reference": "songs/opevy-evangeliya-chesnokov-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла ва Те бе Гос по ди сла ва Те бе",
+  "id": "opevy-evangeliya-chesnokov-bass",
+  "title": "Опевы Евангелия (Чесноков) — бас",
+  "artist": "П. Чесноков",
+  "durationSeconds": 16.5,
+  "range": {
+   "min": 46,
+   "max": 53
+  },
+  "piece": "opevy-evangeliya-chesnokov",
+  "pieceTitle": "Опевы Евангелия (Чесноков)",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/opevy-evangeliya-chesnokov.pdf",
+  "chart": "songs/opevy-evangeliya-chesnokov-bass/chart.json",
+  "backing": "songs/opevy-evangeliya-chesnokov-bass/backing.mp3",
+  "reference": "songs/opevy-evangeliya-chesnokov-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла ва Те бе Гос по ди сла ва Те бе",
+  "id": "opevy-evangeliya-chesnokov-soprano",
+  "title": "Опевы Евангелия (Чесноков) — сопрано",
+  "artist": "П. Чесноков",
+  "durationSeconds": 16.5,
+  "range": {
+   "min": 65,
+   "max": 70
+  },
+  "piece": "opevy-evangeliya-chesnokov",
+  "pieceTitle": "Опевы Евангелия (Чесноков)",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/opevy-evangeliya-chesnokov.pdf",
+  "chart": "songs/opevy-evangeliya-chesnokov-soprano/chart.json",
+  "backing": "songs/opevy-evangeliya-chesnokov-soprano/backing.mp3",
+  "reference": "songs/opevy-evangeliya-chesnokov-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла ва Те бе Гос по ди сла ва Те бе",
+  "id": "opevy-evangeliya-chesnokov-tenor",
+  "title": "Опевы Евангелия (Чесноков) — тенор",
+  "artist": "П. Чесноков",
+  "durationSeconds": 16.5,
+  "range": {
+   "min": 60,
+   "max": 63
+  },
+  "piece": "opevy-evangeliya-chesnokov",
+  "pieceTitle": "Опевы Евангелия (Чесноков)",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/opevy-evangeliya-chesnokov.pdf",
+  "chart": "songs/opevy-evangeliya-chesnokov-tenor/chart.json",
+  "backing": "songs/opevy-evangeliya-chesnokov-tenor/backing.mp3",
+  "reference": "songs/opevy-evangeliya-chesnokov-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла  ва Те бе Гос по ди сла  ва Те бе",
+  "id": "opevy-evangeliya-lavrskoe-alto",
+  "title": "Опевы Евангелия (Лаврское) — альт",
+  "artist": "Лаврское",
+  "durationSeconds": 16.5,
+  "range": {
+   "min": 60,
+   "max": 65
+  },
+  "piece": "opevy-evangeliya-lavrskoe",
+  "pieceTitle": "Опевы Евангелия (Лаврское)",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/opevy-evangeliya-lavrskoe.pdf",
+  "chart": "songs/opevy-evangeliya-lavrskoe-alto/chart.json",
+  "backing": "songs/opevy-evangeliya-lavrskoe-alto/backing.mp3",
+  "reference": "songs/opevy-evangeliya-lavrskoe-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла  ва Те бе Гос по ди сла  ва Те бе",
+  "id": "opevy-evangeliya-lavrskoe-bass",
+  "title": "Опевы Евангелия (Лаврское) — бас",
+  "artist": "Лаврское",
+  "durationSeconds": 16.5,
+  "range": {
+   "min": 46,
+   "max": 55
+  },
+  "piece": "opevy-evangeliya-lavrskoe",
+  "pieceTitle": "Опевы Евангелия (Лаврское)",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/opevy-evangeliya-lavrskoe.pdf",
+  "chart": "songs/opevy-evangeliya-lavrskoe-bass/chart.json",
+  "backing": "songs/opevy-evangeliya-lavrskoe-bass/backing.mp3",
+  "reference": "songs/opevy-evangeliya-lavrskoe-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла    ва Те бе Гос по ди сла       ва Те бе",
+  "id": "opevy-evangeliya-lavrskoe-soprano",
+  "title": "Опевы Евангелия (Лаврское) — сопрано",
+  "artist": "Лаврское",
+  "durationSeconds": 16.5,
+  "range": {
+   "min": 65,
+   "max": 70
+  },
+  "piece": "opevy-evangeliya-lavrskoe",
+  "pieceTitle": "Опевы Евангелия (Лаврское)",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/opevy-evangeliya-lavrskoe.pdf",
+  "chart": "songs/opevy-evangeliya-lavrskoe-soprano/chart.json",
+  "backing": "songs/opevy-evangeliya-lavrskoe-soprano/backing.mp3",
+  "reference": "songs/opevy-evangeliya-lavrskoe-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла    ва Те бе Гос по ди сла       ва Те бе",
+  "id": "opevy-evangeliya-lavrskoe-tenor",
+  "title": "Опевы Евангелия (Лаврское) — тенор",
+  "artist": "Лаврское",
+  "durationSeconds": 16.5,
+  "range": {
+   "min": 57,
+   "max": 62
+  },
+  "piece": "opevy-evangeliya-lavrskoe",
+  "pieceTitle": "Опевы Евангелия (Лаврское)",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/opevy-evangeliya-lavrskoe.pdf",
+  "chart": "songs/opevy-evangeliya-lavrskoe-tenor/chart.json",
+  "backing": "songs/opevy-evangeliya-lavrskoe-tenor/backing.mp3",
+  "reference": "songs/opevy-evangeliya-lavrskoe-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла ва Те бе Гос по ди сла ва Те бе",
+  "id": "opevy-evangeliya-obikhod-alto",
+  "title": "Опевы Евангелия (Обиход) — альт",
+  "artist": "Обиход",
+  "durationSeconds": 14.5,
+  "range": {
+   "min": 64,
+   "max": 65
+  },
+  "piece": "opevy-evangeliya-obikhod",
+  "pieceTitle": "Опевы Евангелия (Обиход)",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/opevy-evangeliya-obikhod.pdf",
+  "chart": "songs/opevy-evangeliya-obikhod-alto/chart.json",
+  "backing": "songs/opevy-evangeliya-obikhod-alto/backing.mp3",
+  "reference": "songs/opevy-evangeliya-obikhod-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла ва Те бе Гос по ди сла ва Те бе",
+  "id": "opevy-evangeliya-obikhod-bass",
+  "title": "Опевы Евангелия (Обиход) — бас",
+  "artist": "Обиход",
+  "durationSeconds": 14.5,
+  "range": {
+   "min": 46,
+   "max": 53
+  },
+  "piece": "opevy-evangeliya-obikhod",
+  "pieceTitle": "Опевы Евангелия (Обиход)",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/opevy-evangeliya-obikhod.pdf",
+  "chart": "songs/opevy-evangeliya-obikhod-bass/chart.json",
+  "backing": "songs/opevy-evangeliya-obikhod-bass/backing.mp3",
+  "reference": "songs/opevy-evangeliya-obikhod-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла ва Те бе Гос по ди сла ва Те бе",
+  "id": "opevy-evangeliya-obikhod-soprano",
+  "title": "Опевы Евангелия (Обиход) — сопрано",
+  "artist": "Обиход",
+  "durationSeconds": 14.5,
+  "range": {
+   "min": 69,
+   "max": 70
+  },
+  "piece": "opevy-evangeliya-obikhod",
+  "pieceTitle": "Опевы Евангелия (Обиход)",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/opevy-evangeliya-obikhod.pdf",
+  "chart": "songs/opevy-evangeliya-obikhod-soprano/chart.json",
+  "backing": "songs/opevy-evangeliya-obikhod-soprano/backing.mp3",
+  "reference": "songs/opevy-evangeliya-obikhod-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "collection": "Опевы Евангелия",
+  "lyrics": "Сла ва Те бе Гос по ди сла ва Те бе",
+  "id": "opevy-evangeliya-obikhod-tenor",
+  "title": "Опевы Евангелия (Обиход) — тенор",
+  "artist": "Обиход",
+  "durationSeconds": 14.5,
+  "range": {
+   "min": 60,
+   "max": 62
+  },
+  "piece": "opevy-evangeliya-obikhod",
+  "pieceTitle": "Опевы Евангелия (Обиход)",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/opevy-evangeliya-obikhod.pdf",
+  "chart": "songs/opevy-evangeliya-obikhod-tenor/chart.json",
+  "backing": "songs/opevy-evangeliya-obikhod-tenor/backing.mp3",
+  "reference": "songs/opevy-evangeliya-obikhod-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Гос по ди по ми  луй По дай Гос по ди",
+  "id": "prositelnaya-ekteniya-alto",
+  "title": "Просительная ектения — альт",
+  "artist": "неизвестного автора",
+  "durationSeconds": 11.25,
+  "range": {
+   "min": 62,
+   "max": 67
+  },
+  "piece": "prositelnaya-ekteniya",
+  "pieceTitle": "Просительная ектения",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/prositelnaya-ekteniya.pdf",
+  "chart": "songs/prositelnaya-ekteniya-alto/chart.json",
+  "backing": "songs/prositelnaya-ekteniya-alto/backing.mp3",
+  "reference": "songs/prositelnaya-ekteniya-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Гос по ди по ми  луй По дай Гос по ди",
+  "id": "prositelnaya-ekteniya-bass",
+  "title": "Просительная ектения — бас",
+  "artist": "неизвестного автора",
+  "durationSeconds": 11.25,
+  "range": {
+   "min": 50,
+   "max": 57
+  },
+  "piece": "prositelnaya-ekteniya",
+  "pieceTitle": "Просительная ектения",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/prositelnaya-ekteniya.pdf",
+  "chart": "songs/prositelnaya-ekteniya-bass/chart.json",
+  "backing": "songs/prositelnaya-ekteniya-bass/backing.mp3",
+  "reference": "songs/prositelnaya-ekteniya-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Гос по ди по ми луй По дай   Гос по ди",
+  "id": "prositelnaya-ekteniya-soprano",
+  "title": "Просительная ектения — сопрано",
+  "artist": "неизвестного автора",
+  "durationSeconds": 11.25,
+  "range": {
+   "min": 67,
+   "max": 72
+  },
+  "piece": "prositelnaya-ekteniya",
+  "pieceTitle": "Просительная ектения",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/prositelnaya-ekteniya.pdf",
+  "chart": "songs/prositelnaya-ekteniya-soprano/chart.json",
+  "backing": "songs/prositelnaya-ekteniya-soprano/backing.mp3",
+  "reference": "songs/prositelnaya-ekteniya-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Гос по ди по ми  луй По дай   Гос по ди",
+  "id": "prositelnaya-ekteniya-tenor",
+  "title": "Просительная ектения — тенор",
+  "artist": "неизвестного автора",
+  "durationSeconds": 11.25,
+  "range": {
+   "min": 59,
+   "max": 64
+  },
+  "piece": "prositelnaya-ekteniya",
+  "pieceTitle": "Просительная ектения",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/prositelnaya-ekteniya.pdf",
+  "chart": "songs/prositelnaya-ekteniya-tenor/chart.json",
+  "backing": "songs/prositelnaya-ekteniya-tenor/backing.mp3",
+  "reference": "songs/prositelnaya-ekteniya-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми    луй А минь",
+  "id": "sugubaya-ekteniya-alto",
+  "title": "Сугубая ектения — альт",
+  "artist": "неизвестного автора",
+  "durationSeconds": 50.0,
+  "range": {
+   "min": 62,
+   "max": 67
+  },
+  "piece": "sugubaya-ekteniya",
+  "pieceTitle": "Сугубая ектения",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/sugubaya-ekteniya.pdf",
+  "chart": "songs/sugubaya-ekteniya-alto/chart.json",
+  "backing": "songs/sugubaya-ekteniya-alto/backing.mp3",
+  "reference": "songs/sugubaya-ekteniya-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй А минь",
+  "id": "sugubaya-ekteniya-bass",
+  "title": "Сугубая ектения — бас",
+  "artist": "неизвестного автора",
+  "durationSeconds": 50.0,
+  "range": {
+   "min": 41,
+   "max": 53
+  },
+  "piece": "sugubaya-ekteniya",
+  "pieceTitle": "Сугубая ектения",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/sugubaya-ekteniya.pdf",
+  "chart": "songs/sugubaya-ekteniya-bass/chart.json",
+  "backing": "songs/sugubaya-ekteniya-bass/backing.mp3",
+  "reference": "songs/sugubaya-ekteniya-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми    луй А минь",
+  "id": "sugubaya-ekteniya-soprano",
+  "title": "Сугубая ектения — сопрано",
+  "artist": "неизвестного автора",
+  "durationSeconds": 50.0,
+  "range": {
+   "min": 65,
+   "max": 70
+  },
+  "piece": "sugubaya-ekteniya",
+  "pieceTitle": "Сугубая ектения",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/sugubaya-ekteniya.pdf",
+  "chart": "songs/sugubaya-ekteniya-soprano/chart.json",
+  "backing": "songs/sugubaya-ekteniya-soprano/backing.mp3",
+  "reference": "songs/sugubaya-ekteniya-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми    луй А минь",
+  "id": "sugubaya-ekteniya-tenor",
+  "title": "Сугубая ектения — тенор",
+  "artist": "неизвестного автора",
+  "durationSeconds": 50.0,
+  "range": {
+   "min": 55,
+   "max": 62
+  },
+  "piece": "sugubaya-ekteniya",
+  "pieceTitle": "Сугубая ектения",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/sugubaya-ekteniya.pdf",
+  "chart": "songs/sugubaya-ekteniya-tenor/chart.json",
+  "backing": "songs/sugubaya-ekteniya-tenor/backing.mp3",
+  "reference": "songs/sugubaya-ekteniya-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "И  же хе ру ви мы тай  но об  ра зу ю ще об ра зу ю ще и Жи во тво ря щей Тро  и це три свя ту ю песнь при пе ва ю ще при пе ва ю ще вся ко е ны не ны не жи тей ско е от ло жим по пе че ни е от ло жим от ло жим по пе че ни е А минь Я ко да Ца ря всех по ды  мем ан гель ски ми  не ви  ди мо до ри но си ма чин ми Ал ли луй я ал ли луй я ал ли луй  я",
+  "id": "tretyakov-kheruvimskaya-alto",
+  "title": "Херувимская песнь № 1 — альт",
+  "artist": "А. А. Третьяков",
+  "durationSeconds": 146.1,
+  "range": {
+   "min": 58,
+   "max": 75
+  },
+  "piece": "tretyakov-kheruvimskaya",
+  "pieceTitle": "Херувимская песнь № 1",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "chart": "songs/tretyakov-kheruvimskaya-alto/chart.json",
+  "backing": "songs/tretyakov-kheruvimskaya-alto/backing.mp3",
+  "reference": "songs/tretyakov-kheruvimskaya-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "И  же хе ру ви мы тай  но об  ра зу ю ще об ра зу ю ще и Жи во тво ря щей Тро  и це три свя ту ю песнь при пе ва ю ще при пе ва ю ще вся ко е ны не ны не жи тей ско е от ло жим по пе че ни е от ло жим от ло жим по пе че ни е А минь Я ко да Ца ря всех по ды мем до ри но си   ма чин   ми Ал ли луй я ал ли луй я ал ли луй  я",
+  "id": "tretyakov-kheruvimskaya-bass",
+  "title": "Херувимская песнь № 1 — бас",
+  "artist": "А. А. Третьяков",
+  "durationSeconds": 146.1,
+  "range": {
+   "min": 44,
+   "max": 60
+  },
+  "piece": "tretyakov-kheruvimskaya",
+  "pieceTitle": "Херувимская песнь № 1",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "chart": "songs/tretyakov-kheruvimskaya-bass/chart.json",
+  "backing": "songs/tretyakov-kheruvimskaya-bass/backing.mp3",
+  "reference": "songs/tretyakov-kheruvimskaya-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "И    же хе ру ви мы тай  но об  ра зу ю ще об ра зу ю ще и Жи во тво ря щей Тро  и це три свя ту ю песнь при пе ва ю ще при пе ва ю ще вся ко е ны не ны не жи тей ско е от ло жим по пе че ни е от ло жим от ло жим по пе че ни е А минь Я ко да Ца ря всех по ды  мем ан гель ски ми  не ви ди мо до ри но си  ма чин  ми Ал ли луй я ал ли луй я ал ли луй  я",
+  "id": "tretyakov-kheruvimskaya-soprano",
+  "title": "Херувимская песнь № 1 — сопрано",
+  "artist": "А. А. Третьяков",
+  "durationSeconds": 146.1,
+  "range": {
+   "min": 63,
+   "max": 79
+  },
+  "piece": "tretyakov-kheruvimskaya",
+  "pieceTitle": "Херувимская песнь № 1",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "chart": "songs/tretyakov-kheruvimskaya-soprano/chart.json",
+  "backing": "songs/tretyakov-kheruvimskaya-soprano/backing.mp3",
+  "reference": "songs/tretyakov-kheruvimskaya-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "И   же хе ру ви мы тай   но об ра зу ю ще об ра зу ю ще и Жи во тво ря  щей Тро  и це три свя ту ю песнь при пе ва ю ще при пе ва ю ще вся ко е ны  не ны не жи тей ско е от ло жим по пе че ни е  от ло жим от ло жим по пе че ни е А минь Я ко да Ца ря всех по ды  мем до ри но си  ма чин  ми Ал ли луй я ал ли луй я ал ли луй  я",
+  "id": "tretyakov-kheruvimskaya-tenor",
+  "title": "Херувимская песнь № 1 — тенор",
+  "artist": "А. А. Третьяков",
+  "durationSeconds": 146.1,
+  "range": {
+   "min": 55,
+   "max": 67
+  },
+  "piece": "tretyakov-kheruvimskaya",
+  "pieceTitle": "Херувимская песнь № 1",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "chart": "songs/tretyakov-kheruvimskaya-tenor/chart.json",
+  "backing": "songs/tretyakov-kheruvimskaya-tenor/backing.mp3",
+  "reference": "songs/tretyakov-kheruvimskaya-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Го спо ди по ми луй Го спо ди по ми  луй Го спо ди по ми  луй Го спо ди по ми  луй Го спо ди по ми  луй По дай Го спо  ди По дай    Го спо ди По дай Го спо  ди По дай    Го спо ди Те бе Го спо  ди А   минь И ду хо ви тво е му От ца и Сы на и Свя та го Ду ха Тро и цу е ди но сущ ну ю и не раз дель   ну  ю",
+  "id": "trubachev-prositelnaya-ekteniya-alto",
+  "title": "Просительная ектения (Трубачёв) — альт",
+  "artist": "Киевского распева, обр. С. Трубачёва",
+  "durationSeconds": 110.5,
+  "range": {
+   "min": 62,
+   "max": 69
+  },
+  "piece": "trubachev-prositelnaya-ekteniya",
+  "pieceTitle": "Просительная ектения (Трубачёв)",
+  "part": "A",
+  "partName": "альт",
+  "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "chart": "songs/trubachev-prositelnaya-ekteniya-alto/chart.json",
+  "backing": "songs/trubachev-prositelnaya-ekteniya-alto/backing.mp3",
+  "reference": "songs/trubachev-prositelnaya-ekteniya-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Го спо ди по ми луй Го спо ди по ми   луй Го спо ди по ми   луй Го спо ди по ми  луй Го спо ди по ми  луй По дай  Го спо ди По дай Го спо ди По дай  Го спо ди По дай Го спо ди Те бе  Го спо ди А  минь И ду хо ви тво е му От ца и Сы на и Свя та го Ду ха Тро и цу е ди но сущ ну ю и не раз дель   ну  ю",
+  "id": "trubachev-prositelnaya-ekteniya-bass",
+  "title": "Просительная ектения (Трубачёв) — бас",
+  "artist": "Киевского распева, обр. С. Трубачёва",
+  "durationSeconds": 110.5,
+  "range": {
+   "min": 43,
+   "max": 57
+  },
+  "piece": "trubachev-prositelnaya-ekteniya",
+  "pieceTitle": "Просительная ектения (Трубачёв)",
+  "part": "B",
+  "partName": "бас",
+  "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "chart": "songs/trubachev-prositelnaya-ekteniya-bass/chart.json",
+  "backing": "songs/trubachev-prositelnaya-ekteniya-bass/backing.mp3",
+  "reference": "songs/trubachev-prositelnaya-ekteniya-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Го спо ди по ми луй Го спо ди по ми   луй Го спо ди по ми   луй Го спо ди по ми   луй Го спо ди по ми   луй По дай Го спо  ди По дай Го спо  ди По дай Го спо  ди По дай Го спо  ди Те бе Го спо  ди А    минь И ду хо ви тво е му От ца и Сы на и Свя та го Ду ха Тро и цу е ди но сущ ну ю и не раз дель  ну ю",
+  "id": "trubachev-prositelnaya-ekteniya-soprano",
+  "title": "Просительная ектения (Трубачёв) — сопрано",
+  "artist": "Киевского распева, обр. С. Трубачёва",
+  "durationSeconds": 110.5,
+  "range": {
+   "min": 64,
+   "max": 72
+  },
+  "piece": "trubachev-prositelnaya-ekteniya",
+  "pieceTitle": "Просительная ектения (Трубачёв)",
+  "part": "S",
+  "partName": "сопрано",
+  "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "chart": "songs/trubachev-prositelnaya-ekteniya-soprano/chart.json",
+  "backing": "songs/trubachev-prositelnaya-ekteniya-soprano/backing.mp3",
+  "reference": "songs/trubachev-prositelnaya-ekteniya-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
+   "date": "2026-10-18T19:58:56+03:00"
+  },
+  "lyrics": "Го спо ди по ми луй Го спо ди по ми  луй Го спо ди по ми   луй Го спо ди по ми  луй Го спо ди по ми   луй По дай  Го спо ди По дай Го спо  ди По дай  Го спо ди По дай Го спо  ди Те бе  Го спо ди А   минь И ду хо ви тво е му От ца и Сы на и Свя та го Ду ха Тро и цу е ди но сущ ну ю и не раз дель  ну  ю",
+  "id": "trubachev-prositelnaya-ekteniya-tenor",
+  "title": "Просительная ектения (Трубачёв) — тенор",
+  "artist": "Киевского распева, обр. С. Трубачёва",
+  "durationSeconds": 110.5,
+  "range": {
+   "min": 52,
+   "max": 64
+  },
+  "piece": "trubachev-prositelnaya-ekteniya",
+  "pieceTitle": "Просительная ектения (Трубачёв)",
+  "part": "T",
+  "partName": "тенор",
+  "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "chart": "songs/trubachev-prositelnaya-ekteniya-tenor/chart.json",
+  "backing": "songs/trubachev-prositelnaya-ekteniya-tenor/backing.mp3",
+  "reference": "songs/trubachev-prositelnaya-ekteniya-tenor/reference.mp3"
  },
  {
   "mail": {
@@ -373,6 +1505,7 @@
   "pieceTitle": "Великая ектения",
   "part": "A",
   "partName": "альт",
+  "pdf": "songs/pdf/velikaya-ekteniya.pdf",
   "chart": "songs/velikaya-ekteniya-alto/chart.json",
   "backing": "songs/velikaya-ekteniya-alto/backing.mp3",
   "reference": "songs/velikaya-ekteniya-alto/reference.mp3"
@@ -395,6 +1528,7 @@
   "pieceTitle": "Великая ектения",
   "part": "B",
   "partName": "бас",
+  "pdf": "songs/pdf/velikaya-ekteniya.pdf",
   "chart": "songs/velikaya-ekteniya-bass/chart.json",
   "backing": "songs/velikaya-ekteniya-bass/backing.mp3",
   "reference": "songs/velikaya-ekteniya-bass/reference.mp3"
@@ -417,6 +1551,7 @@
   "pieceTitle": "Великая ектения",
   "part": "S",
   "partName": "сопрано",
+  "pdf": "songs/pdf/velikaya-ekteniya.pdf",
   "chart": "songs/velikaya-ekteniya-soprano/chart.json",
   "backing": "songs/velikaya-ekteniya-soprano/backing.mp3",
   "reference": "songs/velikaya-ekteniya-soprano/reference.mp3"
@@ -439,6 +1574,7 @@
   "pieceTitle": "Великая ектения",
   "part": "T",
   "partName": "тенор",
+  "pdf": "songs/pdf/velikaya-ekteniya.pdf",
   "chart": "songs/velikaya-ekteniya-tenor/chart.json",
   "backing": "songs/velikaya-ekteniya-tenor/backing.mp3",
   "reference": "songs/velikaya-ekteniya-tenor/reference.mp3"
@@ -461,6 +1597,7 @@
   "pieceTitle": "Во Царствии",
   "part": "A",
   "partName": "альт",
+  "pdf": "songs/pdf/vo-tsarstvii.pdf",
   "chart": "songs/vo-tsarstvii-alto/chart.json",
   "backing": "songs/vo-tsarstvii-alto/backing.mp3",
   "reference": "songs/vo-tsarstvii-alto/reference.mp3"
@@ -483,6 +1620,7 @@
   "pieceTitle": "Во Царствии",
   "part": "B",
   "partName": "бас",
+  "pdf": "songs/pdf/vo-tsarstvii.pdf",
   "chart": "songs/vo-tsarstvii-bass/chart.json",
   "backing": "songs/vo-tsarstvii-bass/backing.mp3",
   "reference": "songs/vo-tsarstvii-bass/reference.mp3"
@@ -505,6 +1643,7 @@
   "pieceTitle": "Во Царствии",
   "part": "S",
   "partName": "сопрано",
+  "pdf": "songs/pdf/vo-tsarstvii.pdf",
   "chart": "songs/vo-tsarstvii-soprano/chart.json",
   "backing": "songs/vo-tsarstvii-soprano/backing.mp3",
   "reference": "songs/vo-tsarstvii-soprano/reference.mp3"
@@ -527,6 +1666,7 @@
   "pieceTitle": "Во Царствии",
   "part": "T",
   "partName": "тенор",
+  "pdf": "songs/pdf/vo-tsarstvii.pdf",
   "chart": "songs/vo-tsarstvii-tenor/chart.json",
   "backing": "songs/vo-tsarstvii-tenor/backing.mp3",
   "reference": "songs/vo-tsarstvii-tenor/reference.mp3"

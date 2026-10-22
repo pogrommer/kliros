@@ -564,7 +564,9 @@ async function refreshSongList ()
                 const mail = s.mail || {};
                 const p = { key, label: [s.artist, s.pieceTitle || s.title].filter (Boolean).join (" — ") || s.id, parts: [],
                             date: mail.date || "", subject: mail.subject || "", collection: s.collection || "",
-                            check: (s.needsCheck || []).join ("; ") };
+                            check: (s.needsCheck || []).join ("; "),
+                            // The regent's PDF: on the home server by piece, on the site as a file
+                            pdf: s.pdf === true ? `api/pieces/${encodeURIComponent (key)}/pdf` : s.pdf || "" };
                 if (p.check) p.label = "⚠ " + p.label;    // the parse looked wrong: check against the PDF
                 if (s.local) { p.local = true; p.label = "📱 " + p.label; }
                 // Everything a search may hit: names, the letter, the collection, the words.
@@ -667,6 +669,7 @@ function updatePartBtn ()
     const p = currentPiece, x = p?.parts.find (y => y.id === S.song);
     $("partBtn").hidden = S.mode !== "song" || ! p || p.parts.length < 2;
     $("partText").textContent = x ? cap (t (cap (x.partName || x.part || ""))) : "";
+    $("pdfBtn").hidden = S.mode !== "song" || ! p?.pdf;
 }
 
 function songChanged ()
@@ -1680,6 +1683,8 @@ function buildForm ()
     const openSheet = (id) => { if (running) stop(); $(id).hidden = false; };
     $("songClose").onclick = () => { $("songSheet").hidden = true; };
     $("partBtn").onclick = () => openSheet ("partSheet");
+    // The whole score as the regent sent it: the phone's own PDF viewer (zoom, pages).
+    $("pdfBtn").onclick = () => currentPiece?.pdf && window.open (currentPiece.pdf, "_blank");
     $("tempoBtn").onclick = () => { renderTempo(); openSheet ("tempoSheet"); };
     // Режимы: свободный / композиция / упражнение. Picking композиция or упражнение opens its
     // chooser at once (the list is what one wants next); the name button still opens it too.
