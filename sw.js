@@ -8,7 +8,7 @@
 //              the server the song list shrinks to that song, and it plays from cache.
 // Takes      - POST api/takes is not touched: offline it fails and app.js ignores it.
 
-const VERSION = "vt-shell-v45";
+const VERSION = "vt-shell-v46";
 const SONG_CACHE = "vt-song";
 
 const SHELL = [
@@ -115,5 +115,7 @@ self.addEventListener ("fetch", (e) => {
     if (/\/api\/songs\/?$/.test (p) || p.endsWith ("/songs/index.json")) return e.respondWith (songList (e.request));
     if (songIdOf (e.request.url)) return e.respondWith (songFile (e.request));
     if (p.includes ("/api/")) return;
+    // Профиль голоса lives under the same scope but is its own app: leave it to the network.
+    if (p.includes ("/voice-profile/")) return;
     e.respondWith (shellFile (e));
 });

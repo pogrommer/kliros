@@ -25,6 +25,7 @@ body { touch-action: manipulation; }
 #topbar button { min-height: 32px; font-size: 14px; flex: 0 0 auto; }
 #modeSeg button { font-size: 12px; padding: 4px 8px; flex: 0 0 auto; }
 #voiceBtn::after { content: " ▾"; color: var(--accent); }
+#voiceHelp { min-width: 32px; padding: 4px 0; font-weight: 700; color: var(--accent); margin-left: -2px; }
 #exList { display: flex; flex-direction: column; gap: 4px; }
 #exList button { text-align: left; }
 #exList small { display: block; color: #8a8a96; font-size: 12px; }

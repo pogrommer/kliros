@@ -1692,6 +1692,9 @@ function buildForm ()
     $("partBtn").onclick = () => openSheet ("partSheet");
     // The whole score as the regent sent it: the phone's own PDF viewer (zoom, pages).
     $("pdfBtn").onclick = () => currentPiece?.pdf && window.open (currentPiece.pdf, "_blank");
+    // «?» by the voice type: the voice-profile tests, published next to the app on Pages.
+    // The home server does not carry them, so from there it is the Pages address.
+    $("voiceHelp").onclick = () => { track ("help", "voice-profile"); window.open (location.hostname.endsWith ("github.io") ? "voice-profile/" : "https://pogrommer.github.io/kliros/voice-profile/", "_blank"); };
     $("tempoBtn").onclick = () => { renderTempo(); openSheet ("tempoSheet"); };
     // Режимы: свободный / композиция / упражнение. Picking композиция or упражнение opens its
     // chooser at once (the list is what one wants next); the name button still opens it too.
