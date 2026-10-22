@@ -20,6 +20,8 @@
   <div id="topbar">
     <!-- Voice type first: everything else follows from it. -->
     <button id="voiceBtn" title="Тип голоса"><span id="voiceText"></span></button>
+    <!-- Голос поделён в этой композиции (тенор I / II): номер партии, тап — другая. -->
+    <button id="divBtn" title="Партия: I или II" hidden></button>
     <!-- «?» — свой тип голоса не знаешь: тесты «Профиля голоса» (singing-tools/voice-profile). -->
     <button id="voiceHelp" title="Определить тип голоса">?</button>
     <div id="modeSeg" class="seg">
@@ -28,8 +30,6 @@
       <button data-mode="exercise">Упражнение</button>
     </div>
     <button id="title" title="Выбрать"><span id="titleText">Kliros</span></button>
-    <button id="partBtn" title="Партия" hidden><span id="partText"></span></button>
-    <button id="pdfBtn" title="Партитура в PDF" hidden>PDF</button>
     <button id="tempoBtn" title="Темп: медленнее или быстрее">♩ <span id="tempoText">100%</span></button>
   </div>
   <nav id="controls">
@@ -63,6 +63,8 @@
       <input id="songSearch" type="search" placeholder="Поиск: название, автор, слова, дата письма" autocomplete="off">
       <span id="searchCount"></span>
       <div id="pieceList"></div>
+      <!-- The voice divides in the piece just tapped: which half, before the sheet closes. -->
+      <div id="divPick" class="seg wrap" hidden></div>
       <p id="pieceInfo"></p>
       <div id="addSong">
         <div class="seg"><button id="addSongBtn" type="button">Загрузить с устройства (zip)…</button>
@@ -86,10 +88,6 @@
   <div id="exSheet" class="overlay" hidden>
     <div class="sheet"><div class="sheetHead"><b>Упражнение</b><button id="exClose">Готово</button></div>
       <div id="exList"></div></div>
-  </div>
-
-  <div id="partSheet" class="overlay" hidden>
-    <div class="sheet"><b>Партия</b><div id="partList" class="seg wrap"></div></div>
   </div>
 
   <div id="tempoSheet" class="overlay" hidden>

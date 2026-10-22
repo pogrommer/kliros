@@ -13,7 +13,7 @@ export const lang = (() => {
 const EN = {
     // Top bar, buttons (one case for all of them: a capital first letter)
     "Тип голоса": "Voice type", "Определить тип голоса": "Find out your voice type", "Свободный": "Free", "Композиция": "Piece", "Упражнение": "Exercise",
-    "Выбрать": "Choose", "Партия": "Part", "Партитура в PDF": "The score as a PDF", "Темп: медленнее или быстрее": "Tempo: slower or faster",
+    "Выбрать": "Choose", "Партия": "Part", "Партитура в PDF": "The score as a PDF", "Партия: I или II": "Part: I or II", "Темп: медленнее или быстрее": "Tempo: slower or faster",
     "Настройки": "Settings", "Ноты или piano roll": "Notation or piano roll", "Вид": "View", "Ноты": "Notes", "Ролл": "Roll",
     "Ключ": "Clef", "Подсказка (пианино / голос)": "Guide (piano / voice)", "Подсказка": "Guide", "Микрофон": "Microphone",
     "Старт": "Start", "Стоп": "Stop",

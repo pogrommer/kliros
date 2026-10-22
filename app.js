@@ -622,6 +622,7 @@ const fmtDate = (iso) => iso ? iso.slice (0, 10).split ("-").reverse().join ("."
 function renderPieces ()
 {
     const list = $("pieceList");
+    $("divPick").hidden = true;
     const words = norm ($("songSearch").value).split (/\s+/).filter (Boolean);
     const shown = pieces.filter (p => words.every (w => p.haystack.includes (w)));
     list.innerHTML = "";
@@ -634,6 +635,15 @@ function renderPieces ()
         b.innerHTML = esc (p.label) + (p.date ? `<small>${fmtDate (p.date)}</small>` : "")
                     + (songsOffline && ! p.local ? `<small>${t ("(без сервера)")}</small>` : "");
         b.onclick = () => pickPiece (p.key);
+        // The whole score as the regent sent it: an icon on the row, the phone's own PDF viewer.
+        if (p.pdf)
+        {
+            const d = document.createElement ("span");
+            d.className = "pdf"; d.setAttribute ("role", "button"); d.title = t ("Партитура в PDF");
+            d.innerHTML = PDF_ICON;
+            d.onclick = (e) => { e.stopPropagation(); window.open (p.pdf, "_blank"); };
+            b.appendChild (d);
+        }
         list.appendChild (b);
     }
     $("searchCount").textContent = words.length ? t ("{0} из {1}", shown.length, pieces.length) : "";
@@ -642,22 +652,49 @@ function renderPieces ()
     else { fillParts (null); $("pieceInfo").textContent = ""; }
 }
 
-// A tap in the list: that piece (in the singer's part), the sheet closes.
+const PDF_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v15H6z M14 2v5h5"/><text x="12.5" y="18" text-anchor="middle">PDF</text></svg>`;
+
+// A tap in the list: that piece (in the singer's part), the sheet closes. When the
+// singer's voice divides in it (тенор I / II), the halves are offered first.
 function pickPiece (key)
 {
     S.mode = "song"; save();
     choosePiece (key);
-    if (! pieces.find (p => p.key === key)?.local) track ("piece", key);   // not phone-only uploads
+    const p = pieces.find (x => x.key === key);
+    if (! p?.local) track ("piece", key);   // not phone-only uploads
+    const halves = voiceParts (p);
+    const pick = $("divPick");
+    pick.innerHTML = "";
+    pick.hidden = halves.length < 2;
+    if (! pick.hidden)
+    {
+        for (const x of halves)
+        {
+            const b = document.createElement ("button");
+            b.textContent = cap (t (cap (x.partName || x.part)));
+            b.classList.toggle ("sel", x.id === S.song);
+            b.onclick = () => { S.song = x.id; save(); pick.hidden = true; $("songSheet").hidden = true;
+                                fillParts (p); syncDeleteButton(); songChanged(); };
+            pick.appendChild (b);
+        }
+        pick.scrollIntoView ({ block: "nearest" });
+        songChanged();          // half I meanwhile: closing the sheet without a tap keeps it
+        return;
+    }
     $("songSheet").hidden = true;
     songChanged();
 }
+
+// The parts of the piece in the singer's voice: one, or I and II when it divides.
+const voiceParts = (p) => (p?.parts || []).filter (x => (x.part || "")[0] === S.voice);
+const halfOf = (x) => (x?.part || "").endsWith ("2") ? "II" : "I";
 
 // Keeps the part across pieces: a tenor opening another piece gets its tenor part.
 function choosePiece (key, songId)
 {
     const p = pieces.find (x => x.key === key);
     if (! p) return;
-    const pick = p.parts.find (x => x.id === songId) || p.parts.find (x => x.part === S.voice) || p.parts[0];
+    const pick = p.parts.find (x => x.id === songId) || p.parts.find (x => x.part === S.voice) || voiceParts (p)[0] || p.parts[0];
     S.song = pick.id; save();
     document.querySelectorAll ("#pieceList .pi").forEach (b => b.classList.toggle ("sel", b.dataset.key === key));
     fillParts (p);
@@ -669,34 +706,21 @@ function choosePiece (key, songId)
     updateTitle();
 }
 
-// Партия: a button on the main screen, shown when the piece has more than one part.
+// Партия: no button of its own - the voice type picks it. Only when that voice divides
+// in the piece does a number (I / II) sit next to the voice button; a tap swaps the half.
 let currentPiece = null;
 function fillParts (p)
 {
     currentPiece = p;
-    const list = $("partList");
-    list.innerHTML = "";
-    for (const x of p ? p.parts : [])
-    {
-        const b = document.createElement ("button");
-        b.textContent = cap (t (cap (x.partName || x.part || x.id)));
-        b.classList.toggle ("sel", x.id === S.song);
-        b.onclick = () => {
-            S.song = x.id; S.part = x.part || S.part; save();
-            $("partSheet").hidden = true;
-            fillParts (p); syncDeleteButton(); songChanged();
-        };
-        list.appendChild (b);
-    }
     updatePartBtn();
 }
 
 function updatePartBtn ()
 {
-    const p = currentPiece, x = p?.parts.find (y => y.id === S.song);
-    $("partBtn").hidden = S.mode !== "song" || ! p || p.parts.length < 2;
-    $("partText").textContent = x ? cap (t (cap (x.partName || x.part || ""))) : "";
-    $("pdfBtn").hidden = S.mode !== "song" || ! p?.pdf;
+    const halves = S.mode === "song" ? voiceParts (currentPiece) : [];
+    const x = halves.find (y => y.id === S.song);
+    $("divBtn").hidden = halves.length < 2 || ! x;
+    $("divBtn").textContent = halfOf (x);
 }
 
 function songChanged ()
@@ -1711,12 +1735,16 @@ function buildForm ()
     const bind = (id, key, conv = (v) => v, after) => $(id).addEventListener ("input", () => {
         S[key] = conv ($(id).type === "checkbox" ? $(id).checked : $(id).value); save(); syncForm(); applyLevels(); after && after();
     });
-    // Песня, Партия, Темп: three buttons on the main screen, each with its own chooser.
+    // Песня, Темп: buttons on the main screen, each with its own chooser.
     const openSheet = (id) => { if (running) stop(); $(id).hidden = false; };
     $("songClose").onclick = () => { $("songSheet").hidden = true; };
-    $("partBtn").onclick = () => openSheet ("partSheet");
-    // The whole score as the regent sent it: the phone's own PDF viewer (zoom, pages).
-    $("pdfBtn").onclick = () => currentPiece?.pdf && window.open (currentPiece.pdf, "_blank");
+    $("divBtn").onclick = () => {
+        const halves = voiceParts (currentPiece);
+        const x = halves[(halves.findIndex (y => y.id === S.song) + 1) % halves.length];
+        if (! x || x.id === S.song) return;
+        if (running) stop();
+        S.song = x.id; save(); track ("part", x.part); fillParts (currentPiece); syncDeleteButton(); songChanged();
+    };
     // «?» by the voice type: the voice-profile tests, published next to the app on Pages.
     // The home server does not carry them, so from there it is the Pages address.
     $("voiceHelp").onclick = () => { track ("help", "voice-profile"); window.open (location.hostname.endsWith ("github.io") ? "voice-profile/" : "https://pogrommer.github.io/kliros/voice-profile/", "_blank"); };
@@ -1747,7 +1775,7 @@ function buildForm ()
                 // A new voice brings its own clef: a clef picked by hand gives way to auto.
                 S.voice = v; S.part = v; S.clef = "auto"; save(); track ("voice", v);
                 $("voiceSheet").hidden = true; voiceLabel();
-                const p = currentPiece, x = p?.parts.find (y => y.part === v);
+                const p = currentPiece, x = p?.parts.find (y => y.part === v) || voiceParts (p)[0];
                 if (x && x.id !== S.song) { S.song = x.id; save(); fillParts (p); syncDeleteButton(); songChanged(); }
                 else { clefLabel(); previewChart(); }
             };
@@ -1755,7 +1783,7 @@ function buildForm ()
         }
         openSheet ("voiceSheet");
     };
-    for (const id of ["songSheet", "partSheet", "tempoSheet", "voiceSheet", "exSheet"])
+    for (const id of ["songSheet", "tempoSheet", "voiceSheet", "exSheet"])
         $(id).addEventListener ("click", (e) => { if (e.target === $(id)) $(id).hidden = true; });
     $("tempoDown").onclick = () => setTempo (S.tempo - 0.05);
     $("tempoUp").onclick = () => setTempo (S.tempo + 0.05);
