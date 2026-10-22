@@ -2,7 +2,7 @@
 // Off until CODE is set (the site name from goatcounter.com: <CODE>.goatcounter.com) and only on the
 // public site, never on the home server or localhost. Offline events are simply not sent.
 
-const CODE = "";
+const CODE = "pogrommer";
 const HOSTS = ["pogrommer.github.io"];
 
 const on = () => CODE && HOSTS.includes (location.hostname) && navigator.onLine !== false;
