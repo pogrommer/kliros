@@ -90,11 +90,15 @@ footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; wh
 #pieceList .pi small { color: var(--dim); margin-left: 6px; }
 #pieceList .pi.sel { background: #0f3a52; border-color: var(--accent); }
 #pieceList .pi { display: flex; align-items: center; gap: 4px; }
-#pieceList .pi .pdf { margin-left: auto; flex: 0 0 auto; width: 36px; height: 36px; margin-block: -8px; margin-right: -6px;
-                      display: grid; place-items: center; border-radius: 6px; }
-#pieceList .pi .pdf:active { background: #ffffff22; }
-#pieceList .pi .pdf svg { width: 26px; height: 26px; fill: none; stroke: var(--dim); stroke-width: 1.4; stroke-linejoin: round; }
-#pieceList .pi .pdf text { fill: var(--accent); stroke: none; font: 700 6.5px system-ui, sans-serif; }
+#pieceList .pi .docs { margin-left: auto; flex: 0 0 auto; display: flex; gap: 2px; margin-block: -8px; margin-right: -6px; }
+#pieceList .pi .doc { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 6px; }
+#pieceList .pi .doc:active { background: #ffffff22; }
+#pieceList .pi .doc svg { width: 26px; height: 26px; fill: none; stroke: var(--dim); stroke-width: 1.4; stroke-linejoin: round; }
+#pieceList .pi .doc .ln { stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; }
+#pieceList .pi .doc text { fill: var(--accent); stroke: none; font: 700 6.5px system-ui, sans-serif; }
+#textSheet .sheetHead b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 8px; }
+#textBody { font-size: 17px; line-height: 1.45; color: var(--text); overflow-y: auto; }
+#textBody p { margin: 0 0 .55em; font-size: inherit; color: inherit; line-height: inherit; }
 #divPick { margin-top: 6px; }
 #divBtn { min-width: 32px; padding: 4px 6px; font-weight: 700; color: var(--accent); margin-left: -2px; }
 .seg.wrap { flex-wrap: wrap; }

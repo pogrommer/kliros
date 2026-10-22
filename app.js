@@ -591,7 +591,9 @@ async function refreshSongList ()
                             date: mail.date || "", subject: mail.subject || "", collection: s.collection || "",
                             check: (s.needsCheck || []).join ("; "),
                             // The regent's PDF: on the home server by piece, on the site as a file
-                            pdf: s.pdf === true ? `api/pieces/${encodeURIComponent (key)}/pdf` : s.pdf || "" };
+                            pdf: s.pdf === true ? `api/pieces/${encodeURIComponent (key)}/pdf` : s.pdf || "",
+                            // Its words to read, joined into words (tools/piece_text.py): the same two places
+                            text: s.text === true ? `api/pieces/${encodeURIComponent (key)}/text` : s.text || "" };
                 if (p.check) p.label = "⚠ " + p.label;    // the parse looked wrong: check against the PDF
                 if (s.local) { p.local = true; p.label = "📱 " + p.label; }
                 // Everything a search may hit: names, the letter, the collection, the words.
@@ -635,15 +637,20 @@ function renderPieces ()
         b.innerHTML = esc (p.label) + (p.date ? `<small>${fmtDate (p.date)}</small>` : "")
                     + (songsOffline && ! p.local ? `<small>${t ("(без сервера)")}</small>` : "");
         b.onclick = () => pickPiece (p.key);
-        // The whole score as the regent sent it: an icon on the row, the phone's own PDF viewer.
-        if (p.pdf)
-        {
+        // Icons on the row: the words to read in a sheet here, and the whole score as the
+        // regent sent it in the phone's own PDF viewer.
+        const docs = document.createElement ("span");
+        docs.className = "docs";
+        const icon = (svg, title, act) => {
             const d = document.createElement ("span");
-            d.className = "pdf"; d.setAttribute ("role", "button"); d.title = t ("Партитура в PDF");
-            d.innerHTML = PDF_ICON;
-            d.onclick = (e) => { e.stopPropagation(); window.open (p.pdf, "_blank"); };
-            b.appendChild (d);
-        }
+            d.className = "doc"; d.setAttribute ("role", "button"); d.title = title;
+            d.innerHTML = svg;
+            d.onclick = (e) => { e.stopPropagation(); act(); };
+            docs.appendChild (d);
+        };
+        if (p.text) icon (TEXT_ICON, t ("Текст песнопения"), () => showText (p));
+        if (p.pdf) icon (PDF_ICON, t ("Партитура в PDF"), () => window.open (p.pdf, "_blank"));
+        if (docs.children.length) b.appendChild (docs);
         list.appendChild (b);
     }
     $("searchCount").textContent = words.length ? t ("{0} из {1}", shown.length, pieces.length) : "";
@@ -652,7 +659,27 @@ function renderPieces ()
     else { fillParts (null); $("pieceInfo").textContent = ""; }
 }
 
+const TEXT_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v15H6z M14 2v5h5"/><path class="ln" d="M8.5 11h8 M8.5 14h8 M8.5 17h5.5"/></svg>`;
 const PDF_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v15H6z M14 2v5h5"/><text x="12.5" y="18" text-anchor="middle">PDF</text></svg>`;
+
+// The piece's words in a sheet over the list, to read; «Готово» or a tap outside goes back.
+async function showText (p)
+{
+    $("textTitle").textContent = p.label.replace (/^(⚠|📱) /, "");
+    const body = $("textBody");
+    body.textContent = t ("Загрузка…");
+    $("textSheet").hidden = false;
+    body.scrollTop = 0;
+    try
+    {
+        const r = await fetch (p.text);
+        if (! r.ok) throw new Error (r.status);
+        // A sentence a paragraph: a wrapped line must not look like the next sentence.
+        const lines = (await r.text()).trim().split (/\n+/).filter (Boolean);
+        body.innerHTML = lines.length ? lines.map (l => `<p>${esc (l)}</p>`).join ("") : esc (t ("В этом песнопении нет слов"));
+    }
+    catch { body.textContent = t ("Текст недоступен: нет связи с сервером"); }
+}
 
 // A tap in the list: that piece (in the singer's part), the sheet closes. When the
 // singer's voice divides in it (тенор I / II), the halves are offered first.
@@ -1783,7 +1810,8 @@ function buildForm ()
         }
         openSheet ("voiceSheet");
     };
-    for (const id of ["songSheet", "tempoSheet", "voiceSheet", "exSheet"])
+    $("textClose").onclick = () => { $("textSheet").hidden = true; };
+    for (const id of ["songSheet", "tempoSheet", "voiceSheet", "exSheet", "textSheet"])
         $(id).addEventListener ("click", (e) => { if (e.target === $(id)) $(id).hidden = true; });
     $("tempoDown").onclick = () => setTempo (S.tempo - 0.05);
     $("tempoUp").onclick = () => setTempo (S.tempo + 0.05);

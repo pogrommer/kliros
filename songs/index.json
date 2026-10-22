@@ -19,6 +19,7 @@
   "part": "A",
   "partName": "альт I",
   "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
+  "text": "songs/text/antsev-trisvyatoe.txt",
   "chart": "songs/antsev-trisvyatoe-alto/chart.json",
   "backing": "songs/antsev-trisvyatoe-alto/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-alto/reference.mp3"
@@ -43,6 +44,7 @@
   "part": "A2",
   "partName": "альт II",
   "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
+  "text": "songs/text/antsev-trisvyatoe.txt",
   "chart": "songs/antsev-trisvyatoe-alto-2/chart.json",
   "backing": "songs/antsev-trisvyatoe-alto-2/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-alto-2/reference.mp3"
@@ -67,6 +69,7 @@
   "part": "B",
   "partName": "бас I",
   "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
+  "text": "songs/text/antsev-trisvyatoe.txt",
   "chart": "songs/antsev-trisvyatoe-bass/chart.json",
   "backing": "songs/antsev-trisvyatoe-bass/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-bass/reference.mp3"
@@ -91,6 +94,7 @@
   "part": "B2",
   "partName": "бас II",
   "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
+  "text": "songs/text/antsev-trisvyatoe.txt",
   "chart": "songs/antsev-trisvyatoe-bass-2/chart.json",
   "backing": "songs/antsev-trisvyatoe-bass-2/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-bass-2/reference.mp3"
@@ -115,6 +119,7 @@
   "part": "S",
   "partName": "сопрано I",
   "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
+  "text": "songs/text/antsev-trisvyatoe.txt",
   "chart": "songs/antsev-trisvyatoe-soprano/chart.json",
   "backing": "songs/antsev-trisvyatoe-soprano/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-soprano/reference.mp3"
@@ -139,6 +144,7 @@
   "part": "S2",
   "partName": "сопрано II",
   "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
+  "text": "songs/text/antsev-trisvyatoe.txt",
   "chart": "songs/antsev-trisvyatoe-soprano-2/chart.json",
   "backing": "songs/antsev-trisvyatoe-soprano-2/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-soprano-2/reference.mp3"
@@ -163,6 +169,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/antsev-trisvyatoe.pdf",
+  "text": "songs/text/antsev-trisvyatoe.txt",
   "chart": "songs/antsev-trisvyatoe-tenor/chart.json",
   "backing": "songs/antsev-trisvyatoe-tenor/backing.mp3",
   "reference": "songs/antsev-trisvyatoe-tenor/reference.mp3"
@@ -186,6 +193,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/blagoslovi.pdf",
+  "text": "songs/text/blagoslovi.txt",
   "chart": "songs/blagoslovi-alto/chart.json",
   "backing": "songs/blagoslovi-alto/backing.mp3",
   "reference": "songs/blagoslovi-alto/reference.mp3"
@@ -209,6 +217,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/blagoslovi.pdf",
+  "text": "songs/text/blagoslovi.txt",
   "chart": "songs/blagoslovi-bass/chart.json",
   "backing": "songs/blagoslovi-bass/backing.mp3",
   "reference": "songs/blagoslovi-bass/reference.mp3"
@@ -232,6 +241,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/blagoslovi.pdf",
+  "text": "songs/text/blagoslovi.txt",
   "chart": "songs/blagoslovi-soprano/chart.json",
   "backing": "songs/blagoslovi-soprano/backing.mp3",
   "reference": "songs/blagoslovi-soprano/reference.mp3"
@@ -255,6 +265,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/blagoslovi.pdf",
+  "text": "songs/text/blagoslovi.txt",
   "chart": "songs/blagoslovi-tenor/chart.json",
   "backing": "songs/blagoslovi-tenor/backing.mp3",
   "reference": "songs/blagoslovi-tenor/reference.mp3"
@@ -278,6 +289,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/imamutdinov-edinorodnyy-syne.pdf",
+  "text": "songs/text/imamutdinov-edinorodnyy-syne.txt",
   "chart": "songs/imamutdinov-edinorodnyy-syne-alto/chart.json",
   "backing": "songs/imamutdinov-edinorodnyy-syne-alto/backing.mp3",
   "reference": "songs/imamutdinov-edinorodnyy-syne-alto/reference.mp3"
@@ -301,6 +313,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/imamutdinov-edinorodnyy-syne.pdf",
+  "text": "songs/text/imamutdinov-edinorodnyy-syne.txt",
   "chart": "songs/imamutdinov-edinorodnyy-syne-bass/chart.json",
   "backing": "songs/imamutdinov-edinorodnyy-syne-bass/backing.mp3",
   "reference": "songs/imamutdinov-edinorodnyy-syne-bass/reference.mp3"
@@ -324,6 +337,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/imamutdinov-edinorodnyy-syne.pdf",
+  "text": "songs/text/imamutdinov-edinorodnyy-syne.txt",
   "chart": "songs/imamutdinov-edinorodnyy-syne-soprano/chart.json",
   "backing": "songs/imamutdinov-edinorodnyy-syne-soprano/backing.mp3",
   "reference": "songs/imamutdinov-edinorodnyy-syne-soprano/reference.mp3"
@@ -347,6 +361,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/imamutdinov-edinorodnyy-syne.pdf",
+  "text": "songs/text/imamutdinov-edinorodnyy-syne.txt",
   "chart": "songs/imamutdinov-edinorodnyy-syne-tenor/chart.json",
   "backing": "songs/imamutdinov-edinorodnyy-syne-tenor/backing.mp3",
   "reference": "songs/imamutdinov-edinorodnyy-syne-tenor/reference.mp3"
@@ -370,6 +385,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
+  "text": "songs/text/imamutdinov-priidite-poklonimsya.txt",
   "chart": "songs/imamutdinov-priidite-poklonimsya-alto/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-alto/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-alto/reference.mp3"
@@ -393,6 +409,7 @@
   "part": "B",
   "partName": "бас I",
   "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
+  "text": "songs/text/imamutdinov-priidite-poklonimsya.txt",
   "chart": "songs/imamutdinov-priidite-poklonimsya-bass/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-bass/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-bass/reference.mp3"
@@ -416,6 +433,7 @@
   "part": "B2",
   "partName": "бас II",
   "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
+  "text": "songs/text/imamutdinov-priidite-poklonimsya.txt",
   "chart": "songs/imamutdinov-priidite-poklonimsya-bass-2/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-bass-2/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-bass-2/reference.mp3"
@@ -439,6 +457,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
+  "text": "songs/text/imamutdinov-priidite-poklonimsya.txt",
   "chart": "songs/imamutdinov-priidite-poklonimsya-soprano/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-soprano/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-soprano/reference.mp3"
@@ -462,6 +481,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/imamutdinov-priidite-poklonimsya.pdf",
+  "text": "songs/text/imamutdinov-priidite-poklonimsya.txt",
   "chart": "songs/imamutdinov-priidite-poklonimsya-tenor/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-tenor/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-tenor/reference.mp3"
@@ -485,6 +505,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/ivanov-dostoyno-est.pdf",
+  "text": "songs/text/ivanov-dostoyno-est.txt",
   "chart": "songs/ivanov-dostoyno-est-alto/chart.json",
   "backing": "songs/ivanov-dostoyno-est-alto/backing.mp3",
   "reference": "songs/ivanov-dostoyno-est-alto/reference.mp3"
@@ -508,6 +529,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/ivanov-dostoyno-est.pdf",
+  "text": "songs/text/ivanov-dostoyno-est.txt",
   "chart": "songs/ivanov-dostoyno-est-bass/chart.json",
   "backing": "songs/ivanov-dostoyno-est-bass/backing.mp3",
   "reference": "songs/ivanov-dostoyno-est-bass/reference.mp3"
@@ -531,6 +553,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/ivanov-dostoyno-est.pdf",
+  "text": "songs/text/ivanov-dostoyno-est.txt",
   "chart": "songs/ivanov-dostoyno-est-soprano/chart.json",
   "backing": "songs/ivanov-dostoyno-est-soprano/backing.mp3",
   "reference": "songs/ivanov-dostoyno-est-soprano/reference.mp3"
@@ -554,6 +577,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/ivanov-dostoyno-est.pdf",
+  "text": "songs/text/ivanov-dostoyno-est.txt",
   "chart": "songs/ivanov-dostoyno-est-tenor/chart.json",
   "backing": "songs/ivanov-dostoyno-est-tenor/backing.mp3",
   "reference": "songs/ivanov-dostoyno-est-tenor/reference.mp3"
@@ -577,6 +601,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/khvalite-gospoda-s-nebes.pdf",
+  "text": "songs/text/khvalite-gospoda-s-nebes.txt",
   "chart": "songs/khvalite-gospoda-s-nebes-alto/chart.json",
   "backing": "songs/khvalite-gospoda-s-nebes-alto/backing.mp3",
   "reference": "songs/khvalite-gospoda-s-nebes-alto/reference.mp3"
@@ -600,6 +625,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/khvalite-gospoda-s-nebes.pdf",
+  "text": "songs/text/khvalite-gospoda-s-nebes.txt",
   "chart": "songs/khvalite-gospoda-s-nebes-bass/chart.json",
   "backing": "songs/khvalite-gospoda-s-nebes-bass/backing.mp3",
   "reference": "songs/khvalite-gospoda-s-nebes-bass/reference.mp3"
@@ -623,6 +649,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/khvalite-gospoda-s-nebes.pdf",
+  "text": "songs/text/khvalite-gospoda-s-nebes.txt",
   "chart": "songs/khvalite-gospoda-s-nebes-soprano/chart.json",
   "backing": "songs/khvalite-gospoda-s-nebes-soprano/backing.mp3",
   "reference": "songs/khvalite-gospoda-s-nebes-soprano/reference.mp3"
@@ -646,6 +673,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/khvalite-gospoda-s-nebes.pdf",
+  "text": "songs/text/khvalite-gospoda-s-nebes.txt",
   "chart": "songs/khvalite-gospoda-s-nebes-tenor/chart.json",
   "backing": "songs/khvalite-gospoda-s-nebes-tenor/backing.mp3",
   "reference": "songs/khvalite-gospoda-s-nebes-tenor/reference.mp3"
@@ -669,6 +697,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "text": "songs/text/kievskiy-simvol-very.txt",
   "chart": "songs/kievskiy-simvol-very-alto/chart.json",
   "backing": "songs/kievskiy-simvol-very-alto/backing.mp3",
   "reference": "songs/kievskiy-simvol-very-alto/reference.mp3"
@@ -692,6 +721,7 @@
   "part": "B",
   "partName": "бас I",
   "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "text": "songs/text/kievskiy-simvol-very.txt",
   "chart": "songs/kievskiy-simvol-very-bass/chart.json",
   "backing": "songs/kievskiy-simvol-very-bass/backing.mp3",
   "reference": "songs/kievskiy-simvol-very-bass/reference.mp3"
@@ -715,6 +745,7 @@
   "part": "B2",
   "partName": "бас II",
   "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "text": "songs/text/kievskiy-simvol-very.txt",
   "chart": "songs/kievskiy-simvol-very-bass-2/chart.json",
   "backing": "songs/kievskiy-simvol-very-bass-2/backing.mp3",
   "reference": "songs/kievskiy-simvol-very-bass-2/reference.mp3"
@@ -738,6 +769,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "text": "songs/text/kievskiy-simvol-very.txt",
   "chart": "songs/kievskiy-simvol-very-soprano/chart.json",
   "backing": "songs/kievskiy-simvol-very-soprano/backing.mp3",
   "reference": "songs/kievskiy-simvol-very-soprano/reference.mp3"
@@ -761,6 +793,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/kievskiy-simvol-very.pdf",
+  "text": "songs/text/kievskiy-simvol-very.txt",
   "chart": "songs/kievskiy-simvol-very-tenor/chart.json",
   "backing": "songs/kievskiy-simvol-very-tenor/backing.mp3",
   "reference": "songs/kievskiy-simvol-very-tenor/reference.mp3"
@@ -784,6 +817,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "text": "songs/text/nikolskiy-milost-mira.txt",
   "chart": "songs/nikolskiy-milost-mira-alto/chart.json",
   "backing": "songs/nikolskiy-milost-mira-alto/backing.mp3",
   "reference": "songs/nikolskiy-milost-mira-alto/reference.mp3"
@@ -807,6 +841,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "text": "songs/text/nikolskiy-milost-mira.txt",
   "chart": "songs/nikolskiy-milost-mira-bass/chart.json",
   "backing": "songs/nikolskiy-milost-mira-bass/backing.mp3",
   "reference": "songs/nikolskiy-milost-mira-bass/reference.mp3"
@@ -830,6 +865,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "text": "songs/text/nikolskiy-milost-mira.txt",
   "chart": "songs/nikolskiy-milost-mira-soprano/chart.json",
   "backing": "songs/nikolskiy-milost-mira-soprano/backing.mp3",
   "reference": "songs/nikolskiy-milost-mira-soprano/reference.mp3"
@@ -853,6 +889,7 @@
   "part": "T",
   "partName": "тенор I",
   "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "text": "songs/text/nikolskiy-milost-mira.txt",
   "chart": "songs/nikolskiy-milost-mira-tenor/chart.json",
   "backing": "songs/nikolskiy-milost-mira-tenor/backing.mp3",
   "reference": "songs/nikolskiy-milost-mira-tenor/reference.mp3"
@@ -876,6 +913,7 @@
   "part": "T2",
   "partName": "тенор II",
   "pdf": "songs/pdf/nikolskiy-milost-mira.pdf",
+  "text": "songs/text/nikolskiy-milost-mira.txt",
   "chart": "songs/nikolskiy-milost-mira-tenor-2/chart.json",
   "backing": "songs/nikolskiy-milost-mira-tenor-2/backing.mp3",
   "reference": "songs/nikolskiy-milost-mira-tenor-2/reference.mp3"
@@ -899,6 +937,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/obikhod-okonchanie-liturgii.pdf",
+  "text": "songs/text/obikhod-okonchanie-liturgii.txt",
   "chart": "songs/obikhod-okonchanie-liturgii-alto/chart.json",
   "backing": "songs/obikhod-okonchanie-liturgii-alto/backing.mp3",
   "reference": "songs/obikhod-okonchanie-liturgii-alto/reference.mp3"
@@ -922,6 +961,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/obikhod-okonchanie-liturgii.pdf",
+  "text": "songs/text/obikhod-okonchanie-liturgii.txt",
   "chart": "songs/obikhod-okonchanie-liturgii-bass/chart.json",
   "backing": "songs/obikhod-okonchanie-liturgii-bass/backing.mp3",
   "reference": "songs/obikhod-okonchanie-liturgii-bass/reference.mp3"
@@ -945,6 +985,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/obikhod-okonchanie-liturgii.pdf",
+  "text": "songs/text/obikhod-okonchanie-liturgii.txt",
   "chart": "songs/obikhod-okonchanie-liturgii-soprano/chart.json",
   "backing": "songs/obikhod-okonchanie-liturgii-soprano/backing.mp3",
   "reference": "songs/obikhod-okonchanie-liturgii-soprano/reference.mp3"
@@ -968,6 +1009,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/obikhod-okonchanie-liturgii.pdf",
+  "text": "songs/text/obikhod-okonchanie-liturgii.txt",
   "chart": "songs/obikhod-okonchanie-liturgii-tenor/chart.json",
   "backing": "songs/obikhod-okonchanie-liturgii-tenor/backing.mp3",
   "reference": "songs/obikhod-okonchanie-liturgii-tenor/reference.mp3"
@@ -992,6 +1034,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/opevy-evangeliya-chesnokov.pdf",
+  "text": "songs/text/opevy-evangeliya-chesnokov.txt",
   "chart": "songs/opevy-evangeliya-chesnokov-alto/chart.json",
   "backing": "songs/opevy-evangeliya-chesnokov-alto/backing.mp3",
   "reference": "songs/opevy-evangeliya-chesnokov-alto/reference.mp3"
@@ -1016,6 +1059,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/opevy-evangeliya-chesnokov.pdf",
+  "text": "songs/text/opevy-evangeliya-chesnokov.txt",
   "chart": "songs/opevy-evangeliya-chesnokov-bass/chart.json",
   "backing": "songs/opevy-evangeliya-chesnokov-bass/backing.mp3",
   "reference": "songs/opevy-evangeliya-chesnokov-bass/reference.mp3"
@@ -1040,6 +1084,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/opevy-evangeliya-chesnokov.pdf",
+  "text": "songs/text/opevy-evangeliya-chesnokov.txt",
   "chart": "songs/opevy-evangeliya-chesnokov-soprano/chart.json",
   "backing": "songs/opevy-evangeliya-chesnokov-soprano/backing.mp3",
   "reference": "songs/opevy-evangeliya-chesnokov-soprano/reference.mp3"
@@ -1064,6 +1109,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/opevy-evangeliya-chesnokov.pdf",
+  "text": "songs/text/opevy-evangeliya-chesnokov.txt",
   "chart": "songs/opevy-evangeliya-chesnokov-tenor/chart.json",
   "backing": "songs/opevy-evangeliya-chesnokov-tenor/backing.mp3",
   "reference": "songs/opevy-evangeliya-chesnokov-tenor/reference.mp3"
@@ -1088,6 +1134,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/opevy-evangeliya-lavrskoe.pdf",
+  "text": "songs/text/opevy-evangeliya-lavrskoe.txt",
   "chart": "songs/opevy-evangeliya-lavrskoe-alto/chart.json",
   "backing": "songs/opevy-evangeliya-lavrskoe-alto/backing.mp3",
   "reference": "songs/opevy-evangeliya-lavrskoe-alto/reference.mp3"
@@ -1112,6 +1159,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/opevy-evangeliya-lavrskoe.pdf",
+  "text": "songs/text/opevy-evangeliya-lavrskoe.txt",
   "chart": "songs/opevy-evangeliya-lavrskoe-bass/chart.json",
   "backing": "songs/opevy-evangeliya-lavrskoe-bass/backing.mp3",
   "reference": "songs/opevy-evangeliya-lavrskoe-bass/reference.mp3"
@@ -1136,6 +1184,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/opevy-evangeliya-lavrskoe.pdf",
+  "text": "songs/text/opevy-evangeliya-lavrskoe.txt",
   "chart": "songs/opevy-evangeliya-lavrskoe-soprano/chart.json",
   "backing": "songs/opevy-evangeliya-lavrskoe-soprano/backing.mp3",
   "reference": "songs/opevy-evangeliya-lavrskoe-soprano/reference.mp3"
@@ -1160,6 +1209,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/opevy-evangeliya-lavrskoe.pdf",
+  "text": "songs/text/opevy-evangeliya-lavrskoe.txt",
   "chart": "songs/opevy-evangeliya-lavrskoe-tenor/chart.json",
   "backing": "songs/opevy-evangeliya-lavrskoe-tenor/backing.mp3",
   "reference": "songs/opevy-evangeliya-lavrskoe-tenor/reference.mp3"
@@ -1184,6 +1234,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/opevy-evangeliya-obikhod.pdf",
+  "text": "songs/text/opevy-evangeliya-obikhod.txt",
   "chart": "songs/opevy-evangeliya-obikhod-alto/chart.json",
   "backing": "songs/opevy-evangeliya-obikhod-alto/backing.mp3",
   "reference": "songs/opevy-evangeliya-obikhod-alto/reference.mp3"
@@ -1208,6 +1259,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/opevy-evangeliya-obikhod.pdf",
+  "text": "songs/text/opevy-evangeliya-obikhod.txt",
   "chart": "songs/opevy-evangeliya-obikhod-bass/chart.json",
   "backing": "songs/opevy-evangeliya-obikhod-bass/backing.mp3",
   "reference": "songs/opevy-evangeliya-obikhod-bass/reference.mp3"
@@ -1232,6 +1284,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/opevy-evangeliya-obikhod.pdf",
+  "text": "songs/text/opevy-evangeliya-obikhod.txt",
   "chart": "songs/opevy-evangeliya-obikhod-soprano/chart.json",
   "backing": "songs/opevy-evangeliya-obikhod-soprano/backing.mp3",
   "reference": "songs/opevy-evangeliya-obikhod-soprano/reference.mp3"
@@ -1256,6 +1309,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/opevy-evangeliya-obikhod.pdf",
+  "text": "songs/text/opevy-evangeliya-obikhod.txt",
   "chart": "songs/opevy-evangeliya-obikhod-tenor/chart.json",
   "backing": "songs/opevy-evangeliya-obikhod-tenor/backing.mp3",
   "reference": "songs/opevy-evangeliya-obikhod-tenor/reference.mp3"
@@ -1279,6 +1333,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/prositelnaya-ekteniya.pdf",
+  "text": "songs/text/prositelnaya-ekteniya.txt",
   "chart": "songs/prositelnaya-ekteniya-alto/chart.json",
   "backing": "songs/prositelnaya-ekteniya-alto/backing.mp3",
   "reference": "songs/prositelnaya-ekteniya-alto/reference.mp3"
@@ -1302,6 +1357,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/prositelnaya-ekteniya.pdf",
+  "text": "songs/text/prositelnaya-ekteniya.txt",
   "chart": "songs/prositelnaya-ekteniya-bass/chart.json",
   "backing": "songs/prositelnaya-ekteniya-bass/backing.mp3",
   "reference": "songs/prositelnaya-ekteniya-bass/reference.mp3"
@@ -1325,6 +1381,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/prositelnaya-ekteniya.pdf",
+  "text": "songs/text/prositelnaya-ekteniya.txt",
   "chart": "songs/prositelnaya-ekteniya-soprano/chart.json",
   "backing": "songs/prositelnaya-ekteniya-soprano/backing.mp3",
   "reference": "songs/prositelnaya-ekteniya-soprano/reference.mp3"
@@ -1348,6 +1405,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/prositelnaya-ekteniya.pdf",
+  "text": "songs/text/prositelnaya-ekteniya.txt",
   "chart": "songs/prositelnaya-ekteniya-tenor/chart.json",
   "backing": "songs/prositelnaya-ekteniya-tenor/backing.mp3",
   "reference": "songs/prositelnaya-ekteniya-tenor/reference.mp3"
@@ -1371,6 +1429,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/sugubaya-ekteniya.pdf",
+  "text": "songs/text/sugubaya-ekteniya.txt",
   "chart": "songs/sugubaya-ekteniya-alto/chart.json",
   "backing": "songs/sugubaya-ekteniya-alto/backing.mp3",
   "reference": "songs/sugubaya-ekteniya-alto/reference.mp3"
@@ -1394,6 +1453,7 @@
   "part": "B",
   "partName": "бас",
   "pdf": "songs/pdf/sugubaya-ekteniya.pdf",
+  "text": "songs/text/sugubaya-ekteniya.txt",
   "chart": "songs/sugubaya-ekteniya-bass/chart.json",
   "backing": "songs/sugubaya-ekteniya-bass/backing.mp3",
   "reference": "songs/sugubaya-ekteniya-bass/reference.mp3"
@@ -1417,6 +1477,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/sugubaya-ekteniya.pdf",
+  "text": "songs/text/sugubaya-ekteniya.txt",
   "chart": "songs/sugubaya-ekteniya-soprano/chart.json",
   "backing": "songs/sugubaya-ekteniya-soprano/backing.mp3",
   "reference": "songs/sugubaya-ekteniya-soprano/reference.mp3"
@@ -1440,6 +1501,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/sugubaya-ekteniya.pdf",
+  "text": "songs/text/sugubaya-ekteniya.txt",
   "chart": "songs/sugubaya-ekteniya-tenor/chart.json",
   "backing": "songs/sugubaya-ekteniya-tenor/backing.mp3",
   "reference": "songs/sugubaya-ekteniya-tenor/reference.mp3"
@@ -1463,6 +1525,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "text": "songs/text/tretyakov-kheruvimskaya.txt",
   "chart": "songs/tretyakov-kheruvimskaya-alto/chart.json",
   "backing": "songs/tretyakov-kheruvimskaya-alto/backing.mp3",
   "reference": "songs/tretyakov-kheruvimskaya-alto/reference.mp3"
@@ -1486,6 +1549,7 @@
   "part": "B",
   "partName": "бас I",
   "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "text": "songs/text/tretyakov-kheruvimskaya.txt",
   "chart": "songs/tretyakov-kheruvimskaya-bass/chart.json",
   "backing": "songs/tretyakov-kheruvimskaya-bass/backing.mp3",
   "reference": "songs/tretyakov-kheruvimskaya-bass/reference.mp3"
@@ -1509,6 +1573,7 @@
   "part": "B2",
   "partName": "бас II",
   "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "text": "songs/text/tretyakov-kheruvimskaya.txt",
   "chart": "songs/tretyakov-kheruvimskaya-bass-2/chart.json",
   "backing": "songs/tretyakov-kheruvimskaya-bass-2/backing.mp3",
   "reference": "songs/tretyakov-kheruvimskaya-bass-2/reference.mp3"
@@ -1532,6 +1597,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "text": "songs/text/tretyakov-kheruvimskaya.txt",
   "chart": "songs/tretyakov-kheruvimskaya-soprano/chart.json",
   "backing": "songs/tretyakov-kheruvimskaya-soprano/backing.mp3",
   "reference": "songs/tretyakov-kheruvimskaya-soprano/reference.mp3"
@@ -1555,6 +1621,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/tretyakov-kheruvimskaya.pdf",
+  "text": "songs/text/tretyakov-kheruvimskaya.txt",
   "chart": "songs/tretyakov-kheruvimskaya-tenor/chart.json",
   "backing": "songs/tretyakov-kheruvimskaya-tenor/backing.mp3",
   "reference": "songs/tretyakov-kheruvimskaya-tenor/reference.mp3"
@@ -1578,6 +1645,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "text": "songs/text/trubachev-prositelnaya-ekteniya.txt",
   "chart": "songs/trubachev-prositelnaya-ekteniya-alto/chart.json",
   "backing": "songs/trubachev-prositelnaya-ekteniya-alto/backing.mp3",
   "reference": "songs/trubachev-prositelnaya-ekteniya-alto/reference.mp3"
@@ -1601,6 +1669,7 @@
   "part": "B",
   "partName": "бас I",
   "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "text": "songs/text/trubachev-prositelnaya-ekteniya.txt",
   "chart": "songs/trubachev-prositelnaya-ekteniya-bass/chart.json",
   "backing": "songs/trubachev-prositelnaya-ekteniya-bass/backing.mp3",
   "reference": "songs/trubachev-prositelnaya-ekteniya-bass/reference.mp3"
@@ -1624,6 +1693,7 @@
   "part": "B2",
   "partName": "бас II",
   "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "text": "songs/text/trubachev-prositelnaya-ekteniya.txt",
   "chart": "songs/trubachev-prositelnaya-ekteniya-bass-2/chart.json",
   "backing": "songs/trubachev-prositelnaya-ekteniya-bass-2/backing.mp3",
   "reference": "songs/trubachev-prositelnaya-ekteniya-bass-2/reference.mp3"
@@ -1647,6 +1717,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "text": "songs/text/trubachev-prositelnaya-ekteniya.txt",
   "chart": "songs/trubachev-prositelnaya-ekteniya-soprano/chart.json",
   "backing": "songs/trubachev-prositelnaya-ekteniya-soprano/backing.mp3",
   "reference": "songs/trubachev-prositelnaya-ekteniya-soprano/reference.mp3"
@@ -1670,6 +1741,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/trubachev-prositelnaya-ekteniya.pdf",
+  "text": "songs/text/trubachev-prositelnaya-ekteniya.txt",
   "chart": "songs/trubachev-prositelnaya-ekteniya-tenor/chart.json",
   "backing": "songs/trubachev-prositelnaya-ekteniya-tenor/backing.mp3",
   "reference": "songs/trubachev-prositelnaya-ekteniya-tenor/reference.mp3"
@@ -1693,6 +1765,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/velikaya-ekteniya.pdf",
+  "text": "songs/text/velikaya-ekteniya.txt",
   "chart": "songs/velikaya-ekteniya-alto/chart.json",
   "backing": "songs/velikaya-ekteniya-alto/backing.mp3",
   "reference": "songs/velikaya-ekteniya-alto/reference.mp3"
@@ -1716,6 +1789,7 @@
   "part": "B",
   "partName": "бас I",
   "pdf": "songs/pdf/velikaya-ekteniya.pdf",
+  "text": "songs/text/velikaya-ekteniya.txt",
   "chart": "songs/velikaya-ekteniya-bass/chart.json",
   "backing": "songs/velikaya-ekteniya-bass/backing.mp3",
   "reference": "songs/velikaya-ekteniya-bass/reference.mp3"
@@ -1739,6 +1813,7 @@
   "part": "B2",
   "partName": "бас II",
   "pdf": "songs/pdf/velikaya-ekteniya.pdf",
+  "text": "songs/text/velikaya-ekteniya.txt",
   "chart": "songs/velikaya-ekteniya-bass-2/chart.json",
   "backing": "songs/velikaya-ekteniya-bass-2/backing.mp3",
   "reference": "songs/velikaya-ekteniya-bass-2/reference.mp3"
@@ -1762,6 +1837,7 @@
   "part": "S",
   "partName": "сопрано",
   "pdf": "songs/pdf/velikaya-ekteniya.pdf",
+  "text": "songs/text/velikaya-ekteniya.txt",
   "chart": "songs/velikaya-ekteniya-soprano/chart.json",
   "backing": "songs/velikaya-ekteniya-soprano/backing.mp3",
   "reference": "songs/velikaya-ekteniya-soprano/reference.mp3"
@@ -1785,6 +1861,7 @@
   "part": "T",
   "partName": "тенор",
   "pdf": "songs/pdf/velikaya-ekteniya.pdf",
+  "text": "songs/text/velikaya-ekteniya.txt",
   "chart": "songs/velikaya-ekteniya-tenor/chart.json",
   "backing": "songs/velikaya-ekteniya-tenor/backing.mp3",
   "reference": "songs/velikaya-ekteniya-tenor/reference.mp3"
@@ -1808,6 +1885,7 @@
   "part": "A",
   "partName": "альт",
   "pdf": "songs/pdf/vo-tsarstvii.pdf",
+  "text": "songs/text/vo-tsarstvii.txt",
   "chart": "songs/vo-tsarstvii-alto/chart.json",
   "backing": "songs/vo-tsarstvii-alto/backing.mp3",
   "reference": "songs/vo-tsarstvii-alto/reference.mp3"
@@ -1831,6 +1909,7 @@
   "part": "B",
   "partName": "бас I",
   "pdf": "songs/pdf/vo-tsarstvii.pdf",
+  "text": "songs/text/vo-tsarstvii.txt",
   "chart": "songs/vo-tsarstvii-bass/chart.json",
   "backing": "songs/vo-tsarstvii-bass/backing.mp3",
   "reference": "songs/vo-tsarstvii-bass/reference.mp3"
@@ -1854,6 +1933,7 @@
   "part": "B2",
   "partName": "бас II",
   "pdf": "songs/pdf/vo-tsarstvii.pdf",
+  "text": "songs/text/vo-tsarstvii.txt",
   "chart": "songs/vo-tsarstvii-bass-2/chart.json",
   "backing": "songs/vo-tsarstvii-bass-2/backing.mp3",
   "reference": "songs/vo-tsarstvii-bass-2/reference.mp3"
@@ -1877,6 +1957,7 @@
   "part": "S",
   "partName": "сопрано I",
   "pdf": "songs/pdf/vo-tsarstvii.pdf",
+  "text": "songs/text/vo-tsarstvii.txt",
   "chart": "songs/vo-tsarstvii-soprano/chart.json",
   "backing": "songs/vo-tsarstvii-soprano/backing.mp3",
   "reference": "songs/vo-tsarstvii-soprano/reference.mp3"
@@ -1900,6 +1981,7 @@
   "part": "S2",
   "partName": "сопрано II",
   "pdf": "songs/pdf/vo-tsarstvii.pdf",
+  "text": "songs/text/vo-tsarstvii.txt",
   "chart": "songs/vo-tsarstvii-soprano-2/chart.json",
   "backing": "songs/vo-tsarstvii-soprano-2/backing.mp3",
   "reference": "songs/vo-tsarstvii-soprano-2/reference.mp3"
@@ -1923,6 +2005,7 @@
   "part": "T",
   "partName": "тенор I",
   "pdf": "songs/pdf/vo-tsarstvii.pdf",
+  "text": "songs/text/vo-tsarstvii.txt",
   "chart": "songs/vo-tsarstvii-tenor/chart.json",
   "backing": "songs/vo-tsarstvii-tenor/backing.mp3",
   "reference": "songs/vo-tsarstvii-tenor/reference.mp3"
@@ -1946,6 +2029,7 @@
   "part": "T2",
   "partName": "тенор II",
   "pdf": "songs/pdf/vo-tsarstvii.pdf",
+  "text": "songs/text/vo-tsarstvii.txt",
   "chart": "songs/vo-tsarstvii-tenor-2/chart.json",
   "backing": "songs/vo-tsarstvii-tenor-2/backing.mp3",
   "reference": "songs/vo-tsarstvii-tenor-2/reference.mp3"
