@@ -1674,12 +1674,13 @@ function buildForm ()
     $("songClose").onclick = () => { $("songSheet").hidden = true; };
     $("partBtn").onclick = () => openSheet ("partSheet");
     $("tempoBtn").onclick = () => { renderTempo(); openSheet ("tempoSheet"); };
-    // Режимы: свободный / композиция / упражнения; the name button opens that mode's chooser.
+    // Режимы: свободный / композиция / упражнение. Picking композиция or упражнение opens its
+    // chooser at once (the list is what one wants next); the name button still opens it too.
     document.querySelectorAll ("[data-mode]").forEach (b => b.onclick = () => {
         if (running) stop();
         S.mode = b.dataset.mode; save(); syncForm(); track ("mode", S.mode);
-        if (S.mode === "song") refreshSongList();
         updateTitle(); previewChart();
+        $("title").onclick();
     });
     $("title").onclick = () => {
         if (S.mode === "free") return;
