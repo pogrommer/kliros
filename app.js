@@ -129,7 +129,11 @@ async function ensureContext ()
     workletNode = new AudioWorkletNode (ctx, "pitch-processor", { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1] });
     const mute = ctx.createGain(); mute.gain.value = 0;
     workletNode.connect (mute).connect (ctx.destination);
-    workletNode.port.onmessage = (e) => { lastWorkletMsg = performance.now(); if (micSource) onEstimate (e.data); };
+    workletNode.port.onmessage = (e) => {
+        lastWorkletMsg = performance.now();
+        if (e.data.rmsDb > DIGITAL_ZERO_DB) lastSound = lastWorkletMsg;
+        if (micSource) onEstimate (e.data);
+    };
 
     guideGain = ctx.createGain(); guideGain.connect (ctx.destination);
     backGain  = ctx.createGain(); backGain.connect (ctx.destination);
@@ -166,8 +170,9 @@ async function micOnOnce ()
     micStream.getAudioTracks().forEach (t => t.onended = () => micOff (true));
     if (ctx.state !== "running") await ctx.resume();
     micWanted = true;
-    lastWorkletMsg = performance.now();
+    lastWorkletMsg = lastSound = performance.now();
     setMicButton ("on");
+    requestWakeLock();      // a locked screen takes the mic away on iOS
 }
 
 // The screen lock (and a call, or another app taking the audio) leaves the page
@@ -176,14 +181,30 @@ async function micOnOnce ()
 // singer had the mic on but it is not delivering (no worklet frames for 1.5 s, or
 // its track is ended/muted), resume the context and open the mic afresh. iOS may
 // refuse that until a tap: then the status line asks for one, and the tap does it.
-let lastWorkletMsg = 0, recovering = false, lastCheck = 0;
+// iOS also has two quieter ways to lose it: the context stays "interrupted" after
+// a call or Siri however often it is resumed, and the mic keeps "running" while
+// feeding exact zeros (a real mic never sits below -110 dB). Both need a new
+// AudioContext, not just a new stream - see rebuildContext().
+const DIGITAL_ZERO_DB = -110;
+let lastWorkletMsg = 0, lastSound = 0, recovering = false, lastCheck = 0, lastRecover = 0;
 
 function audioDead ()
 {
     if (! micWanted) return false;
     if (! ctx || ctx.state !== "running") return true;
     if (! micStream || micStream.getAudioTracks().some (t => t.readyState === "ended" || t.muted)) return true;
-    return performance.now() - lastWorkletMsg > 1500;
+    const now = performance.now();
+    return now - lastWorkletMsg > 1500 || now - lastSound > 3000;
+}
+
+async function rebuildContext ()
+{
+    if (running) stop();
+    micOff (true);
+    const old = ctx;
+    ctx = null; workletNode = null; frame.lastTarget = undefined;
+    try { await old?.close(); } catch {}
+    await ensureContext();
 }
 
 async function recoverAudio ()
@@ -195,7 +216,11 @@ async function recoverAudio ()
         if (ctx && ctx.state !== "running") { try { await ctx.resume(); } catch {} }
         if (audioDead())
         {
-            micOff (true);
+            // A fresh stream first; if that did not hold for 10 s, a fresh context too.
+            const again = performance.now() - lastRecover < 10000;
+            lastRecover = performance.now();
+            if (again || (ctx && ctx.state !== "running")) await rebuildContext();
+            else micOff (true);
             await micOn();
         }
         if (! audioDead() && $("status").dataset.mic) { $("status").textContent = ""; delete $("status").dataset.mic; }
@@ -226,7 +251,7 @@ function checkAudio ()
 // keepWanted: closed from outside or to be reopened - the singer did not switch it off.
 function micOff (keepWanted = false)
 {
-    if (! keepWanted) micWanted = false;
+    if (! keepWanted) { micWanted = false; if (! running) releaseWakeLock(); }
     if (micSource) { try { micSource.disconnect(); } catch {} }
     micSource = null;
     if (micStream) micStream.getTracks().forEach (t => t.stop());
@@ -473,7 +498,7 @@ function stop (finished = false, review = false)
     running = false;
     stopSources();
     setButton (false);
-    releaseWakeLock();
+    if (! micWanted) releaseWakeLock();
     if (chart && (finished || (review && wasRunning && sungSoFar() >= 3))) showSummary();
 }
 
@@ -1578,8 +1603,8 @@ async function requestWakeLock () { try { wakeLock = await navigator.wakeLock?.r
 function releaseWakeLock () { try { wakeLock?.release(); } catch {} wakeLock = null; }
 document.addEventListener ("visibilitychange", () => {
     if (document.visibilityState !== "visible") return;
-    if (running) requestWakeLock();
-    lastWorkletMsg = performance.now();      // give the context a moment to come back by itself
+    if (running || micWanted) requestWakeLock();
+    lastWorkletMsg = lastSound = performance.now();      // give the context a moment to come back by itself
     lastCheck = 0;
 });
 addEventListener ("pageshow", () => { lastCheck = 0; });
