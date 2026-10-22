@@ -11,6 +11,7 @@
 // (iOS 16.4+, Chrome 80+) over Blob slices, so a 200 MB package is never held
 // in memory whole.
 
+import { t } from "./i18n.js";
 const DB_NAME = "vt-local", STORE = "songs";
 const MAX_TOTAL = 1.5 * 1024 ** 3;
 
@@ -28,16 +29,16 @@ async function readZip (file)
     let eocd = -1;
     for (let i = tail.byteLength - 22; i >= 0; --i)
         if (tail.getUint32 (i, true) === 0x06054b50) { eocd = i; break; }
-    if (eocd < 0) throw new PackageError ("это не zip-архив (или он повреждён / не догрузился)");
+    if (eocd < 0) throw new PackageError (t ("это не zip-архив (или он повреждён / не догрузился)"));
     const count = tail.getUint16 (eocd + 10, true);
     const cdSize = tail.getUint32 (eocd + 12, true), cdOff = tail.getUint32 (eocd + 16, true);
-    if (cdOff === 0xffffffff || count === 0xffff) throw new PackageError ("архив в формате ZIP64 (больше 4 ГБ) не поддерживается");
+    if (cdOff === 0xffffffff || count === 0xffff) throw new PackageError (t ("архив в формате ZIP64 (больше 4 ГБ) не поддерживается"));
     const cd = await bytes (file, cdOff, cdOff + cdSize);
     const utf8 = new TextDecoder ("utf-8");
     const entries = new Map();
     for (let p = 0, n = 0; n < count; ++n)
     {
-        if (cd.getUint32 (p, true) !== 0x02014b50) throw new PackageError ("оглавление zip повреждено");
+        if (cd.getUint32 (p, true) !== 0x02014b50) throw new PackageError (t ("оглавление zip повреждено"));
         const method = cd.getUint16 (p + 10, true);
         const csize = cd.getUint32 (p + 20, true), size = cd.getUint32 (p + 24, true);
         const nlen = cd.getUint16 (p + 28, true), xlen = cd.getUint16 (p + 30, true), clen = cd.getUint16 (p + 32, true);
@@ -46,7 +47,7 @@ async function readZip (file)
         p += 46 + nlen + xlen + clen;
         if (name.endsWith ("/")) continue;
         if (name.split ("/").some (s => s === "..") || name.startsWith ("/") || name.includes (":"))
-            throw new PackageError (`в архиве опасный путь: ${name}`);
+            throw new PackageError (t ("в архиве опасный путь: {0}", name));
         if (name.split ("/").some (s => s === "__MACOSX") || /(^|\/)\._/.test (name)) continue;   // macOS junk
         entries.set (name.replace (/^\.\//, ""), { name, method, csize, size, local });
     }
@@ -56,7 +57,7 @@ async function readZip (file)
 async function unpack (file, e, type = "")
 {
     const h = await bytes (file, e.local, e.local + 30);
-    if (h.getUint32 (0, true) !== 0x04034b50) throw new PackageError (`повреждён файл в архиве: ${e.name}`);
+    if (h.getUint32 (0, true) !== 0x04034b50) throw new PackageError (t ("повреждён файл в архиве: {0}", e.name));
     const start = e.local + 30 + h.getUint16 (26, true) + h.getUint16 (28, true);
     const raw = file.slice (start, start + e.csize);
     let out;
@@ -64,11 +65,11 @@ async function unpack (file, e, type = "")
     else if (e.method === 8)
     {
         if (typeof DecompressionStream === "undefined")
-            throw new PackageError ("этот браузер не умеет распаковывать zip (нужен iOS 16.4+ или свежий Chrome)");
+            throw new PackageError (t ("этот браузер не умеет распаковывать zip (нужен iOS 16.4+ или свежий Chrome)"));
         out = await new Response (raw.stream().pipeThrough (new DecompressionStream ("deflate-raw")), { headers: { "Content-Type": type } }).blob();
     }
-    else throw new PackageError (`неподдерживаемое сжатие в архиве (${e.method}): ${e.name}`);
-    if (out.size !== e.size) throw new PackageError (`файл распаковался не целиком: ${e.name}`);
+    else throw new PackageError (t ("неподдерживаемое сжатие в архиве ({0}): {1}", e.method, e.name));
+    if (out.size !== e.size) throw new PackageError (t ("файл распаковался не целиком: {0}", e.name));
     return out;
 }
 
@@ -103,16 +104,16 @@ function joinPath (dir, rel)
 function checkChart (c, where)
 {
     const bad = (m) => { throw new PackageError (`chart.json${where}: ${m}`); };
-    if (! c || typeof c !== "object") bad ("не JSON-объект");
-    if (c.schemaVersion !== "1.0") bad (`версия формата ${c.schemaVersion ?? "?"}, нужна 1.0`);
-    if (! c.song || typeof c.song !== "object") bad ("нет раздела song");
-    if (! Array.isArray (c.notes)) bad ("нет списка нот");
+    if (! c || typeof c !== "object") bad (t ("не JSON-объект"));
+    if (c.schemaVersion !== "1.0") bad (t ("версия формата {0}, нужна 1.0", c.schemaVersion ?? "?"));
+    if (! c.song || typeof c.song !== "object") bad (t ("нет раздела song"));
+    if (! Array.isArray (c.notes)) bad (t ("нет списка нот"));
     const notes = c.notes.filter (n => n && n.type !== "breath");
-    if (! notes.length) bad ("в партии нет нот");
+    if (! notes.length) bad (t ("в партии нет нот"));
     for (const n of notes)
         if (! Number.isFinite (n.startSeconds) || ! Number.isFinite (n.durationSeconds) || ! Number.isFinite (n.midi))
-            bad (`нота ${n.id ?? "?"} без времени или высоты`);
-    if (c.phrases != null && ! Array.isArray (c.phrases)) bad ("phrases - не список");
+            bad (t ("нота {0} без времени или высоты", n.id ?? "?"));
+    if (c.phrases != null && ! Array.isArray (c.phrases)) bad (t ("phrases - не список"));
 }
 
 /** Reads and checks every song in the zip. Returns [{ id, chart, audio: { reference, backing } }]. */
@@ -120,39 +121,39 @@ export async function readPackage (file, say = () => {})
 {
     const entries = await readZip (file);
     const total = [...entries.values()].reduce ((a, e) => a + e.size, 0);
-    if (total > MAX_TOTAL) throw new PackageError ("архив слишком большой (больше 1,5 ГБ в распакованном виде)");
+    if (total > MAX_TOTAL) throw new PackageError (t ("архив слишком большой (больше 1,5 ГБ в распакованном виде)"));
     const charts = [...entries.keys()].filter (n => n === "chart.json" || n.endsWith ("/chart.json")).sort();
-    if (! charts.length) throw new PackageError ("в архиве нет chart.json - это не пакет песни");
+    if (! charts.length) throw new PackageError (t ("в архиве нет chart.json - это не пакет песни"));
 
     const songs = [];
     for (const cp of charts)
     {
         const dir = cp.slice (0, -"chart.json".length).replace (/\/$/, "");
         const where = dir ? ` (${dir})` : "";
-        say (`проверяю ${cp}…`);
+        say (t ("проверяю {0}…", cp));
         let chart;
         try { chart = JSON.parse ((await (await unpack (file, entries.get (cp))).text()).replace (/^﻿/, "")); }
-        catch (err) { if (err instanceof PackageError) throw err; throw new PackageError (`chart.json${where} не читается: ${err.message}`); }
+        catch (err) { if (err instanceof PackageError) throw err; throw new PackageError (t ("chart.json{0} не читается: {1}", where, err.message)); }
         checkChart (chart, where);
 
         const audio = {};
-        for (const [which, key, what, required] of [["reference", "referenceAudio", "голос (подсказка)", true],
-                                                    ["backing", "backingAudio", "минус", false]])
+        for (const [which, key, what, required] of [["reference", "referenceAudio", t ("голос (подсказка)"), true],
+                                                    ["backing", "backingAudio", t ("минус"), false]])
         {
             const rel = chart.song[key];
-            if (! rel) { if (required) throw new PackageError (`chart.json${where}: не указан файл ${key}`); continue; }
+            if (! rel) { if (required) throw new PackageError (t ("chart.json{0}: не указан файл {1}", where, key)); continue; }
             const path = joinPath (dir, rel);
             if (path === null || (dir && ! path.startsWith (dir + "/")))
-                throw new PackageError (`chart.json${where}: путь ${rel} выходит за папку песни`);
+                throw new PackageError (t ("chart.json{0}: путь {1} выходит за папку песни", where, rel));
             const e = entries.get (path);
-            if (! e) throw new PackageError (`в архиве нет файла: ${path} (${what})`);
+            if (! e) throw new PackageError (t ("в архиве нет файла: {0} ({1})", path, what));
             const ext = path.split (".").pop().toLowerCase();
-            if (! AUDIO[ext]) throw new PackageError (`${what}: ${path} - нужен WAV, FLAC, MP3 или M4A`);
-            say (`распаковываю ${path} (${(e.size / 1048576).toFixed (1)} МБ)…`);
+            if (! AUDIO[ext]) throw new PackageError (t ("{0}: {1} - нужен WAV, FLAC, MP3 или M4A", what, path));
+            say (t ("распаковываю {0} ({1} МБ)…", path, (e.size / 1048576).toFixed (1)));
             const blob = await unpack (file, e, AUDIO[ext]);
             const kind = await audioKind (blob);
             if (! kind || (kind !== ext && ! (ext === "m4a" && kind === "m4a")))
-                throw new PackageError (`${path} - не настоящий ${ext.toUpperCase()} (повреждён?)`);
+                throw new PackageError (t ("{0} - не настоящий {1} (повреждён?)", path, ext.toUpperCase()));
             audio[which] = blob;
         }
         const raw = /^[A-Za-z0-9._-]+$/.test (chart.song.id || "") ? chart.song.id
@@ -161,7 +162,7 @@ export async function readPackage (file, say = () => {})
     }
     const ids = songs.map (s => s.id);
     const dup = ids.find ((x, i) => ids.indexOf (x) !== i);
-    if (dup) throw new PackageError (`в архиве две песни с одним id: ${dup}`);
+    if (dup) throw new PackageError (t ("в архиве две песни с одним id: {0}", dup));
     return songs;
 }
 
@@ -196,14 +197,14 @@ export async function saveSongs (songs)
     {
         const est = await navigator.storage?.estimate?.();
         if (est && est.quota && est.quota - est.usage < need * 1.1)
-            throw new PackageError (`на телефоне не хватает места для приложения: нужно ${(need / 1048576).toFixed (0)} МБ`);
+            throw new PackageError (t ("на телефоне не хватает места для приложения: нужно {0} МБ", (need / 1048576).toFixed (0)));
     }
     catch (err) { if (err instanceof PackageError) throw err; }
     try { await tx ("readwrite", st => { for (const s of songs) st.put ({ ...s, added: Date.now() }); }); }
     catch (err)
     {
-        throw new PackageError (err?.name === "QuotaExceededError" ? "на телефоне не хватает места для приложения"
-                                                                   : `не удалось сохранить: ${err?.message || err}`);
+        throw new PackageError (err?.name === "QuotaExceededError" ? t ("на телефоне не хватает места для приложения")
+                                                                   : t ("не удалось сохранить: {0}", err?.message || err));
     }
 }
 

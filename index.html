@@ -21,9 +21,9 @@
     <!-- Voice type first: everything else follows from it. -->
     <button id="voiceBtn" title="Тип голоса"><span id="voiceText"></span></button>
     <div id="modeSeg" class="seg">
-      <button data-mode="free">свободный</button>
-      <button data-mode="song">композиция</button>
-      <button data-mode="exercise">упражнение</button>
+      <button data-mode="free">Свободный</button>
+      <button data-mode="song">Композиция</button>
+      <button data-mode="exercise">Упражнение</button>
     </div>
     <button id="title" title="Выбрать"><span id="titleText">Kliros</span></button>
     <button id="partBtn" title="Партия" hidden><span id="partText"></span></button>
@@ -32,7 +32,7 @@
   <nav id="controls">
     <!-- data-label: the words beside the icons on a desktop screen (style.css). -->
     <button id="menu" aria-label="Настройки" data-label="Настройки">☰</button>
-    <button id="viewBtn" title="Ноты или piano roll" data-label="вид">ноты</button>
+    <button id="viewBtn" title="Ноты или piano roll" data-label="Вид">Ноты</button>
     <button id="clefBtn" class="chip" aria-label="Ключ" data-label="Ключ">𝄢</button>
     <button id="guide" class="chip" title="Подсказка (пианино / голос)" data-label="Подсказка">♪</button>
     <button id="mic" data-state="off" aria-label="Микрофон" aria-pressed="false" data-label="Микрофон">
@@ -112,6 +112,7 @@
         </label>
       </div>
 
+      <label>Язык <select id="lang"></select></label>
       <label>Вид
         <select id="view">
           <option value="staff">Нотная запись, текст над нотами</option>
@@ -120,7 +121,7 @@
       </label>
       <label>Нотный стан
         <select id="clef">
-          <option value="auto">Авто — по партии и нотам песни</option>
+          <option value="auto">Авто — по голосу и партии</option>
           <option value="bass">Басовый ключ</option>
           <option value="treble">Скрипичный ключ</option>
           <option value="treble8">Скрипичный, октавой ниже (теноровый)</option>

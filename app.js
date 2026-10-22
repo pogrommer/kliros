@@ -4,6 +4,7 @@
 import { DEFINITIONS, getDefinition, makeSpec, buildChart, buildDrillChart, LENGTHS, noteName, rootChoices } from "./exercises.js";
 import { renderClickTrack, renderGuideTone, renderSingleNote } from "./synth.js";
 import { drawStaff, midiName, isSharp } from "./staff.js";
+import { t, cap, lang, LANGS, translatePage } from "./i18n.js";
 import { stretch, scaleChart, TEMPO_STEPS } from "./tempo.js";
 import { pageview, track } from "./analytics.js";
 import { readPackage, saveSongs, getSong, deleteSong, hasSong, listSongs as listLocalSongs } from "./localsongs.js";
@@ -15,7 +16,7 @@ const DEFAULTS = {
     clef: "auto", names: true, tolerance: "practice", guide: true, guideVol: 0.8, backVol: 0.8,
     latencyMs: 0, song: "antsev-trisvyatoe-tenor", part: "T", view: "staff", tempo: 1, voice: "",
 };
-const VOICES = [["S", "сопрано"], ["A", "альт"], ["T", "тенор"], ["B", "бас"]];
+const VOICES = [["S", t ("Сопрано")], ["A", t ("Альт")], ["T", t ("Тенор")], ["B", t ("Бас")]];
 // Each voice's range in an Orthodox church choir (not opera): S C4-G5, A G3-C5, T C3-G4,
 // B F2-C4. The keyboards and the free piano roll show all of it; the staff's five lines
 // are always drawn whole, with their keys, even where the range ends inside them.
@@ -58,7 +59,9 @@ const HISTORY = 2.0, SPAN = 5.5;
 //   names   — G3, A#3 ...
 //   fixed   — до ре ми, до = C (the Russian school)
 //   movable — do re mi from the exercise's tonic (as the desktop app sings it)
-const FIXED_DO   = ["до", "до♯", "ре", "ре♯", "ми", "фа", "фа♯", "соль", "соль♯", "ля", "ля♯", "си"];
+// In English the fixed do keeps its syllables in their Latin spelling (si as ti).
+const FIXED_DO   = lang === "en" ? ["do", "do♯", "re", "re♯", "mi", "fa", "fa♯", "sol", "sol♯", "la", "la♯", "ti"]
+                                 : ["до", "до♯", "ре", "ре♯", "ми", "фа", "фа♯", "соль", "соль♯", "ля", "ля♯", "си"];
 const MOVABLE_DO = ["do", "di", "re", "me", "mi", "fa", "fi", "sol", "le", "la", "te", "ti"];
 
 function tonic ()
@@ -78,6 +81,8 @@ function label (midi)
 // Label plus, for syllables, the octave-bearing name — for the readout only.
 const labelLong = (midi) => S.labels === "names" ? midiName (midi) : `${label (midi)} <small>${midiName (midi)}</small>`;
 const $ = (id) => document.getElementById (id);
+// The page's own words, in English if that is the language (i18n.js).
+translatePage();
 
 //==============================================================================
 // Audio
@@ -114,7 +119,7 @@ async function ensureContext ()
     if (ctx) { if (ctx.state !== "running") await ctx.resume(); return; }
 
     if (! window.isSecureContext || ! navigator.mediaDevices)
-        throw new Error ("Микрофон доступен только по https. Откройте адрес https://… (см. инструкцию).");
+        throw new Error (t ("Микрофон доступен только по https. Откройте адрес https://… (см. инструкцию)."));
 
     try { if (navigator.audioSession) navigator.audioSession.type = "play-and-record"; } catch {}
 
@@ -152,7 +157,7 @@ async function micOnOnce ()
         micStream = earlyStream?.active ? earlyStream : await navigator.mediaDevices.getUserMedia (MIC_CONSTRAINTS);
         earlyStream = null;
     }
-    catch (e) { setMicButton ("off"); throw new Error ("Нет доступа к микрофону: " + (e.message || e.name)); }
+    catch (e) { setMicButton ("off"); throw new Error (t ("Нет доступа к микрофону: ") + (e.message || e.name)); }
 
     micSource = ctx.createMediaStreamSource (micStream);
     micSource.connect (workletNode);
@@ -199,7 +204,7 @@ async function recoverAudio ()
     finally { recovering = false; }
     if (audioDead())
     {
-        $("status").textContent = "Коснитесь экрана, чтобы вернуть микрофон";
+        $("status").textContent = t ("Коснитесь экрана, чтобы вернуть микрофон");
         $("status").dataset.mic = "1";
         if (! tapArmed)
         {
@@ -242,7 +247,7 @@ function setMicButton (state)
     const b = $("mic");
     b.dataset.state = state;
     b.setAttribute ("aria-pressed", state === "on" ? "true" : "false");
-    b.title = state === "on" ? "Микрофон включён — нажмите, чтобы выключить" : "Микрофон выключен — нажмите, чтобы включить";
+    b.title = state === "on" ? t ("Микрофон включён — нажмите, чтобы выключить") : t ("Микрофон выключен — нажмите, чтобы включить");
     if (state !== "on") b.style.setProperty ("--lvl", "0");
 }
 
@@ -418,7 +423,7 @@ async function start ()
         else if (S.mode === "song")
         {
             if (! S.song) { openSettings(); return; }
-            $("status").textContent = "Загрузка песни…";
+            $("status").textContent = t ("Загрузка песни…");
             const song = await loadSong (S.song);
             const decks = await songDecks (song);
             prepareChart (scaleChart (song.chart, S.tempo));
@@ -479,7 +484,7 @@ const sungSoFar = () => chart.notes.filter ((n, i) => n.startSeconds + n.duratio
 function setButton (on)
 {
     $("play").textContent = on ? "■" : "▶";
-    $("play").dataset.label = on ? "Стоп" : "Старт";
+    $("play").dataset.label = on ? t ("Стоп") : t ("Старт");
     $("play").classList.toggle ("on", on);
 }
 
@@ -491,13 +496,13 @@ async function loadSong (id)
 {
     if (songCache.has (id)) return songCache.get (id);
     // Offline these come from the service worker, which keeps the last song opened.
-    const offline = "песня недоступна: сервер на ПК не отвечает, а в телефоне сохранена только последняя открытая песня";
+    const offline = t ("песня недоступна: сервер на ПК не отвечает, а в телефоне сохранена только последняя открытая песня");
     // URLs come with the list: the home server's api/..., or static files on the Pages site.
     const e = songEntries.get (id) || {};
     const api = `api/songs/${encodeURIComponent (id)}`;
     // Added on this phone: chart and audio come from IndexedDB, not the network.
     const local = e.local ? await getSong (id) : null;
-    if (e.local && ! local) throw new Error ("песня не найдена на телефоне - добавьте zip ещё раз");
+    if (e.local && ! local) throw new Error (t ("песня не найдена на телефоне - добавьте zip ещё раз"));
     let chartJson = local?.chart;
     if (! chartJson)
     {
@@ -514,9 +519,9 @@ async function loadSong (id)
         catch (err)
         {
             // Say which file and what arrived, so a report from the phone is enough to fix it.
-            const what = which === "backing" ? "минус" : "подсказку";
-            throw new Error (`не удалось раскодировать ${what} (${r.headers.get ("Content-Type") || "?"}, `
-                             + `${Math.round (buf.byteLength / 1024)} КБ): ${err.message || err.name}`);
+            const what = which === "backing" ? t ("минус") : t ("подсказку");
+            throw new Error (t ("не удалось раскодировать {0} ({1}, {2} КБ): {3}", what, r.headers.get ("Content-Type") || "?",
+                                Math.round (buf.byteLength / 1024), err.message || err.name));
         }
     };
     const [backing, reference] = await Promise.all ([fetchAudio ("backing"), fetchAudio ("reference")]);
@@ -577,7 +582,7 @@ async function refreshSongList ()
                                || a.label.localeCompare (b.label, "ru"));
         renderPieces();
     }
-    catch { $("pieceList").innerHTML = `<p class="note">Сервер недоступен</p>`; fillParts (null); syncDeleteButton(); }
+    catch { $("pieceList").innerHTML = `<p class="note">${t ("Сервер недоступен")}</p>`; fillParts (null); syncDeleteButton(); }
 }
 
 const norm = (s) => (s || "").toLowerCase().replace (/ё/g, "е");
@@ -591,18 +596,18 @@ function renderPieces ()
     const words = norm ($("songSearch").value).split (/\s+/).filter (Boolean);
     const shown = pieces.filter (p => words.every (w => p.haystack.includes (w)));
     list.innerHTML = "";
-    if (! pieces.length) list.innerHTML = `<p class="note">${songsOffline ? "Сервер недоступен, сохранённых песен нет" : "В библиотеке нет песен"}</p>`;
-    else if (! shown.length) list.innerHTML = `<p class="note">Ничего не найдено</p>`;
+    if (! pieces.length) list.innerHTML = `<p class="note">${songsOffline ? t ("Сервер недоступен, сохранённых песен нет") : t ("В библиотеке нет песен")}</p>`;
+    else if (! shown.length) list.innerHTML = `<p class="note">${t ("Ничего не найдено")}</p>`;
     for (const p of shown)
     {
         const b = document.createElement ("button");
         b.className = "pi"; b.dataset.key = p.key;
         b.innerHTML = esc (p.label) + (p.date ? `<small>${fmtDate (p.date)}</small>` : "")
-                    + (songsOffline && ! p.local ? "<small>(без сервера)</small>" : "");
+                    + (songsOffline && ! p.local ? `<small>${t ("(без сервера)")}</small>` : "");
         b.onclick = () => pickPiece (p.key);
         list.appendChild (b);
     }
-    $("searchCount").textContent = words.length ? `${shown.length} из ${pieces.length}` : "";
+    $("searchCount").textContent = words.length ? t ("{0} из {1}", shown.length, pieces.length) : "";
     const cur = pieces.find (p => p.parts.some (x => x.id === S.song)) || pieces[0];
     if (cur) choosePiece (cur.key, S.song);
     else { fillParts (null); $("pieceInfo").textContent = ""; }
@@ -629,8 +634,8 @@ function choosePiece (key, songId)
     fillParts (p);
     syncDeleteButton();
     // Where it came from: the letter and the collection, for finding it again later.
-    $("pieceInfo").textContent = [p.check && `⚠ разбор под вопросом: ${p.check}`,
-                                  p.date && `письмо ${fmtDate (p.date)}`, p.subject && `«${p.subject}»`, p.collection]
+    $("pieceInfo").textContent = [p.check && t ("⚠ разбор под вопросом: {0}", p.check),
+                                  p.date && t ("письмо {0}", fmtDate (p.date)), p.subject && `«${p.subject}»`, p.collection]
         .filter (Boolean).join (" · ");
     updateTitle();
 }
@@ -645,7 +650,7 @@ function fillParts (p)
     for (const x of p ? p.parts : [])
     {
         const b = document.createElement ("button");
-        b.textContent = x.partName || x.part || x.id;
+        b.textContent = cap (t (cap (x.partName || x.part || x.id)));
         b.classList.toggle ("sel", x.id === S.song);
         b.onclick = () => {
             S.song = x.id; S.part = x.part || S.part; save();
@@ -661,7 +666,7 @@ function updatePartBtn ()
 {
     const p = currentPiece, x = p?.parts.find (y => y.id === S.song);
     $("partBtn").hidden = S.mode !== "song" || ! p || p.parts.length < 2;
-    $("partText").textContent = x ? (x.partName || x.part || "") : "";
+    $("partText").textContent = x ? cap (t (cap (x.partName || x.part || ""))) : "";
 }
 
 function songChanged ()
@@ -724,7 +729,7 @@ async function songDecks (song)
     {
         if (song.stretchedFor !== f)
         {
-            $("status").textContent = `Готовлю темп ${Math.round (f * 100)}%…`;
+            $("status").textContent = t ("Готовлю темп {0}%…", Math.round (f * 100));
             await new Promise (r => setTimeout (r, 40));       // let that line show first
             song.stretched = { backing: song.backing && stretch (ctx, song.backing, f),
                                reference: song.reference && stretch (ctx, song.reference, f) };
@@ -749,22 +754,22 @@ async function addSongFile (file)
     try
     {
         if (! /\.zip$/i.test (file.name))
-            throw new Error ("нужен zip-архив песни: chart.json + голос и минус (WAV, FLAC, MP3 или M4A)");
+            throw new Error (t ("нужен zip-архив песни: chart.json + голос и минус (WAV, FLAC, MP3 или M4A)"));
         const songs = await readPackage (file, (m) => uploadSay (esc (m)));
         const clash = [];
         for (const s of songs) if (await hasSong (s.id)) clash.push (s.chart.song.title || s.id);
-        if (clash.length && ! confirm (`Уже есть на телефоне: ${clash.join (", ")}. Заменить?`))
-        { uploadSay ("Отменено."); return; }
-        uploadSay ("сохраняю на телефоне…");
+        if (clash.length && ! confirm (t ("Уже есть на телефоне: {0}. Заменить?", clash.join (", "))))
+        { uploadSay (t ("Отменено.")); return; }
+        uploadSay (t ("сохраняю на телефоне…"));
         await saveSongs (songs);
         S.song = songs[0].id; save();
         $("songSearch").value = "";
         songCache.clear();
         await refreshSongList();
-        uploadSay (`<span class="ok">✓ Добавлено: ${songs.map (s => esc (s.chart.song.title || s.id)).join (", ")}.</span>
-                    Выбрана — «Готово» и ▶.`);
+        uploadSay (`<span class="ok">${t ("✓ Добавлено: {0}.", songs.map (s => esc (s.chart.song.title || s.id)).join (", "))}</span>
+                    ${t ("Выбрана — «Готово» и ▶.")}`);
     }
-    catch (err) { uploadSay (`<span class="bad">Не добавлено: ${esc (String (err.message || err))}</span>`); }
+    catch (err) { uploadSay (`<span class="bad">${t ("Не добавлено: {0}", esc (String (err.message || err)))}</span>`); }
     finally { btn.disabled = false; $("addSongFile").value = ""; }
 }
 
@@ -777,18 +782,18 @@ function syncDeleteButton ()
 async function deleteLocalSong ()
 {
     const e = songEntries.get (S.song);
-    if (! e?.local || ! confirm (`Удалить с телефона «${e.title}»?`)) return;
+    if (! e?.local || ! confirm (t ("Удалить с телефона «{0}»?", e.title))) return;
     await deleteSong (e.id);
     songCache.delete (e.id);
     S.song = ""; save();
     await refreshSongList();
-    uploadSay (`Удалено: ${esc (e.title)}.`);
+    uploadSay (t ("Удалено: {0}.", esc (e.title)));
 }
 
 function songTitle ()
 {
     const p = pieces.find (x => x.parts.some (y => y.id === S.song));
-    if (! p) return "Песня";
+    if (! p) return t ("Песня");
     const part = p.parts.find (y => y.id === S.song);
     return p.label;
 }
@@ -836,7 +841,8 @@ function overallPercent ()
 let drillChart = null;
 const DRILL_KINDS = 3;
 
-const times = (n) => n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? "раза" : "раз";
+const times = (n) => lang === "en" ? (n === 1 ? "time" : "times")
+                  : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? "раза" : "раз";
 
 function missedSpots ()
 {
@@ -861,8 +867,9 @@ function missedSpots ()
         // Under a semitone in cents; from there in semitones, as a singer counts.
         const semis = c == null ? 0 : Math.round (Math.abs (c) / 100);
         const by = c == null ? "" : Math.abs (c) < 80 ? `${Math.abs (c)}¢`
+                 : lang === "en" ? `${semis} semitone${semis === 1 ? "" : "s"}`
                  : `${semis} ${semis === 1 ? "полутон" : semis < 5 ? "полутона" : "полутонов"}`;
-        const way = c == null ? "" : Math.abs (c) < 15 ? ", неустойчиво" : `, пели ${c > 0 ? "выше" : "ниже"} на ${by}`;
+        const way = c == null ? "" : Math.abs (c) < 15 ? t (", неустойчиво") : c > 0 ? t (", пели выше на {0}", by) : t (", пели ниже на {0}", by);
         const steps = [k.prev, k.note].filter (Boolean).map (n => label (n.midi)).join ("→");
         const where = k.words.length && ! chart.exercise
             ? ` (${k.words.slice (0, 2).map (w => `«${w}»`).join (", ")}${k.words.length > 2 ? "…" : ""})` : "";
@@ -926,9 +933,9 @@ let earlyAsked = false, drillFromEarly = false, lastEarlyCheck = 0, earlyPausedA
 function checkEarlyMisses (now)
 {
     if (! running || S.mode !== "song" || earlyAsked || ! chart) return;
-    const t = performance.now();
-    if (t - lastEarlyCheck < 500) return;
-    lastEarlyCheck = t;
+    const wall = performance.now();
+    if (wall - lastEarlyCheck < 500) return;
+    lastEarlyCheck = wall;
     const sung = chart.notes.filter (n => n.type !== "breath");
     if (sung.length <= EARLY_AT_NOTE) { earlyAsked = true; return; }          // too short to stop
     const at = sung[EARLY_AT_NOTE - 1];
@@ -948,11 +955,11 @@ function checkEarlyMisses (now)
         const spots = missedSpots();
         if (! spots.length) return resumeSong();          // nothing to drill: go on
         $("summary").innerHTML = `
-            <h2>Много промахов</h2>
-            <p class="note">Попали в ${ok} из ${judged} нот. Чаще всего:<br>${spots.map (x => esc (x.text)).join ("<br>")}</p>
-            <button id="earlyDrill" class="drill">Упражнение на эти места</button>
-            <div class="seg"><button id="earlyGo">Продолжить</button>
-                <button id="earlyRestart">Начать сначала</button></div>`;
+            <h2>${t ("Много промахов")}</h2>
+            <p class="note">${t ("Попали в {0} из {1} нот. Чаще всего:", ok, judged)}<br>${spots.map (x => esc (x.text)).join ("<br>")}</p>
+            <button id="earlyDrill" class="drill">${t ("Упражнение на эти места")}</button>
+            <div class="seg"><button id="earlyGo">${t ("Продолжить")}</button>
+                <button id="earlyRestart">${t ("Начать сначала")}</button></div>`;
         $("summary").hidden = false;
         $("earlyDrill").onclick = () => { drillFromEarly = true; startDrill (spots); start(); };
         $("earlyGo").onclick = () => resumeSong();
@@ -1005,14 +1012,14 @@ function showSummary ()
     if (S.mode === "drill" && drillChart) return showDrillSummary (perPitch);
     const spots = missedSpots();
     $("summary").innerHTML = `
-        <h2>${overallPercent()}% в тоне</h2>
-        <div class="pitches">${perPitch || "нет данных"}</div>
-        ${spots.length ? `<button id="sumDrill" class="drill">Отработать ${spots.length === 1 ? "частую ошибку"
-            : `${spots.length} частые ошибки`}</button>
+        <h2>${t ("{0}% в тоне", overallPercent())}</h2>
+        <div class="pitches">${perPitch || t ("нет данных")}</div>
+        ${spots.length ? `<button id="sumDrill" class="drill">${spots.length === 1 ? t ("Отработать частую ошибку")
+            : t ("Отработать {0} частые ошибки", spots.length)}</button>
             <p class="note">${spots.map (x => esc (x.text)).join ("<br>")}</p>` : ""}
         <table>${rows}</table>
-        <div class="seg">${S.mode === "drill" ? `<button id="sumBack">Назад к ${S.drillBack === "song" ? "песне" : "упражнению"}</button>` : ""}
-            <button id="sumClose">Закрыть</button></div>`;
+        <div class="seg">${S.mode === "drill" ? `<button id="sumBack">${S.drillBack === "song" ? t ("Назад к песне") : t ("Назад к упражнению")}</button>` : ""}
+            <button id="sumClose">${t ("Закрыть")}</button></div>`;
     $("summary").hidden = false;
     $("sumClose").onclick = hideSummary;
     if (spots.length) $("sumDrill").onclick = () => startDrill (spots);
@@ -1024,14 +1031,14 @@ function showDrillSummary (perPitch)
 {
     const left = drillLeftovers (), next = left.length ? left : drillChart.spots;
     $("summary").innerHTML = `
-        <h2>${overallPercent()}% в тоне</h2>
-        <div class="pitches">${perPitch || "нет данных"}</div>
-        <p class="note">${left.length ? "Ещё не получилось:<br>" : "Все места спеты чисто. Продолжить — ещё раз то же:<br>"}
+        <h2>${t ("{0}% в тоне", overallPercent())}</h2>
+        <div class="pitches">${perPitch || t ("нет данных")}</div>
+        <p class="note">${left.length ? t ("Ещё не получилось:") : t ("Все места спеты чисто. Продолжить — ещё раз то же:")}<br>
             ${next.map (x => esc (x.text)).join ("<br>")}</p>
-        <button id="sumMore" class="drill">Продолжить упражнение</button>
+        <button id="sumMore" class="drill">${t ("Продолжить упражнение")}</button>
         ${drillFromEarly
-            ? `<div class="seg"><button id="sumResume">Песню с места паузы</button><button id="sumRestart">Песню сначала</button></div>`
-            : `<div class="seg"><button id="sumEnd">Закончить</button></div>`}`;
+            ? `<div class="seg"><button id="sumResume">${t ("Песню с места паузы")}</button><button id="sumRestart">${t ("Песню сначала")}</button></div>`
+            : `<div class="seg"><button id="sumEnd">${t ("Закончить")}</button></div>`}`;
     $("summary").hidden = false;
     $("sumMore").onclick = () => { startDrill (next); start(); };
     if (drillFromEarly) { $("sumResume").onclick = () => backToSong (true); $("sumRestart").onclick = () => backToSong (false); }
@@ -1501,7 +1508,7 @@ function drawFooter (now)
     }
     if (e) parts.push (`clarity ${e.clarity.toFixed (2)}`, `level ${e.rmsDb.toFixed (0)} dB`);
     const ph = chart && running ? phraseAt (now) : null;
-    if (ph) parts.push (`фраза ${phrasePercent (ph)}%`);
+    if (ph) parts.push (t ("фраза {0}%", phrasePercent (ph)));
     $("footer").textContent = parts.join ("  |  ");
 }
 
@@ -1596,12 +1603,12 @@ function updateTitle ()
     $("title").disabled = S.mode === "free";
     document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === S.mode));
     voiceLabel();
-    let t;
-    if (S.mode === "exercise") { const d = getDefinition (S.kind); t = d.name + (d.fixed ? "" : ` · от ${noteName (exerciseSpec().rootMidi)}`); }
-    else if (S.mode === "song") t = songTitle();
-    else if (S.mode === "drill" && drillChart) t = drillChart.song.title;
-    else t = "Свободное пение";
-    $("titleText").textContent = t;
+    let title;
+    if (S.mode === "exercise") { const d = getDefinition (S.kind); title = d.name + (d.fixed ? "" : t (" · от {0}", noteName (exerciseSpec().rootMidi))); }
+    else if (S.mode === "song") title = songTitle();
+    else if (S.mode === "drill" && drillChart) title = drillChart.song.title;
+    else title = t ("Свободное пение");
+    $("titleText").textContent = title;
     updatePartBtn();
 }
 
@@ -1719,6 +1726,10 @@ function buildForm ()
     bind ("bpm", "bpm", Number);
     bind ("length", "length");
     bind ("labels", "labels");
+    // Language: the labels are built as the modules load, so a change reloads the page.
+    for (const [v, name] of LANGS) { const o = document.createElement ("option"); o.value = v; o.textContent = name; $("lang").appendChild (o); }
+    $("lang").value = lang;
+    $("lang").addEventListener ("input", () => { S.lang = $("lang").value; save(); location.reload(); });
     bind ("clef", "clef", v => v, clefLabel);
     bind ("view", "view", v => v, applyView);
     bind ("names", "names");
@@ -1803,7 +1814,7 @@ function applyView ()
 {
     $("app").classList.toggle ("view-staff", S.view !== "roll");
     $("app").classList.toggle ("view-roll", S.view === "roll");
-    $("viewBtn").textContent = S.view === "roll" ? "ролл" : "ноты";
+    $("viewBtn").textContent = S.view === "roll" ? t ("Ролл") : t ("Ноты");
 }
 
 function clefLabel ()
@@ -1811,8 +1822,8 @@ function clefLabel ()
     // Symbols, not words: "Бас" / "Тенор" read like choir parts next to the part names.
     const eff = effectiveClef(), auto = S.clef === "auto";
     $("clefBtn").textContent = { bass: "𝄢", treble: "𝄞", treble8: "𝄞₈", grand: "𝄞𝄢" }[eff] + (auto ? "ᴬ" : "");
-    $("clefBtn").title = (auto ? "Авто: " : "") + { bass: "басовый ключ", treble: "скрипичный ключ",
-                         treble8: "скрипичный, октавой ниже", grand: "оба ключа" }[eff];
+    $("clefBtn").title = (auto ? t ("Авто: ") : "") + t ({ bass: "басовый ключ", treble: "скрипичный ключ",
+                         treble8: "скрипичный, октавой ниже", grand: "оба ключа" }[eff]);
     $("app").classList.toggle ("grand", eff === "grand");   // two staves need a taller panel
 }
 

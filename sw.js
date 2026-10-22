@@ -8,12 +8,12 @@
 //              the server the song list shrinks to that song, and it plays from cache.
 // Takes      - POST api/takes is not touched: offline it fails and app.js ignores it.
 
-const VERSION = "vt-shell-v38";
+const VERSION = "vt-shell-v39";
 const SONG_CACHE = "vt-song";
 
 const SHELL = [
     "./", "index.html", "style.css", "app.js", "exercises.js", "synth.js", "staff.js",
-    "pitch-worklet.js", "localsongs.js", "tempo.js", "analytics.js", "manifest.webmanifest",
+    "pitch-worklet.js", "localsongs.js", "tempo.js", "analytics.js", "i18n.js", "manifest.webmanifest",
     "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png",
 ];
 

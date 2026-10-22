@@ -2,6 +2,8 @@
 // same triangle-wave transposition, same lead-in, same chart shape, so a
 // warm-up on the phone is the same warm-up as on the desktop.
 
+import { t } from "./i18n.js";
+
 export const LOWEST_MIDI = 36, HIGHEST_MIDI = 84;
 const MAX_NOTES = 1200, MAX_REPEATS = 72, MAX_CLIMB = 12;
 
@@ -66,7 +68,7 @@ export const DEFINITIONS = [
     ["intervalDrill", "Все интервалы (12)",
      "Каждый интервал от малой секунды до октавы, с возвратом к тонике.", 1, 0, 2],
 ].map (([kind, name, purpose, repeats, step, start, fixed = false]) =>
-    ({ kind, name, purpose, repeats, step, start, fixed }));
+    ({ kind, name: t (name), purpose: t (purpose), repeats, step, start, fixed }));
 
 export const getDefinition = (kind) => DEFINITIONS.find (d => d.kind === kind) || DEFINITIONS[0];
 
@@ -166,7 +168,7 @@ export function buildPattern (spec)
     {
         case "sustainedTone":
             // 6 beats: at the beginners' 56 bpm about as long as the old 8 at 72.
-            for (let r = 0; r < repeats; ++r) { notes ([0], 6, tr (r), phrase ("Долгая нота " + (r + 1))); rest (4); }
+            for (let r = 0; r < repeats; ++r) { notes ([0], 6, tr (r), phrase (t ("Долгая нота ") + (r + 1))); rest (4); }
             break;
 
         case "majorScale": case "minorScale": case "pentatonicScale": case "chromaticScale":
@@ -181,19 +183,19 @@ export function buildPattern (spec)
                 const sfx = repeats > 1 ? " " + (r + 1) : "";
                 // The chromatic scale is too long for one breath both ways: halves, a breath between.
                 const halves = spec.kind === "chromaticScale" ? (a) => [a.slice (0, 7), a.slice (7)] : (a) => [a];
-                for (const part of halves (up))   { notes (part, 1, tr (r), phrase ("Вверх" + sfx)); rest (1); }
-                for (const part of halves (down)) { notes (part, 1, tr (r), phrase ("Вниз" + sfx)); rest (1); }
+                for (const part of halves (up))   { notes (part, 1, tr (r), phrase (t ("Вверх") + sfx)); rest (1); }
+                for (const part of halves (down)) { notes (part, 1, tr (r), phrase (t ("Вниз") + sfx)); rest (1); }
                 rest (1);
             }
             break;
         }
 
         case "majorArpeggio":
-            for (let r = 0; r < repeats; ++r) { notes ([0,4,7,12,7,4,0], 1, tr (r), phrase ("Арпеджио " + (r + 1))); rest (2); }
+            for (let r = 0; r < repeats; ++r) { notes ([0,4,7,12,7,4,0], 1, tr (r), phrase (t ("Арпеджио ") + (r + 1))); rest (2); }
             break;
 
         case "fiveNoteRun":
-            for (let r = 0; r < repeats; ++r) { notes ([0,2,4,2,0], 1, tr (r), phrase ("Пробег " + (r + 1))); rest (2); }
+            for (let r = 0; r < repeats; ++r) { notes ([0,2,4,2,0], 1, tr (r), phrase (t ("Пробег ") + (r + 1))); rest (2); }
             break;
 
         case "tenorNineNote": case "tenorG3toD4": case "tenorDescFive": case "tenorPassaggio": case "tenorOctaveArp":
@@ -205,7 +207,7 @@ export function buildPattern (spec)
                 tenorPassaggio: [[0,4,7,4,0],         "Переход "],
                 tenorOctaveArp: [[0,7,12,7,0],        "Октава "],
             }[spec.kind];
-            for (let r = 0; r < repeats; ++r) { notes (shape, 1, tr (r), phrase (name + (r + 1))); rest (2); }
+            for (let r = 0; r < repeats; ++r) { notes (shape, 1, tr (r), phrase (t (name) + (r + 1))); rest (2); }
             break;
         }
 
@@ -220,10 +222,10 @@ export function buildPattern (spec)
             {
                 const sfx = repeats > 1 ? " " + (r + 1) : "";
                 // Three thirds to a breath: 1-3 2-4 3-5 | 4-6 5-7 6-8, and the same down.
-                notes (up.slice (0, 6), 1, tr (r), phrase ("Терции вверх" + sfx)); rest (1);
-                notes (up.slice (6), 1, tr (r), phrase ("Терции вверх" + sfx));    rest (1);
-                notes (down.slice (0, 6), 1, tr (r), phrase ("Терции вниз" + sfx)); rest (1);
-                notes ([...down.slice (6), 0], 1, tr (r), phrase ("Терции вниз" + sfx));
+                notes (up.slice (0, 6), 1, tr (r), phrase (t ("Терции вверх") + sfx)); rest (1);
+                notes (up.slice (6), 1, tr (r), phrase (t ("Терции вверх") + sfx));    rest (1);
+                notes (down.slice (0, 6), 1, tr (r), phrase (t ("Терции вниз") + sfx)); rest (1);
+                notes ([...down.slice (6), 0], 1, tr (r), phrase (t ("Терции вниз") + sfx));
                 rest (2);
             }
             break;
@@ -232,19 +234,19 @@ export function buildPattern (spec)
         case "thirdLeaps":
             for (let r = 0; r < repeats; ++r)
             {
-                seq ([[0, 1], [4, 2], [0, 1]], tr (r), phrase ("Большая терция " + (r + 1)));
+                seq ([[0, 1], [4, 2], [0, 1]], tr (r), phrase (t ("Большая терция ") + (r + 1)));
                 rest (1);
-                seq ([[0, 1], [3, 2], [0, 1]], tr (r), phrase ("Малая терция " + (r + 1)));
+                seq ([[0, 1], [3, 2], [0, 1]], tr (r), phrase (t ("Малая терция ") + (r + 1)));
                 rest (2);
             }
             break;
 
         case "fifthLeaps":
-            for (let r = 0; r < repeats; ++r) { seq ([[0, 1], [7 * sign, 2], [0, 1]], tr (r), phrase ("Квинта " + (r + 1))); rest (2); }
+            for (let r = 0; r < repeats; ++r) { seq ([[0, 1], [7 * sign, 2], [0, 1]], tr (r), phrase (t ("Квинта ") + (r + 1))); rest (2); }
             break;
 
         case "octaveLeaps":
-            for (let r = 0; r < repeats; ++r) { seq ([[0, 2], [12 * sign, 4], [0, 2]], tr (r), phrase ("Октава " + (r + 1))); rest (2); }
+            for (let r = 0; r < repeats; ++r) { seq ([[0, 2], [12 * sign, 4], [0, 2]], tr (r), phrase (t ("Октава ") + (r + 1))); rest (2); }
             break;
 
         case "intervalDrill":
@@ -338,7 +340,7 @@ export function buildDrillChart (spots, bpm = 60, reps = 3, holdBeats = 4)
         {
             if (seen.has (n.midi)) continue;
             seen.add (n.midi);
-            phrase ([[n, holdBeats]], `${k + 1}. Тянуть ${n.name || noteName (n.midi)}`, k);
+            phrase ([[n, holdBeats]], t ("{0}. Тянуть {1}", k + 1, n.name || noteName (n.midi)), k);
             t += 2 * beat;                              // breathe
         }
         // 2. Then the step itself.
@@ -350,6 +352,6 @@ export function buildDrillChart (spots, bpm = 60, reps = 3, holdBeats = 4)
             }
         t += beat;                                      // and between places
     });
-    return { song: { id: "drill", title: `Упражнение на ошибки (${spots.length})`, artist: `${bpm} bpm`, durationSeconds: t + 1.5 },
+    return { song: { id: "drill", title: t ("Упражнение на ошибки ({0})", spots.length), artist: `${bpm} bpm`, durationSeconds: t + 1.5 },
              notes, phrases, exercise: spec, spots };
 }
