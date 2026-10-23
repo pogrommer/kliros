@@ -44,6 +44,7 @@ const EN = {
     "Названия: G3, A3, B3…": "Letters: G3, A3, B3…", "Подписывать ноты под станом": "Name the notes under the staff",
     "Точность": "Accuracy", "Выступление (±50¢)": "Performance (±50¢)", "Практика (±25¢)": "Practice (±25¢)", "Точно (±10¢)": "Precise (±10¢)",
     "Громкость подсказки": "Guide volume", "Громкость минуса": "Backing volume", "Компенсация задержки:": "Latency compensation:", "мс": "ms",
+    "Не отправлять анонимную статистику заходов": "Don't send anonymous visit counts",
     "Пойте в наушниках: иначе микрофон слышит подсказку из динамика.": "Sing with headphones: otherwise the microphone hears the guide from the speaker.",
     "Язык": "Language",
     // Messages

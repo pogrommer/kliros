@@ -7,7 +7,7 @@ import { renderClickTrack, renderGuideTone, renderSingleNote } from "./synth.js"
 import { drawStaff, midiName, isSharp } from "./staff.js";
 import { t, cap, lang, LANGS, translatePage } from "./i18n.js";
 import { stretch, scaleChart, TEMPO_STEPS } from "./tempo.js";
-import { pageview, track } from "./analytics.js";
+import { pageview, track, counting, setCounting } from "./analytics.js";
 import { readPackage, saveSongs, getSong, deleteSong, hasSong, listSongs as listLocalSongs } from "./localsongs.js";
 
 //==============================================================================
@@ -1883,6 +1883,8 @@ function buildForm ()
     bind ("guideVol", "guideVol", Number);
     bind ("backVol", "backVol", Number);
     bind ("latency", "latencyMs", Number);
+    $("noStats").checked = ! counting();
+    $("noStats").addEventListener ("change", () => setCounting (! $("noStats").checked));
     $("songSearch").addEventListener ("input", renderPieces);
     $("addSongBtn").onclick = () => $("addSongFile").click();
     $("delSongBtn").onclick = deleteLocalSong;

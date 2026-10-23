@@ -5,8 +5,20 @@
 
 const CODE = "pogrommer";
 const HOSTS = ["pogrommer.github.io"];
+// A browser can opt out: the settings checkbox, or opening the site once with ?me=1 (?me=0 undoes it).
+const SKIP = "kliros-nostats";
 
-const on = () => CODE && HOSTS.includes (location.hostname) && navigator.onLine !== false;
+export const counting = () => { try { return localStorage.getItem (SKIP) !== "1"; } catch { return true; } };
+export const setCounting = (yes) => { try { yes ? localStorage.removeItem (SKIP) : localStorage.setItem (SKIP, "1"); } catch {} };
+
+const me = new URLSearchParams (location.search).get ("me");
+if (me === "1" || me === "0")
+{
+    setCounting (me === "0");
+    const u = new URL (location.href); u.searchParams.delete ("me"); history.replaceState (null, "", u);
+}
+
+const on = () => CODE && HOSTS.includes (location.hostname) && navigator.onLine !== false && counting();
 
 function hit (path, title, event)
 {
