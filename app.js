@@ -1515,6 +1515,9 @@ function drawStaffPanel (now)
     // The note to sing in white; green while the voice is on it (within the
     // tolerance); off it, the plan stays white and what is sung shows in red
     // beside it, with the cents. With nothing to sing, just the voice.
+    // Only while stopped or paused (user, 2026-10-23): during a run the bars and
+    // the line already say it, and the text below only pulls the eye away.
+    if (running) { $("readout").innerHTML = "&nbsp;"; return; }
     const target = activeIdx >= 0 ? chart.notes[activeIdx] : null;
     const cents = (c) => ` <span class="cents">${c > 0 ? "+" : ""}${Math.round (c)}¢</span>`;
     let txt = "";
