@@ -115,7 +115,7 @@ self.addEventListener ("fetch", (e) => {
     if (/\/api\/songs\/?$/.test (p) || p.endsWith ("/songs/index.json")) return e.respondWith (songList (e.request));
     if (songIdOf (e.request.url)) return e.respondWith (songFile (e.request));
     if (p.includes ("/api/")) return;
-    // Профиль голоса lives under the same scope but is its own app: leave it to the network.
+    // Vocal Portrait lives under the same scope but is its own app: leave it to the network.
     if (p.includes ("/voice-profile/")) return;
     e.respondWith (shellFile (e));
 });
