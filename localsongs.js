@@ -1,3 +1,4 @@
+// @ts-check
 // localsongs.js — songs added on THIS device from a zip, kept in IndexedDB.
 //
 // The public (GitHub Pages) copy has no server, so a song package someone sent

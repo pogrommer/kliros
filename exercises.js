@@ -1,3 +1,4 @@
+// @ts-check
 // exercises.js — a port of src/exercise/ExerciseLibrary.cpp. Same patterns,
 // same triangle-wave transposition, same lead-in, same chart shape, so a
 // warm-up on the phone is the same warm-up as on the desktop.

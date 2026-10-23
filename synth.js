@@ -1,3 +1,4 @@
+// @ts-check
 // synth.js — the click track and the struck-piano guide, ported from
 // src/exercise/ExerciseAudio.cpp (same partial model, same amplitudes).
 

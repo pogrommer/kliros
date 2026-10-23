@@ -262,6 +262,10 @@ class PitchProcessor extends AudioWorkletProcessor
         let p = 0;
         for (let i = WIN - RMS_SAMPLES; i < WIN; ++i) p += x[i] * x[i];
         const rmsDb = 10 * Math.log10 (p / RMS_SAMPLES + 1e-12);
+        // Peak over the same 20 ms: near 0 dBFS the mic clips (app.js warns).
+        let pk = 0;
+        for (let i = WIN - RMS_SAMPLES; i < WIN; ++i) pk = Math.max (pk, Math.abs (x[i]));
+        const peakDb = 20 * Math.log10 (pk + 1e-12);
         const gate = this.updateGate (rmsDb);
 
         let midi = NaN, clarity = 0;
@@ -304,7 +308,7 @@ class PitchProcessor extends AudioWorkletProcessor
             this.lastVoiced = false;
         }
 
-        this.port.postMessage ({ t: centreTime, raw, smooth, clarity, rmsDb, gate });
+        this.port.postMessage ({ t: centreTime, raw, smooth, clarity, rmsDb, peakDb, gate });
     }
 
     mpm (x, tauMin, tauMax)

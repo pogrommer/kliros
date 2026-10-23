@@ -1,3 +1,4 @@
+// @ts-check
 // staff.js — five-line notation: what to sing, and what was sung.
 //
 // Unlike the highway's staff background (true-pitch spacing, see DESIGN.md
@@ -163,7 +164,7 @@ export function drawStaff (g, W, H, view)
         // Heads sit just right of the note's start, so the head is under its bar.
         const x = note.x + s * 0.62;
         const tgt = place (view.mode, note.midi);
-        // Timing is not judged, only pitch - so nothing is drawn beside a note. A note
+        // Timing is not judged, only pitch. A note
         // sung in tune turns green itself; a missed one keeps its colour and the pitch
         // that WAS sung is drawn red in the same column, over it where they meet.
         const missed = note.state === "past" && note.ok === false && note.sung;
@@ -175,6 +176,20 @@ export function drawStaff (g, W, H, view)
         drawNote (g, x, yFor (tgt.staff, tgt.d), s, colour, note.q, defs[tgt.staff].mid > tgt.d, tgt.d % 2 === 0);
         if (isSharp (note.midi)) drawSharp (g, x - s * 1.25, yFor (tgt.staff, tgt.d), s, colour);
 
+        // Not by colour alone: a sung note gets a mark over its head - ✓ in tune,
+        // ↑ / ↓ the way the voice should have gone.
+        if (note.state === "past" && note.sung && note.ok != null)
+        {
+            const mark = note.ok ? "✓" : note.sung.cents < 0 ? "↑" : "↓";
+            g.font = `700 ${Math.round (Math.max (10, s * 0.8))}px -apple-system, system-ui, sans-serif`;
+            g.textAlign = "center"; g.textBaseline = "alphabetic";
+            g.fillStyle = note.ok ? COLOURS.good : COLOURS.miss;
+            // On the side away from the stem, past the sung head too when it was missed.
+            const ys = [yFor (tgt.staff, tgt.d)];
+            if (missed) { const p = place (view.mode, note.sung.midi); ys.push (yFor (p.staff, p.d)); }
+            const stemUp = defs[tgt.staff].mid > tgt.d;
+            g.fillText (mark, x, stemUp ? Math.max (...ys) + s * 1.9 : Math.min (...ys) - s * 1.1);
+        }
         if (missed)
         {
             const p = place (view.mode, note.sung.midi);

@@ -1,3 +1,4 @@
+// @ts-check
 // tempo.js — slower or faster without changing the pitch (WSOLA).
 //
 // A song's backing and guide are recordings, and playing them faster would also

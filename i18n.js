@@ -1,3 +1,4 @@
+// @ts-check
 // i18n.js — Russian (the source) or English. Strings stay Russian in the code and
 // the page; t() looks the English up by the Russian text. The language is read from
 // the saved settings at load, before any module builds its labels, and a change of
@@ -49,6 +50,14 @@ const EN = {
     "Микрофон доступен только по https. Откройте адрес https://… (см. инструкцию).": "The microphone needs https. Open the https://… address (see the instructions).",
     "Нет доступа к микрофону: ": "No access to the microphone: ",
     "Коснитесь экрана, чтобы вернуть микрофон": "Tap the screen to bring the microphone back",
+    "Доступ к микрофону запрещён. Настройки → Safari → Микрофон → Разрешить (или «аА» в адресной строке → Настройки веб-сайта), затем нажмите кнопку микрофона.":
+        "Microphone access is blocked. Settings → Safari → Microphone → Allow (or «aA» in the address bar → Website Settings), then press the microphone button.",
+    "Доступ к микрофону запрещён. Разрешите его в настройках сайта (значок замка в адресной строке), затем нажмите кнопку микрофона.":
+        "Microphone access is blocked. Allow it in the site settings (the lock icon in the address bar), then press the microphone button.",
+    "Микрофон не найден: подключите микрофон или гарнитуру и нажмите кнопку микрофона.": "No microphone found: plug in a microphone or headset and press the microphone button.",
+    "Микрофон занят другим приложением (звонок, диктофон). Закройте его и нажмите кнопку микрофона.": "The microphone is busy in another app (a call, a recorder). Close it and press the microphone button.",
+    "Перегруз микрофона — отодвиньте телефон или пойте тише": "The microphone is overloaded — move the phone away or sing softer",
+    "Слишком тихо — поднесите телефон ближе или пойте громче": "Too quiet — bring the phone closer or sing louder",
     "Микрофон включён — нажмите, чтобы выключить": "Microphone on — tap to turn it off",
     "Микрофон выключен — нажмите, чтобы включить": "Microphone off — tap to turn it on",
     "Загрузка песни…": "Loading the song…", "Ошибка: ": "Error: ",

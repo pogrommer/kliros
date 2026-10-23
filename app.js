@@ -1,3 +1,4 @@
+// @ts-check
 // app.js — the phone version of Vocal Trainer: highway + five-line staff.
 // Geometry and colours follow DESIGN.md §7; analysis lives in pitch-worklet.js.
 
@@ -132,7 +133,7 @@ async function ensureContext ()
     workletNode.port.onmessage = (e) => {
         lastWorkletMsg = performance.now();
         if (e.data.rmsDb > DIGITAL_ZERO_DB) lastSound = lastWorkletMsg;
-        if (micSource) onEstimate (e.data);
+        if (micSource) { noteLevel (e.data); onEstimate (e.data); }
     };
 
     guideGain = ctx.createGain(); guideGain.connect (ctx.destination);
@@ -150,6 +151,41 @@ function micOn ()
     return micStarting;
 }
 
+// What went wrong with the mic, in words the singer can act on (CLAUDE.md §6).
+function micError (e)
+{
+    const ios = /iPhone|iPad|iPod/.test (navigator.userAgent);
+    if (e.name === "NotAllowedError" || e.name === "SecurityError")
+        return ios ? t ("Доступ к микрофону запрещён. Настройки → Safari → Микрофон → Разрешить (или «аА» в адресной строке → Настройки веб-сайта), затем нажмите кнопку микрофона.")
+                   : t ("Доступ к микрофону запрещён. Разрешите его в настройках сайта (значок замка в адресной строке), затем нажмите кнопку микрофона.");
+    if (e.name === "NotFoundError" || e.name === "OverconstrainedError")
+        return t ("Микрофон не найден: подключите микрофон или гарнитуру и нажмите кнопку микрофона.");
+    if (e.name === "NotReadableError" || e.name === "AbortError")
+        return t ("Микрофон занят другим приложением (звонок, диктофон). Закройте его и нажмите кнопку микрофона.");
+    return t ("Нет доступа к микрофону: ") + (e.message || e.name);
+}
+
+// Too quiet or clipping, while something is being sung (CLAUDE.md §6). The status
+// line is shared: a level hint only takes it when it is free, and only clears its own.
+const QUIET_DB = -50, QUIET_MS = 6000, CLIP_DB = -1;
+let loudAt = 0, clipAt = 0;
+function noteLevel (m)
+{
+    const now = performance.now();
+    if (m.rmsDb > QUIET_DB) loudAt = now;
+    if (m.peakDb >= CLIP_DB) clipAt = now;
+}
+function levelHint ()
+{
+    const st = $("status"), now = performance.now();
+    let msg = "";
+    if (micSource && now - clipAt < 1500) msg = t ("Перегруз микрофона — отодвиньте телефон или пойте тише");
+    else if (micSource && running && now - loudAt > QUIET_MS) msg = t ("Слишком тихо — поднесите телефон ближе или пойте громче");
+    const mine = st.dataset.level && st.textContent === st.dataset.level;     // nobody wrote over it since
+    if (msg && (! st.textContent || mine)) { st.textContent = msg; st.dataset.level = msg; }
+    else if (! msg && mine) { st.textContent = ""; delete st.dataset.level; }
+}
+
 async function micOnOnce ()
 {
     await ensureContext();
@@ -161,7 +197,7 @@ async function micOnOnce ()
         micStream = earlyStream?.active ? earlyStream : await navigator.mediaDevices.getUserMedia (MIC_CONSTRAINTS);
         earlyStream = null;
     }
-    catch (e) { setMicButton ("off"); throw new Error (t ("Нет доступа к микрофону: ") + (e.message || e.name)); }
+    catch (e) { setMicButton ("off"); throw new Error (micError (e)); }
 
     micSource = ctx.createMediaStreamSource (micStream);
     micSource.connect (workletNode);
@@ -479,6 +515,7 @@ function schedule (decks, from = 0)
         sources.push (s);
     }
     if (from === 0) estimates = [];
+    loudAt = performance.now();      // a fresh start gets the full time before «too quiet»
     running = true;
     setButton (true);
 }
@@ -1342,7 +1379,8 @@ function drawHighway (now)
         g.strokeStyle = ref.hit ? "rgb(0,158,115)" : C.barEdge; g.lineWidth = 1; g.stroke();
         g.font = `600 ${Math.round (Math.min (16, barH * 0.7))}px -apple-system, system-ui, sans-serif`;
         g.fillStyle = ref.hit ? "#ffffff" : "#cfe9f8"; g.textAlign = "left"; g.textBaseline = "middle";
-        g.fillText (label (ref.midi), x0 + 4, y + 0.5);
+        // Not by colour alone: a hit also says so in words.
+        g.fillText (label (ref.midi) + (ref.hit ? " ✓" : ""), x0 + 4, y + 0.5);
     }
 
     // Live trace: smoothed, octave-folded onto the note it was sung against.
@@ -1395,6 +1433,14 @@ function drawHighway (now)
         g.beginPath(); g.arc (xOf (last.tc), yOf (v), 5.5, 0, Math.PI * 2);
         g.fillStyle = col; g.fill();
         g.lineWidth = 2; g.strokeStyle = "#fff"; g.stroke();
+        // Off the note: a small arrow beside the head says which way to go (not colour alone).
+        if (cents != null && Math.abs (cents) > TOLERANCES[S.tolerance][0])
+        {
+            const hx = xOf (last.tc) + 12, hy = yOf (v), up = cents < 0, a = 5;
+            g.beginPath();
+            g.moveTo (hx - a, hy + (up ? a : -a)); g.lineTo (hx + a, hy + (up ? a : -a)); g.lineTo (hx, hy + (up ? -a : a));
+            g.closePath(); g.fillStyle = col; g.fill();
+        }
         const oct = Math.round ((last.smooth - v) / 12);
         if (oct !== 0)
         {
@@ -1626,6 +1672,7 @@ function frame ()
 
     updateMicLevel();
     checkAudio();
+    levelHint();
     checkEarlyMisses (now);
     // Only the view on screen is drawn; the readout under it is shared.
     if (S.view === "roll") { updateView (now, dt); drawHighway (now); }

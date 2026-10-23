@@ -1,3 +1,4 @@
+// @ts-check
 // analytics.js — anonymous usage counts via GoatCounter (no cookies, no ids, no voice or notes).
 // Off until CODE is set (the site name from goatcounter.com: <CODE>.goatcounter.com) and only on the
 // public site, never on the home server or localhost. Offline events are simply not sent.
