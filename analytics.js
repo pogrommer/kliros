@@ -28,6 +28,22 @@ function hit (path, title, event)
     try { fetch (`https://${CODE}.goatcounter.com/count?${q}`, { mode: "no-cors", keepalive: true }).catch (() => {}); } catch {}
 }
 
-export const pageview = () => hit ("/", "Kliros", false);
 // An event: ("mode", "song"), ("voice", "T"), ("exercise", "tenorG3toD4"), ("piece", "antsev-trisvyatoe"), ("start", "song").
 export const track = (name, value) => hit (`${name}/${value}`, `${name}: ${value}`, true);
+
+// Unique browsers, without sending any id: each browser remembers locally that it has already said
+// "new" / "today" / "this week", so the counts of device/new, device/day and device/week events are
+// browsers ever, per day and per week. One person with Chrome + the Claude app + an icon = 3 browsers.
+const once = (key, value) => { try { if (localStorage.getItem (key) === value) return false; localStorage.setItem (key, value); return true; } catch { return false; } };
+const ymd = (d) => `${d.getFullYear()}-${String (d.getMonth() + 1).padStart (2, "0")}-${String (d.getDate()).padStart (2, "0")}`;
+
+export function pageview ()
+{
+    hit ("/", "Kliros", false);
+    if (! on()) return;
+    const now = new Date(), monday = new Date (now);
+    monday.setDate (now.getDate() - (now.getDay() + 6) % 7);
+    if (once ("kliros-seen", "1")) track ("device", "new");
+    if (once ("kliros-day", ymd (now))) track ("device", "day");
+    if (once ("kliros-week", ymd (monday))) track ("device", "week");
+}
