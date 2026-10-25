@@ -524,7 +524,6 @@ const firstNote = (c) => c.notes.find (n => n.type !== "breath")?.midi ?? null;
 function tuneToStart (midi)
 {
     if (midi == null) return Promise.resolve (true);
-    const before = refMidi;
     refMidi = midi;
     refLit = false; refHitUntil = 0;
     setButton (true);
@@ -539,7 +538,7 @@ function tuneToStart (midi)
     return new Promise (resolve => {
         let heldSince = 0;
         const done = (ok) => {
-            clearInterval (timer); tuning = null; refMidi = before;
+            clearInterval (timer); tuning = null; refMidi = null;
             $("startCue").hidden = true;
             if (! ok) setButton (false);
             resolve (ok);
@@ -1348,7 +1347,7 @@ function drawHighway (now)
         const black = isSharp (m);
         const lit = pressedMidi() === m ? "#F0E442"
                   : liveM === m ? "#009E73" : target >= 0 && chart.notes[target].midi === m ? "#56B4E9"
-                  : ref && ref.midi === m ? (ref.hit ? "#009E73" : ref.start ? "#F0E442" : "#56B4E9") : null;
+                  : ref && ref.midi === m ? (ref.hit ? "#009E73" : "#F0E442") : null;
         g.fillStyle = lit || (black ? "#18181e" : "#d6d6de");
         g.fillRect (0, y - ppRow / 2, gutter - 3, ppRow);
         g.strokeStyle = "#55555f";
@@ -1430,15 +1429,17 @@ function drawHighway (now)
         });
     }
 
-    // The reference note from a tapped key: a bar from the play line on, its name in it.
+    // The note to take (a tapped key, or the first note before «Старт»): a bar from the play line on, its name in it.
+    refBar = null;
     if (ref)
     {
         const y = yOf (ref.midi), barH = Math.max (14, Math.min (22, ppRow * 0.9)), x0 = nowX - 0.25 * pps;
+        refBar = { x: x0, y: y - barH / 2 - 4, w: W - x0, h: barH + 8 };
         roundRect (g, x0, y - barH / 2, W - x0 - 4, barH, Math.min (4, barH / 2));
-        g.fillStyle = ref.hit ? "rgba(0,158,115,0.75)" : ref.start ? "rgba(240,228,66,0.30)" : C.barFill; g.fill();
-        g.strokeStyle = ref.hit ? "rgb(0,158,115)" : ref.start ? "#F0E442" : C.barEdge; g.lineWidth = ref.start ? 2 : 1; g.stroke();
+        g.fillStyle = ref.hit ? "rgba(0,158,115,0.75)" : "rgba(240,228,66,0.30)"; g.fill();
+        g.strokeStyle = ref.hit ? "rgb(0,158,115)" : "#F0E442"; g.lineWidth = 2; g.stroke();
         g.font = `600 ${Math.round (Math.min (16, barH * 0.7))}px -apple-system, system-ui, sans-serif`;
-        g.fillStyle = ref.hit ? "#ffffff" : ref.start ? "#F0E442" : "#cfe9f8"; g.textAlign = "left"; g.textBaseline = "middle";
+        g.fillStyle = ref.hit ? "#ffffff" : "#F0E442"; g.textAlign = "left"; g.textBaseline = "middle";
         // Not by colour alone: a hit also says so in words.
         g.fillText (label (ref.midi) + (ref.hit ? " ✓" : ""), x0 + 4, y + 0.5);
     }
@@ -1524,7 +1525,7 @@ function roundRect (g, x, y, w, h, r)
 }
 
 // Tapped keys sound as a struck piano note, and light for a moment.
-let staffKeys = [], pressed = null;
+let staffKeys = [], pressed = null, refBar = null;
 const pressedMidi = () => pressed && performance.now() < pressed.until ? pressed.midi : null;
 const inKey = (k, x, y) => x >= k.x && x <= k.x + k.w && y >= k.y && y <= k.y + k.h;
 // A black key lies over the white ones, so it is tried first.
@@ -1545,11 +1546,13 @@ function canvasXY (cv, ev)
     return [along * cv.clientWidth / r.height, across * cv.clientHeight / r.width];
 }
 
-// The key last tapped stays up as a reference note to sing against: white on the
-// play line, its head green while the voice is on it - that very note, octave and all
-// (A2 is not A3: the user's rule, 2026-10-22).
-// It stands until another key is tapped; a running song or exercise hides it.
+// The key last tapped stays up as a note to take, yellow like the one before «Старт»:
+// on the play line, its head green while the voice is on it - that very note, octave
+// and all (A2 is not A3: the user's rule, 2026-10-22). Only the last key tapped stays.
+// It goes when it has been sung (held, as the first note is), when it is tapped, or
+// when a song or exercise starts - so it never stays in the way (the user, 2026-10-25).
 let refMidi = null;
+const REF_GONE_MS = 800;     // green this long after it was held, then gone
 function reference ()
 {
     if (refMidi == null || (running && chart)) return null;
@@ -1557,17 +1560,29 @@ function reference ()
     const cents = live ? (live.smooth - refMidi) * 100 : null, full = TOLERANCES[S.tolerance][0];
     // The voice wobbles around the pitch: green comes on within the tolerance, stays on
     // within twice it, and lingers a moment - else it only flickers and never reads as lit.
+    const now = performance.now();
     const on = cents != null && Math.abs (cents) <= (refLit ? 2 * full : full);
-    if (on) refHitUntil = performance.now() + 300;
-    refLit = performance.now() < refHitUntil;
+    if (on) refHitUntil = now + 300;
+    refLit = now < refHitUntil;
+    if (! tuning)
+    {
+        refHeldSince = refLit ? refHeldSince || now : 0;
+        if (refHeldSince && now - refHeldSince >= START_HOLD_MS + REF_GONE_MS) { clearRef(); return null; }
+    }
     return { midi: refMidi, hit: refLit, start: !! tuning };
 }
-let refLit = false, refHitUntil = 0;
+let refLit = false, refHitUntil = 0, refHeldSince = 0, refClearedAt = 0;
+
+function clearRef ()
+{
+    refMidi = null; refLit = false; refHitUntil = 0; refHeldSince = 0;
+    refClearedAt = performance.now();
+}
 
 async function playKey (midi)
 {
     pressed = { midi, until: performance.now() + 350 };
-    refMidi = midi;
+    refMidi = midi; refHeldSince = 0;
     try { await ensureContext(); } catch (e) { $("status").textContent = e.message; return; }
     const s = ctx.createBufferSource(); s.buffer = renderSingleNote (ctx, midi); s.connect (clickGain); s.start();
 }
@@ -1962,12 +1977,14 @@ function buildForm ()
     // The keyboards play: the piano roll's gutter and the one left of the clef.
     $("highway").addEventListener ("pointerdown", (ev) => {
         const cv = $("highway"), { gutter } = laneGeometry (cv.clientWidth), [x, y] = canvasXY (cv, ev);
+        if (refBar && ! tuning && inKey (refBar, x, y)) return clearRef();     // a tap takes the note away
         if (x > gutter) return;
         playKey (pitchOfRow (Math.round (viewLow + (cv.clientHeight - y) * viewSpan / cv.clientHeight)));
     });
     $("staff").addEventListener ("pointerdown", (ev) => {
         const [x, y] = canvasXY ($("staff"), ev);
         if (staffKeys.toggle && inKey (staffKeys.toggle, x, y)) { kbOpen[kbMode()] = kbFolded(); return; }
+        if (staffKeys.ref && ! tuning && inKey (staffKeys.ref, x, y)) return clearRef();   // a tap takes the note away
         const k = keyAt (staffKeys, x, y);
         if (k) playKey (k.midi);
     });
@@ -1976,7 +1993,8 @@ function buildForm ()
     // turned) coordinates; back through the time axis to the nearest note.
     $("staff").addEventListener ("click", async (ev) => {
         const xy = canvasXY ($("staff"), ev);
-        if (running || ! chart || keyAt (staffKeys, ...xy) || (staffKeys.toggle && inKey (staffKeys.toggle, ...xy))) return;
+        if (running || tuning || ! chart || keyAt (staffKeys, ...xy) || (staffKeys.toggle && inKey (staffKeys.toggle, ...xy))) return;
+        if (performance.now() - refClearedAt < 600) return;    // that tap took the note away
         try { await ensureContext(); } catch (e) { $("status").textContent = e.message; return; }
         const { pps, nowX } = laneGeometry ($("staff").clientWidth);
         const t = lastChartNow + (xy[0] - nowX - (staffKeys.dx || 0)) / pps;

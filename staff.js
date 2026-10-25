@@ -244,14 +244,16 @@ export function drawStaff (g, W, H, view)
     // A reference note (a tapped key) on the play line, where nothing else is to be sung:
     // a whole note, white; on a hit its head alone turns green, nothing drawn over it.
     const ref = view.reference && ! items.some (n => n.state === "active") ? view.reference : null;
+    let refRect = null;          // where a tap takes the note away (keys.ref)
     if (ref && nowX != null)
     {
         const x = nowX + s * 1.6, p = place (view.mode, ref.midi);
+        refRect = { x: x - s * 1.4, y: yFor (p.staff, p.d) - s * 1.2, w: s * 2.8, h: s * 2.4 };
         drawLedgers (g, defs, p, x, s, centres, h);
         // A hit fills the head: the round lights up green.
-        // The note to take before the music starts (ref.start) is yellow, not white:
-        // not a key tapped by hand, but what stands between «Старт» and the music.
-        const c = ref.start ? COLOURS.start : COLOURS.head;
+        // The note to take - before the music starts, or from a tapped key - is yellow,
+        // set apart from the notes of the piece (the user, 2026-10-25).
+        const c = COLOURS.start;
         if (ref.hit) drawHead (g, x, yFor (p.staff, p.d), s, COLOURS.good, true, false, true);
         else drawNote (g, x, yFor (p.staff, p.d), s, c, 4, false, p.d % 2 === 0);
         if (isSharp (ref.midi)) drawSharp (g, x - s * 1.25, yFor (p.staff, p.d), s, c);
@@ -312,14 +314,14 @@ export function drawStaff (g, W, H, view)
         g.fillText ("»", x + kbW / 2, (yTop + yBot) / 2);
         const keys = [];
         keys.toggle = { x: 0, y, w: left, h: hh };
-        keys.dx = dx;
+        keys.dx = dx; keys.ref = refRect;
         return keys;
     }
     const active = items.find (n => n.state === "active");
     const keys = drawKeyboard (g, view, defs, centres, s, h, kbW, H, over, under, name,
                                active ? active.midi : ref ? ref.midi : null, view.live ? view.live : null);
     keys.toggle = { x: left, y: yTop - s, w: clefW, h: yBot - yTop + 2 * s };
-    keys.dx = dx;
+    keys.dx = dx; keys.ref = refRect;
     return keys;
 }
 
