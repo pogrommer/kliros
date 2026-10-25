@@ -65,6 +65,19 @@ button:active { filter: brightness(1.3); }
 
 footer { grid-area: foot; font-size: 11px; color: #777784; padding: 4px 10px; white-space: nowrap; overflow: hidden; font-variant-numeric: tabular-nums; }
 #status { position: fixed; left: 10px; right: 70px; top: calc(40px + env(safe-area-inset-top)); color: #ffb08a; font-size: 13px; pointer-events: none; text-align: center; }
+/* The call to take the first note: an instruction, not an error - blue like the note to
+   sing, on a card of its own; green with a word once the voice is on it. */
+#startCue { position: fixed; left: 50%; transform: translateX(-50%); top: calc(44px + env(safe-area-inset-top)); z-index: 8;
+  width: max-content; max-width: calc(100% - 140px); padding: 8px 14px 10px; text-align: center;
+  background: var(--panel); border: 1px solid #56B4E9; border-left: 4px solid #56B4E9; border-radius: 10px; }
+#startCue[hidden] { display: none; }
+#startCue .tc-k { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: #56B4E9; }
+#startCue .tc-n { font-size: 26px; font-weight: 700; color: #f2f2f6; line-height: 1.2; }
+#startCue .tc-n small { font-size: 14px; font-weight: 400; color: var(--dim); }
+#startCue .tc-h { font-size: 13px; color: var(--text); margin: 2px 0 6px; }
+#startCue button { font-size: 13px; padding: 4px 10px; }
+#startCue.hit { border-color: #009E73; }
+#startCue.hit .tc-k, #startCue.hit .tc-h { color: #009E73; }
 /* Mic: one button is the switch AND the indicator. Off = grey, struck through.
    On = green rim with the input level filling it from the bottom. */
 #mic { --lvl: 0; position: relative; overflow: hidden; }

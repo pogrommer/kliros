@@ -83,6 +83,7 @@ export function drawStaff (g, W, H, view)
     else { for (const n of items) consider (n.midi); if (view.live) consider (view.live.midi); }
     // A tapped reference note gets room too: it changes only when a key is tapped.
     if (view.reference) consider (view.reference.midi);
+    if (view.startNote) consider (view.startNote.midi);
 
     // The words over the staff take a band of their own, above anything on ledger lines.
     // 4.5: the syllables' own height (1.15 s) and their gap above the top ledger (1.2 s), less MARGIN.
@@ -146,6 +147,23 @@ export function drawStaff (g, W, H, view)
         if (bx < x0 - 2 || bx > right) continue;
         const x = Math.round (bx) + 0.5;
         g.beginPath(); g.moveTo (x, yTop); g.lineTo (x, yBot); g.stroke();
+    }
+
+    // The first note to sing: a dashed line at its line or space, under the notes, the whole way.
+    if (view.startNote)
+    {
+        const p = place (view.mode, view.startNote.midi), y = Math.round (yFor (p.staff, p.d)) + 0.5;
+        g.save();
+        g.strokeStyle = "rgba(86,180,233,0.75)"; g.lineWidth = Math.max (1.5, s * 0.1); g.setLineDash ([s * 0.5, s * 0.4]);
+        g.beginPath(); g.moveTo (x0, y); g.lineTo (right, y); g.stroke();
+        g.restore();
+        g.font = `600 ${Math.round (Math.max (9, s * 0.5))}px -apple-system, system-ui, sans-serif`;
+        // On a dark plate at the right edge, so it reads over a note passing under it.
+        const tw = g.measureText (view.startNote.label).width, th = Math.max (9, s * 0.5);
+        g.fillStyle = view.background || "#131318";
+        g.fillRect (right - tw - s * 0.3, y - th * 0.6, tw + s * 0.3, th * 1.2);
+        g.fillStyle = "rgba(86,180,233,0.95)"; g.textAlign = "right"; g.textBaseline = "middle";
+        g.fillText (view.startNote.label, right - s * 0.15, y);
     }
 
     // The note being sung: a band over its whole length, as the bar above is lit.

@@ -346,6 +346,7 @@ function prepareChart (c)
     estimates = [];
     lastChartNow = chart.notes.length ? chart.notes[0].startSeconds - 1.5 : -1;
     viewInit = false;
+    startMidi = firstNote (chart);
     updateTitle();
     clefLabel();            // an automatic clef follows the new notes
 }
@@ -479,7 +480,7 @@ async function start ()
         {
             prepareChart (S.mode === "drill" ? drillChart : exerciseChart());
             const click = renderClickTrack (ctx, chart), guide = renderGuideTone (ctx, chart);
-            if (! await tuneToTonic (exerciseTonic())) return;
+            if (! await tuneToStart (startMidi)) return;
             schedule ([[click, clickGain], [guide, guideGain]]);
         }
         else if (S.mode === "song")
@@ -491,7 +492,7 @@ async function start ()
             prepareChart (scaleChart (song.chart, S.tempo));
             earlyAsked = false;
             $("status").textContent = "";
-            if (! await tuneToTonic (await songTonic())) return;
+            if (! await tuneToStart (startMidi)) return;
             schedule (decks);
         }
         else
@@ -506,71 +507,52 @@ async function start ()
     requestWakeLock();
 }
 
-// Every exercise and every piece begins on the tonic (the user's rule, 2026-10-25):
-// it sounds, stands as a reference bar on the play line, and only once the voice
-// has held it - that very note, octave and all, as a tapped key - does the music start.
-// Struck again every few seconds while the voice is not on it. Stop cancels.
-const TONIC_HOLD_MS = 700, TONIC_REPEAT_MS = 4000;
-let tuning = null;           // { cancel } while waiting for the tonic
+// Every exercise and every piece begins on the first note of one's own part, whatever
+// it is (the user, 2026-10-25 - at first it was the tonic, then: «вместо тоники, первая
+// нота своей партии»): it sounds, stands as a reference note on the play line, and only
+// once the voice has held it - that very note, octave and all, as a tapped key - does the
+// music start. Struck again every few seconds while the voice is not on it. Stop cancels.
+// The call to sing it is a card of its own (#startCue), not the status line: the
+// status line is for errors, and the user took the call for one.
+const START_HOLD_MS = 700, START_REPEAT_MS = 4000;
+let tuning = null;           // { cancel } while waiting for the first note
+// The first note of the chart in hand: a dashed line through the staff and the roll, all the way.
+let startMidi = null;
+const firstNote = (c) => c.notes.find (n => n.type !== "breath")?.midi ?? null;
 
-function tuneToTonic (midi)
+function tuneToStart (midi)
 {
     if (midi == null) return Promise.resolve (true);
     const before = refMidi;
     refMidi = midi;
     refLit = false; refHitUntil = 0;
     setButton (true);
-    $("status").textContent = t ("Возьмите тонику: {0}", labelPlain (midi));
-    const strike = () => { const s = ctx.createBufferSource(); s.buffer = renderSingleNote (ctx, midi); s.connect (clickGain); s.start(); };
+    $("startName").innerHTML = labelLong (midi);
+    $("startHint").textContent = t ("Спойте её — начнём, когда голос удержится на ноте");
+    $("startCue").classList.remove ("hit");
+    $("startCue").hidden = false;
+    let struck = performance.now();
+    const strike = () => { const s = ctx.createBufferSource(); s.buffer = renderSingleNote (ctx, midi); s.connect (clickGain); s.start(); struck = performance.now(); };
     strike();
+    $("startAgain").onclick = strike;
     return new Promise (resolve => {
-        let heldSince = 0, struck = performance.now();
+        let heldSince = 0;
         const done = (ok) => {
             clearInterval (timer); tuning = null; refMidi = before;
-            $("status").textContent = "";
+            $("startCue").hidden = true;
             if (! ok) setButton (false);
             resolve (ok);
         };
         const timer = setInterval (() => {
             const now = performance.now(), hit = reference()?.hit;
             heldSince = hit ? heldSince || now : 0;
-            if (heldSince && now - heldSince >= TONIC_HOLD_MS) return done (true);
-            if (! heldSince && now - struck >= TONIC_REPEAT_MS) { strike(); struck = now; }
+            $("startCue").classList.toggle ("hit", !! heldSince);
+            $("startHint").textContent = heldSince ? t ("Есть. Держите…") : t ("Спойте её — начнём, когда голос удержится на ноте");
+            if (heldSince && now - heldSince >= START_HOLD_MS) return done (true);
+            if (! heldSince && now - struck >= START_REPEAT_MS) strike();
         }, 30);
         tuning = { cancel: () => done (false) };
     });
-}
-
-const labelPlain = (midi) => S.labels === "names" ? midiName (midi) : `${label (midi)} (${midiName (midi)})`;
-
-// An exercise's tonic is its root; a drill has none of its own, so its first note.
-function exerciseTonic ()
-{
-    return chart.exercise?.rootMidi ?? chart.notes[0]?.midi ?? null;
-}
-
-// A piece's tonic: the final of its lowest part (a choir piece ends on the tonic in
-// the bass), else of the part itself - in the octave nearest the part's first note,
-// so it is taken where the part begins.
-async function songTonic ()
-{
-    const own = chart.notes;
-    if (! own.length) return null;
-    let finalMidi = own[own.length - 1].midi;
-    const parts = currentPiece?.parts || [];
-    const low = parts.find (x => x.part === "B2") || parts.find (x => x.part === "B");
-    if (low && low.id !== S.song)
-    {
-        try
-        {
-            const c = await fetchChart (low.id);
-            const ns = [...(c?.notes || [])].sort ((a, b) => a.startSeconds - b.startSeconds);
-            if (ns.length) finalMidi = ns[ns.length - 1].midi;
-        }
-        catch {}
-    }
-    const first = own[0].midi;
-    return first + remainder (finalMidi - first, 12);
 }
 
 async function fetchChart (id)
@@ -1374,6 +1356,20 @@ function drawHighway (now)
         g.fillText (label (m), gutter - 6, y);
     }
 
+    // The first note, dashed, under the notes all the way through (the user, 2026-10-25).
+    if (chart && startMidi != null)
+    {
+        const y = Math.round (yOf (startMidi)) + 0.5;
+        g.save();
+        g.strokeStyle = "rgba(86,180,233,0.7)"; g.lineWidth = 1.5; g.setLineDash ([6, 5]);
+        g.beginPath(); g.moveTo (gutter, y); g.lineTo (W, y); g.stroke();
+        g.restore();
+        g.font = "600 11px -apple-system, system-ui, sans-serif";
+        const tw = g.measureText (t ("первая нота")).width;
+        g.fillStyle = C.bg; g.fillRect (W - tw - 12, y - 8, tw + 12, 16);
+        g.fillStyle = "rgba(86,180,233,0.95)"; g.textAlign = "right"; g.textBaseline = "middle"; g.fillText (t ("первая нота"), W - 6, y);
+    }
+
     if (chart)
     {
         // Reference ghost contour (songs).
@@ -1450,7 +1446,7 @@ function drawHighway (now)
     // The reference note from a tapped key: a bar from the play line on, its name in it.
     if (ref)
     {
-        const y = yOf (rowOf (ref.midi)), barH = Math.max (14, Math.min (22, ppRow * 0.9)), x0 = nowX - 0.25 * pps;
+        const y = yOf (ref.midi), barH = Math.max (14, Math.min (22, ppRow * 0.9)), x0 = nowX - 0.25 * pps;
         roundRect (g, x0, y - barH / 2, W - x0 - 4, barH, Math.min (4, barH / 2));
         g.fillStyle = ref.hit ? "rgba(0,158,115,0.75)" : C.barFill; g.fill();
         g.strokeStyle = ref.hit ? "rgb(0,158,115)" : C.barEdge; g.lineWidth = 1; g.stroke();
@@ -1632,6 +1628,7 @@ function drawStaffPanel (now)
     }
 
     staffKeys = drawStaff (g, W, H, { mode: effectiveClef(), kbFolded: kbFolded(), showNames: S.names, notes, bars, nowX, live: liveView, pressed: pressedMidi(), reference: reference(),
+                          startNote: chart && startMidi != null ? { midi: startMidi, label: t ("первая нота") } : null,
                           range: staffRange(), label, maxS: quickGap() * pps / 1.5, lyricsAbove: words, meter: meterAt (now) });
 
     // Readout under the staff.
