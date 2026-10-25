@@ -61,8 +61,7 @@ const EN = {
     "Слишком тихо — поднесите телефон ближе или пойте громче": "Too quiet — bring the phone closer or sing louder",
     "Микрофон включён — нажмите, чтобы выключить": "Microphone on — tap to turn it off",
     "Микрофон выключен — нажмите, чтобы включить": "Microphone off — tap to turn it on",
-    "Первая нота партии": "Your first note", "Сыграть ещё раз": "Play it again", "первая нота": "first note",
-    "Спойте её — начнём, когда голос удержится на ноте": "Sing it — we start once your voice holds the note", "Есть. Держите…": "Got it. Hold…",
+    "Поймайте ноту": "Catch the note", "Держите…": "Hold it…", "Сыграть ещё раз": "Play it again",
     "Загрузка песни…": "Loading the song…", "Ошибка: ": "Error: ",
     "песня недоступна: сервер на ПК не отвечает, а в телефоне сохранена только последняя открытая песня":
         "song unavailable: the PC server does not answer, and the phone keeps only the last song opened",

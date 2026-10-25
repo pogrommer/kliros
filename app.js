@@ -516,7 +516,8 @@ async function start ()
 // status line is for errors, and the user took the call for one.
 const START_HOLD_MS = 700, START_REPEAT_MS = 4000;
 let tuning = null;           // { cancel } while waiting for the first note
-// The first note of the chart in hand: a dashed line through the staff and the roll, all the way.
+// The first note of the chart in hand. While it is awaited it stands on the play line
+// in yellow (the user: not a dashed line through the notes - the note itself, set apart).
 let startMidi = null;
 const firstNote = (c) => c.notes.find (n => n.type !== "breath")?.midi ?? null;
 
@@ -528,7 +529,7 @@ function tuneToStart (midi)
     refLit = false; refHitUntil = 0;
     setButton (true);
     $("startName").innerHTML = labelLong (midi);
-    $("startHint").textContent = t ("Спойте её — начнём, когда голос удержится на ноте");
+    $("startHint").textContent = t ("Поймайте ноту");
     $("startCue").classList.remove ("hit");
     $("startCue").hidden = false;
     let struck = performance.now();
@@ -547,7 +548,7 @@ function tuneToStart (midi)
             const now = performance.now(), hit = reference()?.hit;
             heldSince = hit ? heldSince || now : 0;
             $("startCue").classList.toggle ("hit", !! heldSince);
-            $("startHint").textContent = heldSince ? t ("Есть. Держите…") : t ("Спойте её — начнём, когда голос удержится на ноте");
+            $("startHint").textContent = heldSince ? t ("Держите…") : t ("Поймайте ноту");
             if (heldSince && now - heldSince >= START_HOLD_MS) return done (true);
             if (! heldSince && now - struck >= START_REPEAT_MS) strike();
         }, 30);
@@ -1347,27 +1348,13 @@ function drawHighway (now)
         const black = isSharp (m);
         const lit = pressedMidi() === m ? "#F0E442"
                   : liveM === m ? "#009E73" : target >= 0 && chart.notes[target].midi === m ? "#56B4E9"
-                  : ref && ref.midi === m ? (ref.hit ? "#009E73" : "#56B4E9") : null;
+                  : ref && ref.midi === m ? (ref.hit ? "#009E73" : ref.start ? "#F0E442" : "#56B4E9") : null;
         g.fillStyle = lit || (black ? "#18181e" : "#d6d6de");
         g.fillRect (0, y - ppRow / 2, gutter - 3, ppRow);
         g.strokeStyle = "#55555f";
         g.strokeRect (0.5, Math.round (y - ppRow / 2) + 0.5, gutter - 4, Math.max (1, Math.round (ppRow) - 1));
         g.fillStyle = lit ? "#101014" : black ? "#6c6c78" : "#8c8c98";
         g.fillText (label (m), gutter - 6, y);
-    }
-
-    // The first note, dashed, under the notes all the way through (the user, 2026-10-25).
-    if (chart && startMidi != null)
-    {
-        const y = Math.round (yOf (startMidi)) + 0.5;
-        g.save();
-        g.strokeStyle = "rgba(86,180,233,0.7)"; g.lineWidth = 1.5; g.setLineDash ([6, 5]);
-        g.beginPath(); g.moveTo (gutter, y); g.lineTo (W, y); g.stroke();
-        g.restore();
-        g.font = "600 11px -apple-system, system-ui, sans-serif";
-        const tw = g.measureText (t ("первая нота")).width;
-        g.fillStyle = C.bg; g.fillRect (W - tw - 12, y - 8, tw + 12, 16);
-        g.fillStyle = "rgba(86,180,233,0.95)"; g.textAlign = "right"; g.textBaseline = "middle"; g.fillText (t ("первая нота"), W - 6, y);
     }
 
     if (chart)
@@ -1448,10 +1435,10 @@ function drawHighway (now)
     {
         const y = yOf (ref.midi), barH = Math.max (14, Math.min (22, ppRow * 0.9)), x0 = nowX - 0.25 * pps;
         roundRect (g, x0, y - barH / 2, W - x0 - 4, barH, Math.min (4, barH / 2));
-        g.fillStyle = ref.hit ? "rgba(0,158,115,0.75)" : C.barFill; g.fill();
-        g.strokeStyle = ref.hit ? "rgb(0,158,115)" : C.barEdge; g.lineWidth = 1; g.stroke();
+        g.fillStyle = ref.hit ? "rgba(0,158,115,0.75)" : ref.start ? "rgba(240,228,66,0.30)" : C.barFill; g.fill();
+        g.strokeStyle = ref.hit ? "rgb(0,158,115)" : ref.start ? "#F0E442" : C.barEdge; g.lineWidth = ref.start ? 2 : 1; g.stroke();
         g.font = `600 ${Math.round (Math.min (16, barH * 0.7))}px -apple-system, system-ui, sans-serif`;
-        g.fillStyle = ref.hit ? "#ffffff" : "#cfe9f8"; g.textAlign = "left"; g.textBaseline = "middle";
+        g.fillStyle = ref.hit ? "#ffffff" : ref.start ? "#F0E442" : "#cfe9f8"; g.textAlign = "left"; g.textBaseline = "middle";
         // Not by colour alone: a hit also says so in words.
         g.fillText (label (ref.midi) + (ref.hit ? " ✓" : ""), x0 + 4, y + 0.5);
     }
@@ -1573,7 +1560,7 @@ function reference ()
     const on = cents != null && Math.abs (cents) <= (refLit ? 2 * full : full);
     if (on) refHitUntil = performance.now() + 300;
     refLit = performance.now() < refHitUntil;
-    return { midi: refMidi, hit: refLit };
+    return { midi: refMidi, hit: refLit, start: !! tuning };
 }
 let refLit = false, refHitUntil = 0;
 
@@ -1628,7 +1615,6 @@ function drawStaffPanel (now)
     }
 
     staffKeys = drawStaff (g, W, H, { mode: effectiveClef(), kbFolded: kbFolded(), showNames: S.names, notes, bars, nowX, live: liveView, pressed: pressedMidi(), reference: reference(),
-                          startNote: chart && startMidi != null ? { midi: startMidi, label: t ("первая нота") } : null,
                           range: staffRange(), label, maxS: quickGap() * pps / 1.5, lyricsAbove: words, meter: meterAt (now) });
 
     // Readout under the staff.
