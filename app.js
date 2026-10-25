@@ -235,7 +235,7 @@ function audioDead ()
 
 async function rebuildContext ()
 {
-    if (running) stop();
+    if (running || tuning) stop();
     micOff (true);
     const old = ctx;
     ctx = null; workletNode = null; frame.lastTarget = undefined;
@@ -479,6 +479,7 @@ async function start ()
         {
             prepareChart (S.mode === "drill" ? drillChart : exerciseChart());
             const click = renderClickTrack (ctx, chart), guide = renderGuideTone (ctx, chart);
+            if (! await tuneToTonic (exerciseTonic())) return;
             schedule ([[click, clickGain], [guide, guideGain]]);
         }
         else if (S.mode === "song")
@@ -490,6 +491,7 @@ async function start ()
             prepareChart (scaleChart (song.chart, S.tempo));
             earlyAsked = false;
             $("status").textContent = "";
+            if (! await tuneToTonic (await songTonic())) return;
             schedule (decks);
         }
         else
@@ -502,6 +504,80 @@ async function start ()
     catch (err) { $("status").textContent = "Ошибка: " + (err.message || err); return; }
 
     requestWakeLock();
+}
+
+// Every exercise and every piece begins on the tonic (the user's rule, 2026-10-25):
+// it sounds, stands as a reference bar on the play line, and only once the voice
+// has held it - that very note, octave and all, as a tapped key - does the music start.
+// Struck again every few seconds while the voice is not on it. Stop cancels.
+const TONIC_HOLD_MS = 700, TONIC_REPEAT_MS = 4000;
+let tuning = null;           // { cancel } while waiting for the tonic
+
+function tuneToTonic (midi)
+{
+    if (midi == null) return Promise.resolve (true);
+    const before = refMidi;
+    refMidi = midi;
+    refLit = false; refHitUntil = 0;
+    setButton (true);
+    $("status").textContent = t ("Возьмите тонику: {0}", labelPlain (midi));
+    const strike = () => { const s = ctx.createBufferSource(); s.buffer = renderSingleNote (ctx, midi); s.connect (clickGain); s.start(); };
+    strike();
+    return new Promise (resolve => {
+        let heldSince = 0, struck = performance.now();
+        const done = (ok) => {
+            clearInterval (timer); tuning = null; refMidi = before;
+            $("status").textContent = "";
+            if (! ok) setButton (false);
+            resolve (ok);
+        };
+        const timer = setInterval (() => {
+            const now = performance.now(), hit = reference()?.hit;
+            heldSince = hit ? heldSince || now : 0;
+            if (heldSince && now - heldSince >= TONIC_HOLD_MS) return done (true);
+            if (! heldSince && now - struck >= TONIC_REPEAT_MS) { strike(); struck = now; }
+        }, 30);
+        tuning = { cancel: () => done (false) };
+    });
+}
+
+const labelPlain = (midi) => S.labels === "names" ? midiName (midi) : `${label (midi)} (${midiName (midi)})`;
+
+// An exercise's tonic is its root; a drill has none of its own, so its first note.
+function exerciseTonic ()
+{
+    return chart.exercise?.rootMidi ?? chart.notes[0]?.midi ?? null;
+}
+
+// A piece's tonic: the final of its lowest part (a choir piece ends on the tonic in
+// the bass), else of the part itself - in the octave nearest the part's first note,
+// so it is taken where the part begins.
+async function songTonic ()
+{
+    const own = chart.notes;
+    if (! own.length) return null;
+    let finalMidi = own[own.length - 1].midi;
+    const parts = currentPiece?.parts || [];
+    const low = parts.find (x => x.part === "B2") || parts.find (x => x.part === "B");
+    if (low && low.id !== S.song)
+    {
+        try
+        {
+            const c = await fetchChart (low.id);
+            const ns = [...(c?.notes || [])].sort ((a, b) => a.startSeconds - b.startSeconds);
+            if (ns.length) finalMidi = ns[ns.length - 1].midi;
+        }
+        catch {}
+    }
+    const first = own[0].midi;
+    return first + remainder (finalMidi - first, 12);
+}
+
+async function fetchChart (id)
+{
+    const e = songEntries.get (id) || {};
+    return e.local ? (await getSong (id))?.chart
+                   : await (await fetch (e.chart || `api/songs/${encodeURIComponent (id)}/chart`)).json();
 }
 
 function schedule (decks, from = 0)
@@ -530,6 +606,7 @@ function stopSources ()
 // from it) covers what was sung so far. Not when a menu stops playback.
 function stop (finished = false, review = false)
 {
+    if (tuning) tuning.cancel();
     const wasRunning = running;
     if (running) lastChartNow = chartNow();
     running = false;
@@ -789,7 +866,7 @@ function updatePartBtn ()
 
 function songChanged ()
 {
-    if (running) stop();
+    if (running || tuning) stop();
     updateTitle();
     previewChart();
 }
@@ -821,7 +898,7 @@ function renderTempo ()
 
 function setTempo (f)
 {
-    if (running) stop();
+    if (running || tuning) stop();
     S.tempo = Math.round (Math.min (1.5, Math.max (0.5, f)) * 100) / 100; save();
     if (S.mode === "drill" && drillChart)
     {
@@ -1042,10 +1119,10 @@ function backToSong (fromPause)
 }
 
 //==============================================================================
-// Too many misses early on: once the 20th note of the song is past, if fewer than
-// half of the notes sung so far were hit (the voice on a note, in tune for half of
+// Too many misses early on: once the 18th note of the song is past, if fewer than
+// a third of the notes sung so far were hit (the voice on a note, in tune for half of
 // it), the song pauses and offers: the drill, going on, or starting over. Once per take.
-const EARLY_AT_NOTE = 20, EARLY_MIN_JUDGED = 5, EARLY_OK = 0.5;
+const EARLY_AT_NOTE = 18, EARLY_MIN_JUDGED = 5, EARLY_OK = 1 / 3;   // the user, 2026-10-25 (was 20 and a half)
 let earlyAsked = false, drillFromEarly = false, lastEarlyCheck = 0, earlyPausedAt = 0;
 
 function checkEarlyMisses (now)
@@ -1796,9 +1873,7 @@ async function previewSongChart (id)
 {
     try
     {
-        const e = songEntries.get (id) || {};
-        const c = e.local ? (await getSong (id))?.chart
-                          : await (await fetch (e.chart || `api/songs/${encodeURIComponent (id)}/chart`)).json();
+        const c = await fetchChart (id);
         if (c && ! running && S.mode === "song" && S.song === id) prepareChart (scaleChart (c, S.tempo));
     }
     catch {}
@@ -1813,13 +1888,13 @@ function buildForm ()
         S[key] = conv ($(id).type === "checkbox" ? $(id).checked : $(id).value); save(); syncForm(); applyLevels(); after && after();
     });
     // Песня, Темп: buttons on the main screen, each with its own chooser.
-    const openSheet = (id) => { if (running) stop(); $(id).hidden = false; };
+    const openSheet = (id) => { if (running || tuning) stop(); $(id).hidden = false; };
     $("songClose").onclick = () => { $("songSheet").hidden = true; };
     $("divBtn").onclick = () => {
         const halves = voiceParts (currentPiece);
         const x = halves[(halves.findIndex (y => y.id === S.song) + 1) % halves.length];
         if (! x || x.id === S.song) return;
-        if (running) stop();
+        if (running || tuning) stop();
         S.song = x.id; save(); track ("part", x.part); fillParts (currentPiece); syncDeleteButton(); songChanged();
     };
     // «?» by the voice type: the voice-profile tests, published next to the app on Pages.
@@ -1829,7 +1904,7 @@ function buildForm ()
     // Режимы: свободный / композиция / упражнение. Picking композиция or упражнение opens its
     // chooser at once (the list is what one wants next); the name button still opens it too.
     document.querySelectorAll ("[data-mode]").forEach (b => b.onclick = () => {
-        if (running) stop();
+        if (running || tuning) stop();
         S.mode = b.dataset.mode; save(); syncForm(); track ("mode", S.mode);
         updateTitle(); previewChart();
         $("title").onclick();
@@ -1890,9 +1965,9 @@ function buildForm ()
     $("delSongBtn").onclick = deleteLocalSong;
     $("addSongFile").addEventListener ("change", () => { const f = $("addSongFile").files[0]; if (f) addSongFile (f); });
 
-    $("menu").onclick = () => { if (running) stop(); openSettings(); };
+    $("menu").onclick = () => { if (running || tuning) stop(); openSettings(); };
     $("done").onclick = closeSettings;
-    $("play").onclick = () => running ? stop (false, true) : start();
+    $("play").onclick = () => running || tuning ? stop (false, true) : start();
     $("guide").onclick = () => { S.guide = ! S.guide; save(); applyLevels(); $("guide").classList.toggle ("on", S.guide); };
     $("guide").classList.toggle ("on", S.guide);
     $("clefBtn").onclick = () => {
@@ -1937,7 +2012,7 @@ function buildForm ()
         if (e.code !== "Space" || e.repeat || /INPUT|SELECT|TEXTAREA|BUTTON/.test (e.target.tagName)) return;
         if (! $("settings").hidden || [...document.querySelectorAll (".overlay")].some (o => ! o.hidden)) return;
         e.preventDefault();
-        running ? stop (false, true) : start();
+        running || tuning ? stop (false, true) : start();
     });
 }
 
