@@ -1843,6 +1843,136 @@
    "date": "2026-11-01T19:15:00+03:00"
   },
   "serviceDate": "2026-11-08",
+  "lyrics": "Сла ва От цу и Сы ну и Свя то му  Ду ху и ны не и при сно и во ве ки ве ков А минь Е ди но род ный Сы не и Сло ве Бо жий Без смер тен Сый и из во ли вый спа се ни я на ше го ра ди во пло ти ти ся от Свя ты я Бо го ро ди цы и При сно де  вы Ма ри и не пре лож но во че ло ве чи вый ся Рас пный ся же Хри сте Бо    же смер  ти ю смерть по пра   вый Е дин Сый Свя ты я Тро и цы спро слав ля е мый От цу и Свя то му Ду ху спа си нас",
+  "id": "nafanail-edinorodnyy-syne-alto",
+  "title": "Единородный Сыне (Нафанаил) — альт",
+  "artist": "иером. Нафанаил (Вачкало)",
+  "durationSeconds": 99.0,
+  "range": {
+   "min": 62,
+   "max": 69
+  },
+  "piece": "nafanail-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне (Нафанаил)",
+  "part": "A",
+  "partName": "альт",
+  "lesson": null,
+  "pdf": "songs/pdf/nafanail-edinorodnyy-syne.pdf",
+  "text": "songs/text/nafanail-edinorodnyy-syne.txt",
+  "chart": "songs/nafanail-edinorodnyy-syne-alto/chart.json",
+  "backing": "songs/nafanail-edinorodnyy-syne-alto/backing.mp3",
+  "reference": "songs/nafanail-edinorodnyy-syne-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и при сно и во ве ки ве ков А минь Е ди но род ный Сы не и Сло ве Бо жий Без смер тен Сый и из во ли вый спа се ни я на ше го ра ди во пло ти  ти ся от Свя ты я Бо го ро ди цы и При сно де  вы Ма ри и не пре лож но во че ло ве чи вый ся Рас пный  ся же Хри сте Бо же смер ти ю смерть по пра вый Е дин Сый Свя ты я Тро и цы спро слав ля е мый От цу и Свя то му Ду ху спа си нас",
+  "id": "nafanail-edinorodnyy-syne-bass",
+  "title": "Единородный Сыне (Нафанаил) — бас I",
+  "artist": "иером. Нафанаил (Вачкало)",
+  "durationSeconds": 99.0,
+  "range": {
+   "min": 43,
+   "max": 59
+  },
+  "piece": "nafanail-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне (Нафанаил)",
+  "part": "B",
+  "partName": "бас I",
+  "lesson": null,
+  "pdf": "songs/pdf/nafanail-edinorodnyy-syne.pdf",
+  "text": "songs/text/nafanail-edinorodnyy-syne.txt",
+  "chart": "songs/nafanail-edinorodnyy-syne-bass/chart.json",
+  "backing": "songs/nafanail-edinorodnyy-syne-bass/backing.mp3",
+  "reference": "songs/nafanail-edinorodnyy-syne-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и при сно и во ве ки ве ков А минь Е ди но род ный Сы не и Сло ве Бо жий Без смер тен Сый и из во ли вый спа се ни я на ше го ра ди во пло ти  ти ся от Свя ты я Бо го ро ди цы и При сно де  вы Ма ри и не пре лож но во че ло ве чи вый ся Рас пный  ся же Хри сте Бо же смер ти ю смерть по пра вый Е дин Сый Свя ты я Тро и цы спро слав ля е мый От цу и Свя то му Ду ху спа си нас",
+  "id": "nafanail-edinorodnyy-syne-bass-2",
+  "title": "Единородный Сыне (Нафанаил) — бас II",
+  "artist": "иером. Нафанаил (Вачкало)",
+  "durationSeconds": 99.0,
+  "range": {
+   "min": 40,
+   "max": 55
+  },
+  "piece": "nafanail-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне (Нафанаил)",
+  "part": "B2",
+  "partName": "бас II",
+  "lesson": null,
+  "pdf": "songs/pdf/nafanail-edinorodnyy-syne.pdf",
+  "text": "songs/text/nafanail-edinorodnyy-syne.txt",
+  "chart": "songs/nafanail-edinorodnyy-syne-bass-2/chart.json",
+  "backing": "songs/nafanail-edinorodnyy-syne-bass-2/backing.mp3",
+  "reference": "songs/nafanail-edinorodnyy-syne-bass-2/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Сла ва От цу и Сы ну и Свя то му  Ду ху и ны не и при сно и во ве ки ве ков А минь Е ди но род ный Сы не и Сло ве Бо жий Без смер тен Сый и из во ли вый спа се ни я на ше го ра  ди во пло ти  ти ся от Свя ты я Бо го ро ди цы и При сно де  вы Ма ри и не пре лож но во че ло ве чи вый ся Рас пный ся же Хри сте Бо же смер  ти ю смерть по пра    вый Е дин Сый Свя ты я Тро   и цы спро слав ля   е мый От цу и Свя то му Ду ху спа си  нас",
+  "id": "nafanail-edinorodnyy-syne-soprano",
+  "title": "Единородный Сыне (Нафанаил) — сопрано",
+  "artist": "иером. Нафанаил (Вачкало)",
+  "durationSeconds": 99.0,
+  "range": {
+   "min": 66,
+   "max": 74
+  },
+  "piece": "nafanail-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне (Нафанаил)",
+  "part": "S",
+  "partName": "сопрано",
+  "lesson": null,
+  "pdf": "songs/pdf/nafanail-edinorodnyy-syne.pdf",
+  "text": "songs/text/nafanail-edinorodnyy-syne.txt",
+  "chart": "songs/nafanail-edinorodnyy-syne-soprano/chart.json",
+  "backing": "songs/nafanail-edinorodnyy-syne-soprano/backing.mp3",
+  "reference": "songs/nafanail-edinorodnyy-syne-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и при сно и во ве ки ве ков А минь Е ди но род ный Сы не и Сло ве Бо жий Без смер тен Сый и из во ли вый спа се ни я на ше го ра  ди во пло ти  ти ся от Свя ты я Бо го ро ди цы и При сно де вы Ма ри и не пре лож но во че ло ве чи вый ся Рас пный ся же Хри сте Бо    же смер ти ю смерть по пра  вый Е дин Сый Свя ты я Тро   и цы спро слав ля   е мый От цу и Свя то му Ду ху спа си нас",
+  "id": "nafanail-edinorodnyy-syne-tenor",
+  "title": "Единородный Сыне (Нафанаил) — тенор",
+  "artist": "иером. Нафанаил (Вачкало)",
+  "durationSeconds": 99.0,
+  "range": {
+   "min": 59,
+   "max": 66
+  },
+  "piece": "nafanail-edinorodnyy-syne",
+  "pieceTitle": "Единородный Сыне (Нафанаил)",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "pdf": "songs/pdf/nafanail-edinorodnyy-syne.pdf",
+  "text": "songs/text/nafanail-edinorodnyy-syne.txt",
+  "chart": "songs/nafanail-edinorodnyy-syne-tenor/chart.json",
+  "backing": "songs/nafanail-edinorodnyy-syne-tenor/backing.mp3",
+  "reference": "songs/nafanail-edinorodnyy-syne-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
   "lyrics": "Е дин Свят  Е дин Го сподь  И и сус Хри стос  в сла ву Бо га От ца А минь Хва ли те Го спо да с не бес хва ли те Е го   в вы  шних Хва ли   те Го спода  с не  бес   Хва ли  те хва ли те Е го  в вы   шних хва ли те Го спо да с не бес хва ли те Е го в вы  шних Ал ли лу и я ал ли лу и я ал  ли лу   и я ал ли лу и я а  лли лу   и я ал ли лу и  я",
   "id": "nikifor-edin-svyat-alto",
   "title": "Един Свят, Хвалите Господа с небес (Никифор) — альт",
