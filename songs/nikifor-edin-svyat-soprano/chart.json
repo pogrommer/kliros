@@ -12,7 +12,7 @@
   "pieceTitle": "Един Свят, Хвалите Господа с небес (Никифор)",
   "part": "S",
   "partName": "сопрано",
-  "durationSeconds": 94.125,
+  "durationSeconds": 93.75,
   "referenceAudio": "stems/vocals.wav",
   "backingAudio": "backing.wav",
   "tuningHz": 440.0,
@@ -96,7 +96,7 @@
   {
    "id": 2,
    "startSeconds": 38.375,
-   "endSeconds": 64.69,
+   "endSeconds": 66.69,
    "text": "Хва ли   те Го спода  с не  бес   Хва ли  те хва ли те Е го в вы шних хва ли те Го спо да с не бес хва ли те Е го   в вы  шних",
    "noteIds": [
     55,
@@ -145,8 +145,8 @@
   },
   {
    "id": 3,
-   "startSeconds": 64.75,
-   "endSeconds": 92.565,
+   "startSeconds": 66.75,
+   "endSeconds": 92.19,
    "text": "Ал  ли лу   и я ал ли лу    и  я ал ли лу и я ал ли лу   и я а лли лу и я ал ли лу и я",
    "noteIds": [
     97,
@@ -1416,7 +1416,7 @@
   },
   {
    "id": 94,
-   "startSeconds": 61.875,
+   "startSeconds": 63.875,
    "durationSeconds": 0.94,
    "midi": 67,
    "centsOffset": 0.0,
@@ -1429,7 +1429,7 @@
   },
   {
    "id": 95,
-   "startSeconds": 62.875,
+   "startSeconds": 64.875,
    "durationSeconds": 0.94,
    "midi": 69,
    "centsOffset": 0.0,
@@ -1442,7 +1442,7 @@
   },
   {
    "id": 96,
-   "startSeconds": 63.875,
+   "startSeconds": 65.875,
    "durationSeconds": 0.815,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1455,7 +1455,7 @@
   },
   {
    "id": 97,
-   "startSeconds": 64.75,
+   "startSeconds": 66.75,
    "durationSeconds": 0.44,
    "midi": 67,
    "centsOffset": 0.0,
@@ -1468,7 +1468,7 @@
   },
   {
    "id": 98,
-   "startSeconds": 65.25,
+   "startSeconds": 67.25,
    "durationSeconds": 0.44,
    "midi": 69,
    "centsOffset": 0.0,
@@ -1481,7 +1481,7 @@
   },
   {
    "id": 99,
-   "startSeconds": 65.75,
+   "startSeconds": 67.75,
    "durationSeconds": 0.44,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1494,8 +1494,8 @@
   },
   {
    "id": 100,
-   "startSeconds": 66.25,
-   "durationSeconds": 1.065,
+   "startSeconds": 68.25,
+   "durationSeconds": 0.69,
    "midi": 72,
    "centsOffset": 0.0,
    "type": "normal",
@@ -1507,7 +1507,7 @@
   },
   {
    "id": 101,
-   "startSeconds": 67.375,
+   "startSeconds": 69.0,
    "durationSeconds": 0.19,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1520,7 +1520,7 @@
   },
   {
    "id": 102,
-   "startSeconds": 67.625,
+   "startSeconds": 69.25,
    "durationSeconds": 0.44,
    "midi": 69,
    "centsOffset": 0.0,
@@ -1533,7 +1533,7 @@
   },
   {
    "id": 103,
-   "startSeconds": 68.125,
+   "startSeconds": 69.75,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1546,7 +1546,7 @@
   },
   {
    "id": 104,
-   "startSeconds": 68.625,
+   "startSeconds": 70.25,
    "durationSeconds": 0.94,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1559,7 +1559,7 @@
   },
   {
    "id": 105,
-   "startSeconds": 69.625,
+   "startSeconds": 71.25,
    "durationSeconds": 0.44,
    "midi": 69,
    "centsOffset": 0.0,
@@ -1572,7 +1572,7 @@
   },
   {
    "id": 106,
-   "startSeconds": 70.125,
+   "startSeconds": 71.75,
    "durationSeconds": 0.44,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1585,7 +1585,7 @@
   },
   {
    "id": 107,
-   "startSeconds": 72.625,
+   "startSeconds": 72.25,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1598,7 +1598,7 @@
   },
   {
    "id": 108,
-   "startSeconds": 73.125,
+   "startSeconds": 72.75,
    "durationSeconds": 0.19,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1611,7 +1611,7 @@
   },
   {
    "id": 109,
-   "startSeconds": 73.375,
+   "startSeconds": 73.0,
    "durationSeconds": 0.19,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1624,7 +1624,7 @@
   },
   {
    "id": 110,
-   "startSeconds": 73.625,
+   "startSeconds": 73.25,
    "durationSeconds": 0.44,
    "midi": 74,
    "centsOffset": 0.0,
@@ -1637,7 +1637,7 @@
   },
   {
    "id": 111,
-   "startSeconds": 74.125,
+   "startSeconds": 73.75,
    "durationSeconds": 0.19,
    "midi": 69,
    "centsOffset": 0.0,
@@ -1650,7 +1650,7 @@
   },
   {
    "id": 112,
-   "startSeconds": 74.375,
+   "startSeconds": 74.0,
    "durationSeconds": 0.19,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1663,7 +1663,7 @@
   },
   {
    "id": 113,
-   "startSeconds": 74.625,
+   "startSeconds": 74.25,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1676,7 +1676,7 @@
   },
   {
    "id": 114,
-   "startSeconds": 75.125,
+   "startSeconds": 74.75,
    "durationSeconds": 0.94,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1689,7 +1689,7 @@
   },
   {
    "id": 115,
-   "startSeconds": 76.125,
+   "startSeconds": 75.75,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1702,7 +1702,7 @@
   },
   {
    "id": 116,
-   "startSeconds": 76.625,
+   "startSeconds": 76.25,
    "durationSeconds": 1.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1715,7 +1715,7 @@
   },
   {
    "id": 117,
-   "startSeconds": 78.125,
+   "startSeconds": 77.75,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1728,7 +1728,7 @@
   },
   {
    "id": 118,
-   "startSeconds": 78.625,
+   "startSeconds": 78.25,
    "durationSeconds": 0.94,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1741,7 +1741,7 @@
   },
   {
    "id": 119,
-   "startSeconds": 79.625,
+   "startSeconds": 79.25,
    "durationSeconds": 0.44,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1754,7 +1754,7 @@
   },
   {
    "id": 120,
-   "startSeconds": 80.125,
+   "startSeconds": 79.75,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1767,7 +1767,7 @@
   },
   {
    "id": 121,
-   "startSeconds": 80.625,
+   "startSeconds": 80.25,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1780,7 +1780,7 @@
   },
   {
    "id": 122,
-   "startSeconds": 81.125,
+   "startSeconds": 80.75,
    "durationSeconds": 0.44,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1793,7 +1793,7 @@
   },
   {
    "id": 123,
-   "startSeconds": 81.625,
+   "startSeconds": 81.25,
    "durationSeconds": 0.44,
    "midi": 69,
    "centsOffset": 0.0,
@@ -1806,7 +1806,7 @@
   },
   {
    "id": 124,
-   "startSeconds": 82.125,
+   "startSeconds": 81.75,
    "durationSeconds": 0.44,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1819,7 +1819,7 @@
   },
   {
    "id": 125,
-   "startSeconds": 82.625,
+   "startSeconds": 82.25,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1832,7 +1832,7 @@
   },
   {
    "id": 126,
-   "startSeconds": 83.125,
+   "startSeconds": 82.75,
    "durationSeconds": 0.94,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1845,7 +1845,7 @@
   },
   {
    "id": 127,
-   "startSeconds": 84.125,
+   "startSeconds": 83.75,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1858,7 +1858,7 @@
   },
   {
    "id": 128,
-   "startSeconds": 84.625,
+   "startSeconds": 84.25,
    "durationSeconds": 1.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1871,7 +1871,7 @@
   },
   {
    "id": 129,
-   "startSeconds": 86.125,
+   "startSeconds": 85.75,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1884,7 +1884,7 @@
   },
   {
    "id": 130,
-   "startSeconds": 86.625,
+   "startSeconds": 86.25,
    "durationSeconds": 0.94,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1897,7 +1897,7 @@
   },
   {
    "id": 131,
-   "startSeconds": 87.625,
+   "startSeconds": 87.25,
    "durationSeconds": 0.44,
    "midi": 74,
    "centsOffset": 0.0,
@@ -1910,7 +1910,7 @@
   },
   {
    "id": 132,
-   "startSeconds": 88.125,
+   "startSeconds": 87.75,
    "durationSeconds": 0.44,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1923,7 +1923,7 @@
   },
   {
    "id": 133,
-   "startSeconds": 88.625,
+   "startSeconds": 88.25,
    "durationSeconds": 0.94,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1936,7 +1936,7 @@
   },
   {
    "id": 134,
-   "startSeconds": 89.625,
+   "startSeconds": 89.25,
    "durationSeconds": 0.94,
    "midi": 71,
    "centsOffset": 0.0,
@@ -1949,7 +1949,7 @@
   },
   {
    "id": 135,
-   "startSeconds": 90.625,
+   "startSeconds": 90.25,
    "durationSeconds": 1.94,
    "midi": 72,
    "centsOffset": 0.0,
@@ -1963,14 +1963,84 @@
  ],
  "warnings": [],
  "barSeconds": [
+  3.5,
+  5.5,
+  7.5,
+  9.5,
+  11.5,
+  13.5,
   15.5,
+  17.5,
+  19.5,
+  21.5,
+  23.875,
   25.875,
+  27.875,
+  28.875,
+  30.875,
+  32.875,
+  34.875,
   36.875,
+  38.875,
+  40.875,
+  42.875,
+  44.875,
+  46.875,
   48.875,
+  50.875,
+  52.875,
+  54.875,
+  56.875,
   57.875,
-  72.625,
-  82.625,
-  92.625
+  59.875,
+  63.875,
+  65.875,
+  68.25,
+  70.25,
+  72.25,
+  74.25,
+  76.25,
+  78.25,
+  80.25,
+  82.25,
+  84.25,
+  86.25,
+  88.25,
+  90.25,
+  92.25
  ],
- "meter": []
+ "meter": [
+  {
+   "timeSeconds": 3.0,
+   "quarters": 1.0
+  },
+  {
+   "timeSeconds": 3.5,
+   "quarters": 4.0
+  },
+  {
+   "timeSeconds": 27.875,
+   "quarters": 2.0
+  },
+  {
+   "timeSeconds": 28.875,
+   "quarters": 4.0
+  },
+  {
+   "timeSeconds": 56.875,
+   "quarters": 2.0
+  },
+  {
+   "timeSeconds": 57.875,
+   "quarters": 4.0
+  },
+  {
+   "timeSeconds": 59.875,
+   "quarters": 8.0
+  },
+  {
+   "timeSeconds": 63.875,
+   "quarters": 4.0
+  }
+ ]
 }

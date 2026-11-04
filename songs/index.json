@@ -640,6 +640,110 @@
  },
  {
   "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Гос   по ди спа си бла го чес ти вы я и у слы     ши ны А минь  Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас и ныне",
+  "id": "gospodi-spasi-blagochestivyya-trisvyatoe-alto",
+  "title": "Господи, спаси благочестивыя (на Литургии) — альт",
+  "artist": "",
+  "durationSeconds": 41.5,
+  "range": {
+   "min": 61,
+   "max": 69
+  },
+  "piece": "gospodi-spasi-blagochestivyya-trisvyatoe",
+  "pieceTitle": "Господи, спаси благочестивыя (на Литургии)",
+  "part": "A",
+  "partName": "альт",
+  "lesson": null,
+  "pdf": "songs/pdf/gospodi-spasi-blagochestivyya-trisvyatoe.pdf",
+  "text": "songs/text/gospodi-spasi-blagochestivyya-trisvyatoe.txt",
+  "chart": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-alto/chart.json",
+  "backing": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-alto/backing.mp3",
+  "reference": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Гос    по ди спа си бла го чес ти вы я и  у  слы   ши ны А минь Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас и ныне",
+  "id": "gospodi-spasi-blagochestivyya-trisvyatoe-bass",
+  "title": "Господи, спаси благочестивыя (на Литургии) — бас",
+  "artist": "",
+  "durationSeconds": 41.5,
+  "range": {
+   "min": 43,
+   "max": 54
+  },
+  "piece": "gospodi-spasi-blagochestivyya-trisvyatoe",
+  "pieceTitle": "Господи, спаси благочестивыя (на Литургии)",
+  "part": "B",
+  "partName": "бас",
+  "lesson": null,
+  "pdf": "songs/pdf/gospodi-spasi-blagochestivyya-trisvyatoe.pdf",
+  "text": "songs/text/gospodi-spasi-blagochestivyya-trisvyatoe.txt",
+  "chart": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-bass/chart.json",
+  "backing": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-bass/backing.mp3",
+  "reference": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Гос   по ди спа си бла го чес ти вы я и у слы   ши ны А минь  Свя тый Бо же Свя тый Креп кий Свя тый Без  смерт ный по ми луй нас и ныне",
+  "id": "gospodi-spasi-blagochestivyya-trisvyatoe-soprano",
+  "title": "Господи, спаси благочестивыя (на Литургии) — сопрано",
+  "artist": "",
+  "durationSeconds": 41.5,
+  "range": {
+   "min": 66,
+   "max": 74
+  },
+  "piece": "gospodi-spasi-blagochestivyya-trisvyatoe",
+  "pieceTitle": "Господи, спаси благочестивыя (на Литургии)",
+  "part": "S",
+  "partName": "сопрано",
+  "lesson": null,
+  "pdf": "songs/pdf/gospodi-spasi-blagochestivyya-trisvyatoe.pdf",
+  "text": "songs/text/gospodi-spasi-blagochestivyya-trisvyatoe.txt",
+  "chart": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-soprano/chart.json",
+  "backing": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-soprano/backing.mp3",
+  "reference": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Гос  по ди спа си бла го чес ти вы я и у  слы    ши ны А минь Свя тый Бо же Свя тый Креп кий Свя тый Без  смерт ный по ми луй нас и ныне",
+  "id": "gospodi-spasi-blagochestivyya-trisvyatoe-tenor",
+  "title": "Господи, спаси благочестивыя (на Литургии) — тенор",
+  "artist": "",
+  "durationSeconds": 41.5,
+  "range": {
+   "min": 57,
+   "max": 63
+  },
+  "piece": "gospodi-spasi-blagochestivyya-trisvyatoe",
+  "pieceTitle": "Господи, спаси благочестивыя (на Литургии)",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "pdf": "songs/pdf/gospodi-spasi-blagochestivyya-trisvyatoe.pdf",
+  "text": "songs/text/gospodi-spasi-blagochestivyya-trisvyatoe.txt",
+  "chart": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-tenor/chart.json",
+  "backing": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-tenor/backing.mp3",
+  "reference": "songs/gospodi-spasi-blagochestivyya-trisvyatoe-tenor/reference.mp3"
+ },
+ {
+  "mail": {
    "subject": "Ноты и тексты для службы 25 октября воскресенье Литургия ",
    "date": "2026-10-18T19:58:56+03:00"
   },
@@ -871,6 +975,214 @@
   "chart": "songs/imamutdinov-priidite-poklonimsya-tenor/chart.json",
   "backing": "songs/imamutdinov-priidite-poklonimsya-tenor/backing.mp3",
   "reference": "songs/imamutdinov-priidite-poklonimsya-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "А минь Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и прис но и во ве ки ве ков А минь Свя  тый Без смерт ный по ми   луй нас Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас",
+  "id": "imamutdinova-trisvyatoe-alto",
+  "title": "Трисвятое (Строкин) — альт I",
+  "artist": "М. П. Строкин, версия Р. Имамутдинова",
+  "durationSeconds": 53.75,
+  "range": {
+   "min": 62,
+   "max": 72
+  },
+  "piece": "imamutdinova-trisvyatoe",
+  "pieceTitle": "Трисвятое (Строкин)",
+  "part": "A",
+  "partName": "альт I",
+  "lesson": null,
+  "pdf": "songs/pdf/imamutdinova-trisvyatoe.pdf",
+  "text": "songs/text/imamutdinova-trisvyatoe.txt",
+  "chart": "songs/imamutdinova-trisvyatoe-alto/chart.json",
+  "backing": "songs/imamutdinova-trisvyatoe-alto/backing.mp3",
+  "reference": "songs/imamutdinova-trisvyatoe-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "А минь Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и прис но и во ве ки ве ков А минь Свя  тый Без смерт ный по ми   луй нас Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас",
+  "id": "imamutdinova-trisvyatoe-alto-2",
+  "title": "Трисвятое (Строкин) — альт II",
+  "artist": "М. П. Строкин, версия Р. Имамутдинова",
+  "durationSeconds": 53.75,
+  "range": {
+   "min": 58,
+   "max": 72
+  },
+  "piece": "imamutdinova-trisvyatoe",
+  "pieceTitle": "Трисвятое (Строкин)",
+  "part": "A2",
+  "partName": "альт II",
+  "lesson": null,
+  "pdf": "songs/pdf/imamutdinova-trisvyatoe.pdf",
+  "text": "songs/text/imamutdinova-trisvyatoe.txt",
+  "chart": "songs/imamutdinova-trisvyatoe-alto-2/chart.json",
+  "backing": "songs/imamutdinova-trisvyatoe-alto-2/backing.mp3",
+  "reference": "songs/imamutdinova-trisvyatoe-alto-2/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "А минь Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и прис но и во ве ки ве ков А минь Свя тый Без смерт ный по ми луй нас Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас",
+  "id": "imamutdinova-trisvyatoe-bass",
+  "title": "Трисвятое (Строкин) — бас I",
+  "artist": "М. П. Строкин, версия Р. Имамутдинова",
+  "durationSeconds": 53.75,
+  "range": {
+   "min": 46,
+   "max": 58
+  },
+  "piece": "imamutdinova-trisvyatoe",
+  "pieceTitle": "Трисвятое (Строкин)",
+  "part": "B",
+  "partName": "бас I",
+  "lesson": null,
+  "pdf": "songs/pdf/imamutdinova-trisvyatoe.pdf",
+  "text": "songs/text/imamutdinova-trisvyatoe.txt",
+  "chart": "songs/imamutdinova-trisvyatoe-bass/chart.json",
+  "backing": "songs/imamutdinova-trisvyatoe-bass/backing.mp3",
+  "reference": "songs/imamutdinova-trisvyatoe-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "А минь Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и прис но и во ве ки ве ков А минь Свя тый Без смерт ный по ми луй нас Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас",
+  "id": "imamutdinova-trisvyatoe-bass-2",
+  "title": "Трисвятое (Строкин) — бас II",
+  "artist": "М. П. Строкин, версия Р. Имамутдинова",
+  "durationSeconds": 53.75,
+  "range": {
+   "min": 46,
+   "max": 55
+  },
+  "piece": "imamutdinova-trisvyatoe",
+  "pieceTitle": "Трисвятое (Строкин)",
+  "part": "B2",
+  "partName": "бас II",
+  "lesson": null,
+  "pdf": "songs/pdf/imamutdinova-trisvyatoe.pdf",
+  "text": "songs/text/imamutdinova-trisvyatoe.txt",
+  "chart": "songs/imamutdinova-trisvyatoe-bass-2/chart.json",
+  "backing": "songs/imamutdinova-trisvyatoe-bass-2/backing.mp3",
+  "reference": "songs/imamutdinova-trisvyatoe-bass-2/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "А минь Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и прис но и во ве ки ве ков А минь Свя  тый Без смерт ный по ми   луй нас Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас",
+  "id": "imamutdinova-trisvyatoe-soprano",
+  "title": "Трисвятое (Строкин) — сопрано I",
+  "artist": "М. П. Строкин, версия Р. Имамутдинова",
+  "durationSeconds": 53.75,
+  "range": {
+   "min": 69,
+   "max": 75
+  },
+  "piece": "imamutdinova-trisvyatoe",
+  "pieceTitle": "Трисвятое (Строкин)",
+  "part": "S",
+  "partName": "сопрано I",
+  "lesson": null,
+  "pdf": "songs/pdf/imamutdinova-trisvyatoe.pdf",
+  "text": "songs/text/imamutdinova-trisvyatoe.txt",
+  "chart": "songs/imamutdinova-trisvyatoe-soprano/chart.json",
+  "backing": "songs/imamutdinova-trisvyatoe-soprano/backing.mp3",
+  "reference": "songs/imamutdinova-trisvyatoe-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "А минь Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и прис но и во ве ки ве ков А минь Свя  тый Без смерт ный по ми   луй нас Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас",
+  "id": "imamutdinova-trisvyatoe-soprano-2",
+  "title": "Трисвятое (Строкин) — сопрано II",
+  "artist": "М. П. Строкин, версия Р. Имамутдинова",
+  "durationSeconds": 53.75,
+  "range": {
+   "min": 66,
+   "max": 75
+  },
+  "piece": "imamutdinova-trisvyatoe",
+  "pieceTitle": "Трисвятое (Строкин)",
+  "part": "S2",
+  "partName": "сопрано II",
+  "lesson": null,
+  "pdf": "songs/pdf/imamutdinova-trisvyatoe.pdf",
+  "text": "songs/text/imamutdinova-trisvyatoe.txt",
+  "chart": "songs/imamutdinova-trisvyatoe-soprano-2/chart.json",
+  "backing": "songs/imamutdinova-trisvyatoe-soprano-2/backing.mp3",
+  "reference": "songs/imamutdinova-trisvyatoe-soprano-2/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "А минь Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и прис но и во ве ки ве ков А минь Свя тый Без смерт ный по ми луй нас Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас",
+  "id": "imamutdinova-trisvyatoe-tenor",
+  "title": "Трисвятое (Строкин) — тенор I",
+  "artist": "М. П. Строкин, версия Р. Имамутдинова",
+  "durationSeconds": 53.75,
+  "range": {
+   "min": 57,
+   "max": 65
+  },
+  "piece": "imamutdinova-trisvyatoe",
+  "pieceTitle": "Трисвятое (Строкин)",
+  "part": "T",
+  "partName": "тенор I",
+  "lesson": null,
+  "pdf": "songs/pdf/imamutdinova-trisvyatoe.pdf",
+  "text": "songs/text/imamutdinova-trisvyatoe.txt",
+  "chart": "songs/imamutdinova-trisvyatoe-tenor/chart.json",
+  "backing": "songs/imamutdinova-trisvyatoe-tenor/backing.mp3",
+  "reference": "songs/imamutdinova-trisvyatoe-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "А минь Свя тый Бо же Свя тый Креп кий Свя тый Без смерт ный по ми луй нас Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас Сла ва От цу и Сы ну и Свя то му Ду ху и ны не и прис но и во ве ки ве ков А минь Свя тый Без смерт ный по ми луй нас Свя  тый  Бо же Свя  тый  Креп кий Свя  тый Без смерт ный по ми   луй нас",
+  "id": "imamutdinova-trisvyatoe-tenor-2",
+  "title": "Трисвятое (Строкин) — тенор II",
+  "artist": "М. П. Строкин, версия Р. Имамутдинова",
+  "durationSeconds": 53.75,
+  "range": {
+   "min": 54,
+   "max": 65
+  },
+  "piece": "imamutdinova-trisvyatoe",
+  "pieceTitle": "Трисвятое (Строкин)",
+  "part": "T2",
+  "partName": "тенор II",
+  "lesson": null,
+  "pdf": "songs/pdf/imamutdinova-trisvyatoe.pdf",
+  "text": "songs/text/imamutdinova-trisvyatoe.txt",
+  "chart": "songs/imamutdinova-trisvyatoe-tenor-2/chart.json",
+  "backing": "songs/imamutdinova-trisvyatoe-tenor-2/backing.mp3",
+  "reference": "songs/imamutdinova-trisvyatoe-tenor-2/reference.mp3"
  },
  {
   "mail": {
@@ -1977,7 +2289,7 @@
   "id": "nikifor-edin-svyat-alto",
   "title": "Един Свят, Хвалите Господа с небес (Никифор) — альт",
   "artist": "игум. Никифор",
-  "durationSeconds": 94.125,
+  "durationSeconds": 93.75,
   "range": {
    "min": 63,
    "max": 71
@@ -2003,7 +2315,7 @@
   "id": "nikifor-edin-svyat-bass",
   "title": "Един Свят, Хвалите Господа с небес (Никифор) — бас",
   "artist": "игум. Никифор",
-  "durationSeconds": 94.125,
+  "durationSeconds": 93.75,
   "range": {
    "min": 43,
    "max": 59
@@ -2029,7 +2341,7 @@
   "id": "nikifor-edin-svyat-soprano",
   "title": "Един Свят, Хвалите Господа с небес (Никифор) — сопрано",
   "artist": "игум. Никифор",
-  "durationSeconds": 94.125,
+  "durationSeconds": 93.75,
   "range": {
    "min": 66,
    "max": 76
@@ -2055,7 +2367,7 @@
   "id": "nikifor-edin-svyat-tenor",
   "title": "Един Свят, Хвалите Господа с небес (Никифор) — тенор",
   "artist": "игум. Никифор",
-  "durationSeconds": 94.125,
+  "durationSeconds": 93.75,
   "range": {
    "min": 59,
    "max": 66
@@ -2895,7 +3207,7 @@
    "date": "2026-11-01T19:15:00+03:00"
   },
   "serviceDate": "2026-11-08",
-  "lyrics": "При и ди те по кло ним ся и при па дем ко Хри сту спа  си ны Сы не Бо жий  вмвооосл икстврвяеа стмыыийх Бидозиг ом рвеоерндт и Свцыыыхй,,,по  ю щи я Ти Ал ли лу   и я",
+  "lyrics": "При и ди те по кло ним ся и при па дем ко Хри сту спа  си ны Сы не Бо жий  вос кре сый из мерт вых по ю щи я Ти Ал ли лу   и я",
   "id": "priidite-poklonimsya-alto",
   "title": "Приидите, поклонимся (Саровского напева) — альт",
   "artist": "",
@@ -2921,7 +3233,7 @@
    "date": "2026-11-01T19:15:00+03:00"
   },
   "serviceDate": "2026-11-08",
-  "lyrics": "При и ди те по кло ним ся и при па дем ко Хри сту спа си ны Сы не Бо жий  вмвооосл икстврвяеа стмыыийх Бидозиг ом рвеоерндт и Свцыыыхй,,,по  ю щи я Ти Ал ли лу   и я",
+  "lyrics": "При и ди те по кло ним ся и при па дем ко Хри сту спа си ны Сы не Бо жий  вос кре сый из мерт вых по ю щи я Ти Ал ли лу   и я",
   "id": "priidite-poklonimsya-bass",
   "title": "Приидите, поклонимся (Саровского напева) — бас",
   "artist": "",
@@ -2947,7 +3259,7 @@
    "date": "2026-11-01T19:15:00+03:00"
   },
   "serviceDate": "2026-11-08",
-  "lyrics": "При и ди те по кло ним ся и при па дем ко Хри сту спа  си ны Сы не Бо жий  вмвооосл икстврвяеа стмыыийх Бидозиг ом рвеоерндт и Свцыыыхй,,,по  ю щи я Ти Ал ли лу   и я",
+  "lyrics": "При и ди те по кло ним ся и при па дем ко Хри сту спа  си ны Сы не Бо жий  вос кре сый из мерт вых по ю щи я Ти Ал ли лу   и я",
   "id": "priidite-poklonimsya-soprano",
   "title": "Приидите, поклонимся (Саровского напева) — сопрано",
   "artist": "",
@@ -2973,7 +3285,7 @@
    "date": "2026-11-01T19:15:00+03:00"
   },
   "serviceDate": "2026-11-08",
-  "lyrics": "При и ди те по кло ним ся и при па дем ко Хри сту спа си ны Сы не Бо жий  вмвооосл икстврвяеа стмыыийх Бидозиг ом рвеоерндт и Свцыыыхй,,,по  ю щи я Ти Ал ли лу  и я",
+  "lyrics": "При и ди те по кло ним ся и при па дем ко Хри сту спа си ны Сы не Бо жий  вос кре сый из мерт вых по ю щи я Ти Ал ли лу  и я",
   "id": "priidite-poklonimsya-tenor",
   "title": "Приидите, поклонимся (Саровского напева) — тенор",
   "artist": "",
@@ -3547,7 +3859,7 @@
   "serviceDate": "2026-11-08",
   "lyrics": "А минь Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Те бе Гос по ди А минь",
   "id": "velikaya-ekteniya-2-tenor",
-  "title": "Великая ектения (Мироносицкий) — тенор I",
+  "title": "Великая ектения (Мироносицкий) — тенор",
   "artist": "Мироносицкий",
   "durationSeconds": 64.5,
   "range": {
@@ -3557,39 +3869,13 @@
   "piece": "velikaya-ekteniya-2",
   "pieceTitle": "Великая ектения (Мироносицкий)",
   "part": "T",
-  "partName": "тенор I",
+  "partName": "тенор",
   "lesson": null,
   "pdf": "songs/pdf/velikaya-ekteniya-2.pdf",
   "text": "songs/text/velikaya-ekteniya-2.txt",
   "chart": "songs/velikaya-ekteniya-2-tenor/chart.json",
   "backing": "songs/velikaya-ekteniya-2-tenor/backing.mp3",
   "reference": "songs/velikaya-ekteniya-2-tenor/reference.mp3"
- },
- {
-  "mail": {
-   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
-   "date": "2026-11-01T19:15:00+03:00"
-  },
-  "serviceDate": "2026-11-08",
-  "lyrics": "А минь Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Гос по ди по ми луй Те бе Гос по ди А минь",
-  "id": "velikaya-ekteniya-2-tenor-2",
-  "title": "Великая ектения (Мироносицкий) — тенор II",
-  "artist": "Мироносицкий",
-  "durationSeconds": 64.5,
-  "range": {
-   "min": 55,
-   "max": 65
-  },
-  "piece": "velikaya-ekteniya-2",
-  "pieceTitle": "Великая ектения (Мироносицкий)",
-  "part": "T2",
-  "partName": "тенор II",
-  "lesson": null,
-  "pdf": "songs/pdf/velikaya-ekteniya-2.pdf",
-  "text": "songs/text/velikaya-ekteniya-2.txt",
-  "chart": "songs/velikaya-ekteniya-2-tenor-2/chart.json",
-  "backing": "songs/velikaya-ekteniya-2-tenor-2/backing.mp3",
-  "reference": "songs/velikaya-ekteniya-2-tenor-2/reference.mp3"
  },
  {
   "mail": {

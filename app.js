@@ -552,6 +552,7 @@ function tuneToStart (midi)
             if (! heldSince && now - struck >= START_REPEAT_MS) strike();
         }, 30);
         tuning = { cancel: () => done (false) };
+        $("startSkip").onclick = () => done (true);     // on without catching it
     });
 }
 
@@ -973,7 +974,7 @@ async function deleteLocalSong ()
 
 // A teacher's recording plays as a song but lives with the exercises.
 const inLesson = () => S.mode === "song" && !! songEntries.get (S.song)?.lesson;
-const shownMode = () => inLesson() ? "lesson" : S.mode;
+const shownMode = () => inLesson() ? "exercise" : S.mode;
 
 function songTitle ()
 {
@@ -1800,10 +1801,19 @@ function voiceLabel ()
     $("voiceText").textContent = VOICES.find (v => v[0] === S.voice)[1];
 }
 
+let exFolder = false;       // the sheet shows the folder of the teacher's recordings
+
 function renderExercises ()
 {
     const list = $("exList");
     list.innerHTML = "";
+    $("exTitle").textContent = t (exFolder ? "Записи педагога" : "Упражнение");
+    if (exFolder) { renderLessons(); return; }
+    const folder = document.createElement ("button");
+    folder.className = "folder";
+    folder.textContent = t ("Записи педагога");
+    folder.onclick = () => { exFolder = true; renderExercises(); };
+    list.appendChild (folder);
     for (const d of DEFINITIONS)
     {
         const b = document.createElement ("button");
@@ -1818,20 +1828,28 @@ function renderExercises ()
     }
 }
 
-// The teacher's recordings, a catalogue of their own: her voice and the notes, to sing along with.
-function renderLessons ()
+// The folder of the teacher's recordings: her voice and the notes, to sing along with. The list
+// comes with the songs, which a start outside «Композиция» has not asked for yet.
+async function renderLessons ()
 {
-    const list = $("lessonList");
+    const list = $("exList");
+    await refreshSongList();
+    if (! exFolder) return;
     list.innerHTML = "";
+    const back = document.createElement ("button");
+    back.className = "back";
+    back.textContent = t ("Все упражнения");
+    back.onclick = () => { exFolder = false; renderExercises(); };
+    list.appendChild (back);
     const lessons = pieces.filter (p => p.lesson).sort ((a, b) => a.key.localeCompare (b.key));   // the order of the recording
-    if (! lessons.length) list.innerHTML = `<p class="note">${songsOffline ? t ("Сервер недоступен") : t ("Записей пока нет")}</p>`;
+    if (! lessons.length) list.insertAdjacentHTML ("beforeend", `<p class="note">${songsOffline ? t ("Сервер недоступен") : t ("Записей пока нет")}</p>`);
     for (const p of lessons)
     {
         const b = document.createElement ("button");
         b.textContent = p.label;
         b.classList.toggle ("sel", S.mode === "song" && p.parts[0].id === S.song);
         b.onclick = () => {
-            S.mode = "song"; S.song = p.parts[0].id; save(); $("lessonSheet").hidden = true;
+            S.mode = "song"; S.song = p.parts[0].id; save(); $("exSheet").hidden = true;
             fillParts (p); syncDeleteButton(); syncForm(); songChanged();
         };
         list.appendChild (b);
@@ -1842,7 +1860,6 @@ function updateTitle ()
 {
     $("title").disabled = S.mode === "free";
     document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === shownMode()));
-    $("lessonBtn").classList.toggle ("sel", inLesson());
     voiceLabel();
     let title;
     if (S.mode === "exercise") { const d = getDefinition (S.kind); title = d.name + (d.fixed ? "" : t (" · от {0}", noteName (exerciseSpec().rootMidi))); }
@@ -1941,14 +1958,10 @@ function buildForm ()
     });
     $("title").onclick = () => {
         if (S.mode === "free") return;
-        if (inLesson()) { $("lessonBtn").onclick(); return; }
-        if (S.mode === "exercise") { renderExercises(); openSheet ("exSheet"); }
+        if (shownMode() === "exercise") { exFolder = inLesson(); renderExercises(); openSheet ("exSheet"); }
         else { refreshSongList(); openSheet ("songSheet"); }
     };
     $("exClose").onclick = () => { $("exSheet").hidden = true; };
-    // The list comes with the songs, which a start outside «Композиция» has not asked for yet.
-    $("lessonBtn").onclick = async () => { openSheet ("lessonSheet"); await refreshSongList(); renderLessons(); };
-    $("lessonClose").onclick = () => { $("lessonSheet").hidden = true; };
     // Тип голоса: the part of every piece opened from now on; the open piece switches too.
     $("voiceBtn").onclick = () => {
         const list = $("voiceList");
@@ -1970,7 +1983,7 @@ function buildForm ()
         openSheet ("voiceSheet");
     };
     $("textClose").onclick = () => { $("textSheet").hidden = true; };
-    for (const id of ["songSheet", "tempoSheet", "voiceSheet", "exSheet", "lessonSheet", "textSheet"])
+    for (const id of ["songSheet", "tempoSheet", "voiceSheet", "exSheet", "textSheet"])
         $(id).addEventListener ("click", (e) => { if (e.target === $(id)) $(id).hidden = true; });
     $("tempoDown").onclick = () => setTempo (S.tempo - 0.05);
     $("tempoUp").onclick = () => setTempo (S.tempo + 0.05);

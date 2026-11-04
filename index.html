@@ -28,7 +28,6 @@
       <button data-mode="free">Свободный</button>
       <button data-mode="song">Композиция</button>
       <button data-mode="exercise">Упражнение</button>
-      <button id="lessonBtn">Записи</button>
     </div>
     <button id="title" title="Выбрать"><span id="titleText">Kliros</span></button>
     <button id="tempoBtn" title="Темп: медленнее или быстрее">♩ <span id="tempoText">100%</span></button>
@@ -58,6 +57,7 @@
     <div class="tc-k" id="startHint">Поймайте ноту</div>
     <div class="tc-n" id="startName"></div>
     <button id="startAgain">Сыграть ещё раз</button>
+    <button id="startSkip">Пропустить</button>
   </div>
 
   <div id="summary" hidden></div>
@@ -99,13 +99,8 @@
       <p class="note">Композиция открывается в партии вашего голоса.</p></div>
   </div>
 
-  <div id="lessonSheet" class="overlay" hidden>
-    <div class="sheet"><div class="sheetHead"><b>Записи педагога</b><button id="lessonClose">Готово</button></div>
-      <div id="lessonList"></div></div>
-  </div>
-
   <div id="exSheet" class="overlay" hidden>
-    <div class="sheet"><div class="sheetHead"><b>Упражнение</b><button id="exClose">Готово</button></div>
+    <div class="sheet"><div class="sheetHead"><b id="exTitle">Упражнение</b><button id="exClose">Готово</button></div>
       <div id="exList"></div></div>
   </div>
 
