@@ -26,10 +26,10 @@ body { touch-action: manipulation; }
 #modeSeg button { font-size: 12px; padding: 4px 8px; flex: 0 0 auto; }
 #voiceBtn::after { content: " ▾"; color: var(--accent); }
 #voiceHelp { min-width: 32px; padding: 4px 0; font-weight: 700; color: var(--accent); margin-left: -2px; }
-#exList { display: flex; flex-direction: column; gap: 4px; }
-#exList button { text-align: left; }
-#exList .exHead { margin: 10px 0 2px; color: var(--dim); font-size: 13px; }
+#exList, #lessonList { display: flex; flex-direction: column; gap: 4px; }
+#exList button, #lessonList button { text-align: left; }
 #exList small { display: block; color: #8a8a96; font-size: 12px; }
+#lessonList button.sel { background: #0f3a52; border-color: var(--accent); }
 #exList button.sel { background: #0f3a52; border-color: var(--accent); }
 #title:disabled { opacity: .6; }
 #title:disabled::after { content: ""; }

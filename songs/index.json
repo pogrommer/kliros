@@ -5,6 +5,136 @@
    "date": "2026-11-01T19:15:00+03:00"
   },
   "serviceDate": "2026-11-08",
+  "lyrics": "Бла го сло ви ду ше мо я Го спо да бла го сло вен е си Го спо ди Бла го сло ви ду ше мо я Го спо да и вся внутренняя моя имя свя то е Е го Бла го сло ви ду ше мо я Го спо да и не за бы вай всех во зда я ний е го о чищающаго вся без за ко ни я тво я ис це ля ю ща го вся не ду ги тво я из бавляющаго от истления жи вот твой вен чающаго тя милостию и щед ро та ми Ис полняющаго во благих же ла ни е тво е об но вит ся я ко ор ля ю ность тво я Щедр и ми ло стив Го сподь дол готерпелив и много ми ло стив бла гословите Господа вся де ла Е го на вся ком ме сте вла ды чест ва е го Бла го сло ви ду ше мо я Го спо да и вся внутрен няя моя Имя Свя то е е го Бла го сло вен е си Го спо ди Хва ли ду ше мо я Го спо да вос хвалю Господа в животе моем, пою Богу мое му Дон де же есть Не надейтеся на князи на сыны че ло ве чес ки я в них же несть спа се ни я и зыдет дух его и возвратит ся в зе млю сво ю в той день по гиб нут вся по мы шле ни я е го Бла жен ему же Бог Иаковль по мо шник е го у пование его на Госпо да Бо га сво е го со твор ша го не бо и зе млю мо ре и вся я же в них хра ня ща го и сти ну в век тво рящаго суд обидимым дающаго пищу ал чу щим Гос подь решит окованныя, Господь у му дря ет слеп цы Гос подь возводит низверженныя, Господь лю бит пра вед ни ки Гос подь хранит пришельцы, сира и вдову при и мет и путь гре шных по гу бит Во ца рит ся Го сподь во век Бог твой Си о не в род и род",
+  "id": "antifony-lavra-alto",
+  "title": "Антифоны изобразительные (Лавра) — альт",
+  "artist": "напев Троице-Сергиевой Лавры",
+  "durationSeconds": 275.5,
+  "range": {
+   "min": 64,
+   "max": 67
+  },
+  "piece": "antifony-lavra",
+  "pieceTitle": "Антифоны изобразительные (Лавра)",
+  "part": "A",
+  "partName": "альт",
+  "lesson": null,
+  "pdf": "songs/pdf/antifony-lavra.pdf",
+  "text": "songs/text/antifony-lavra.txt",
+  "chart": "songs/antifony-lavra-alto/chart.json",
+  "backing": "songs/antifony-lavra-alto/backing.mp3",
+  "reference": "songs/antifony-lavra-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Бла го сло ви ду ше мо я Го спо да бла го сло вен е си Го спо ди Бла го сло ви ду ше мо я Го спо да и вся внутренняя моя имя свя то е Е го Бла го сло ви ду ше мо я Го спо да и не за бы вай всех во зда я ний е го о чищающаго вся без за ко ни я тво я ис це ля ю ща го вся не ду ги тво я из бавляющаго от истления жи вот твой вен чающаго тя милостию и щед ро та ми Ис полняющаго во благих же ла ни е тво е об но вит ся я ко ор ля ю ность тво я Щедр и ми ло стив Го сподь дол готерпелив и много ми ло стив бла гословите Господа вся де ла Е го на вся ком ме сте вла ды чест ва е го Бла го сло ви ду ше мо я Го спо да и вся внутрен няя моя Имя Свя то е е го Бла го сло вен е си Го спо ди Хва ли ду ше мо я Го спо да вос хвалю Господа в животе моем, пою Богу мое му Дон де же есть Не надейтеся на князи на сыны че ло ве чес ки я в них же несть спа се ни я и зыдет дух его и возвратит ся в зе млю сво ю в той день по гиб нут вся по мы шле ни я е го Бла жен ему же Бог Иаковль по мо шник е го у пование его на Госпо да Бо га сво е го со твор ша го не бо и зе млю мо ре и вся я же в них хра ня ща го и сти ну в век тво рящаго суд обидимым дающаго пищу ал чу щим Гос подь решит окованныя, Господь у му дря ет слеп цы Гос подь возводит низверженныя, Господь лю бит пра вед ни ки Гос подь хранит пришельцы, сира и вдову при и мет и путь гре шных по гу бит Во ца рит ся Го сподь во век Бог твой Си о не в род и род",
+  "id": "antifony-lavra-bass",
+  "title": "Антифоны изобразительные (Лавра) — бас I",
+  "artist": "напев Троице-Сергиевой Лавры",
+  "durationSeconds": 275.5,
+  "range": {
+   "min": 45,
+   "max": 57
+  },
+  "piece": "antifony-lavra",
+  "pieceTitle": "Антифоны изобразительные (Лавра)",
+  "part": "B",
+  "partName": "бас I",
+  "lesson": null,
+  "pdf": "songs/pdf/antifony-lavra.pdf",
+  "text": "songs/text/antifony-lavra.txt",
+  "chart": "songs/antifony-lavra-bass/chart.json",
+  "backing": "songs/antifony-lavra-bass/backing.mp3",
+  "reference": "songs/antifony-lavra-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Бла го сло ви ду ше мо я Го спо да бла го сло вен е си Го спо ди Бла го сло ви ду ше мо я Го спо да и вся внутренняя моя имя свя то е Е го Бла го сло ви ду ше мо я Го спо да и не за бы вай всех во зда я ний е го о чищающаго вся без за ко ни я тво я ис це ля ю ща го вся не ду ги тво я из бавляющаго от истления жи вот твой вен чающаго тя милостию и щед ро та ми Ис полняющаго во благих же ла ни е тво е об но вит ся я ко ор ля ю ность тво я Щедр и ми ло стив Го сподь дол готерпелив и много ми ло стив бла гословите Господа вся де ла Е го на вся ком ме сте вла ды чест ва е го Бла го сло ви ду ше мо я Го спо да и вся внутрен няя моя Имя Свя то е е го Бла го сло вен е си Го спо ди Хва ли ду ше мо я Го спо да вос хвалю Господа в животе моем, пою Богу мое му Дон де же есть Не надейтеся на князи на сыны че ло ве чес ки я в них же несть спа се ни я и зыдет дух его и возвратит ся в зе млю сво ю в той день по гиб нут вся по мы шле ни я е го Бла жен ему же Бог Иаковль по мо шник е го у пование его на Госпо да Бо га сво е го со твор ша го не бо и зе млю мо ре и вся я же в них хра ня ща го и сти ну в век тво рящаго суд обидимым дающаго пищу ал чу щим Гос подь решит окованныя, Господь у му дря ет слеп цы Гос подь возводит низверженныя, Господь лю бит пра вед ни ки Гос подь хранит пришельцы, сира и вдову при и мет и путь гре шных по гу бит Во ца рит ся Го сподь во век Бог твой Си о не в род и род",
+  "id": "antifony-lavra-bass-2",
+  "title": "Антифоны изобразительные (Лавра) — бас II",
+  "artist": "напев Троице-Сергиевой Лавры",
+  "durationSeconds": 275.5,
+  "range": {
+   "min": 45,
+   "max": 55
+  },
+  "piece": "antifony-lavra",
+  "pieceTitle": "Антифоны изобразительные (Лавра)",
+  "part": "B2",
+  "partName": "бас II",
+  "lesson": null,
+  "pdf": "songs/pdf/antifony-lavra.pdf",
+  "text": "songs/text/antifony-lavra.txt",
+  "chart": "songs/antifony-lavra-bass-2/chart.json",
+  "backing": "songs/antifony-lavra-bass-2/backing.mp3",
+  "reference": "songs/antifony-lavra-bass-2/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Бла го сло ви ду ше мо я Го спо да бла го сло вен е си Го спо ди Бла го сло ви ду ше мо я Го спо да и вся внутренняя моя имя свя то е Е го Бла го сло ви ду ше мо я Го спо да и не за бы вай всех во зда я ний е го о чищающаго вся без за ко ни я тво я ис це ля ю ща го вся не ду ги тво я из бавляющаго от истления жи вот твой вен чающаго тя милостию и щед ро та ми Ис полняющаго во благих же ла ни е тво е об но вит ся я ко ор ля ю ность тво я Щедр и ми ло стив Го сподь дол готерпелив и много ми ло стив бла гословите Господа вся де ла Е го на вся ком ме сте вла ды чест ва е го Бла го сло ви ду ше мо я Го спо да и вся внутрен няя моя Имя Свя то е е го Бла го сло вен е си Го спо ди Хва ли ду ше мо я Го спо да вос хвалю Господа в животе моем, пою Богу мое му Дон де же есть Не надейтеся на князи на сыны че ло ве чес ки я в них же несть спа се ни я и зыдет дух его и возвратит ся в зе млю сво ю в той день по гиб нут вся по мы шле ни я е го Бла жен ему же Бог Иаковль по мо шник е го у пование его на Госпо да Бо га сво е го со твор ша го не бо и зе млю мо ре и вся я же в них хра ня ща го и сти ну в век тво рящаго суд обидимым дающаго пищу ал чу щим Гос подь решит окованныя, Господь у му дря ет слеп цы Гос подь возводит низверженныя, Господь лю бит пра вед ни ки Гос подь хранит пришельцы, сира и вдову при и мет и путь гре шных по гу бит Во ца рит ся Го сподь во век Бог твой Си о не в род и род",
+  "id": "antifony-lavra-soprano",
+  "title": "Антифоны изобразительные (Лавра) — сопрано",
+  "artist": "напев Троице-Сергиевой Лавры",
+  "durationSeconds": 275.5,
+  "range": {
+   "min": 67,
+   "max": 70
+  },
+  "piece": "antifony-lavra",
+  "pieceTitle": "Антифоны изобразительные (Лавра)",
+  "part": "S",
+  "partName": "сопрано",
+  "lesson": null,
+  "pdf": "songs/pdf/antifony-lavra.pdf",
+  "text": "songs/text/antifony-lavra.txt",
+  "chart": "songs/antifony-lavra-soprano/chart.json",
+  "backing": "songs/antifony-lavra-soprano/backing.mp3",
+  "reference": "songs/antifony-lavra-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Бла го сло ви ду ше мо я Го спо да бла го сло вен е си Го спо ди Бла го сло ви ду ше мо я Го спо да и вся внутренняя моя имя свя то е Е го Бла го сло ви ду ше мо я Го спо да и не за бы вай всех во зда я ний е го о чищающаго вся без за ко ни я тво я ис це ля ю ща го вся не ду ги тво я из бавляющаго от истления жи вот твой вен чающаго тя милостию и щед ро та ми Ис полняющаго во благих же ла ни е тво е об но вит ся я ко ор ля ю ность тво я Щедр и ми ло стив Го сподь дол готерпелив и много ми ло стив бла гословите Господа вся де ла Е го на вся ком ме сте вла ды чест ва е го Бла го сло ви ду ше мо я Го спо да и вся внутрен няя моя Имя Свя то е е го Бла го сло вен е си Го спо ди Хва ли ду ше мо я Го спо да вос хвалю Господа в животе моем, пою Богу мое му Дон де же есть Не надейтеся на князи на сыны че ло ве чес ки я в них же несть спа се ни я и зыдет дух его и возвратит ся в зе млю сво ю в той день по гиб нут вся по мы шле ни я е го Бла жен ему же Бог Иаковль по мо шник е го у пование его на Госпо да Бо га сво е го со твор ша го не бо и зе млю мо ре и вся я же в них хра ня ща го и сти ну в век тво рящаго суд обидимым дающаго пищу ал чу щим Гос подь решит окованныя, Господь у му дря ет слеп цы Гос подь возводит низверженныя, Господь лю бит пра вед ни ки Гос подь хранит пришельцы, сира и вдову при и мет и путь гре шных по гу бит Во ца рит ся Го сподь во век Бог твой Си о не в род и род",
+  "id": "antifony-lavra-tenor",
+  "title": "Антифоны изобразительные (Лавра) — тенор",
+  "artist": "напев Троице-Сергиевой Лавры",
+  "durationSeconds": 275.5,
+  "range": {
+   "min": 60,
+   "max": 62
+  },
+  "piece": "antifony-lavra",
+  "pieceTitle": "Антифоны изобразительные (Лавра)",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "pdf": "songs/pdf/antifony-lavra.pdf",
+  "text": "songs/text/antifony-lavra.txt",
+  "chart": "songs/antifony-lavra-tenor/chart.json",
+  "backing": "songs/antifony-lavra-tenor/backing.mp3",
+  "reference": "songs/antifony-lavra-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
   "collection": "Песнопения Литургии св. Иоанна Златоуста",
   "lyrics": "А минь И со ду хом Тво им Гос по ди по ми  луй По дай Гос по ди Те бе Гос по ди",
   "id": "antsev-ekteniya-i-prosheniya-posle-dostoyno-est-alto",
@@ -1237,6 +1367,240 @@
   "reference": "songs/kievskiy-simvol-very-tenor/reference.mp3"
  },
  {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "У сла дил мя е си лю бо ви ю Хри сте и из ме нил мя е си бо жест вен ным Тво им ра че ни ем но по па ли ог нем не ве щест вен ным гре хи мо я и на сы ти ти ся е же в Те бе на слаж де ни я спо до  би да ли ку я воз ве ли ча ю Бла  же два при шест ви  я Тво я",
+  "id": "kovaldzhi-usladil-mya-esi-alto",
+  "title": "Усладил мя еси (Ковальджи) — альт",
+  "artist": "Ковальджи",
+  "durationSeconds": 113.25,
+  "range": {
+   "min": 60,
+   "max": 70
+  },
+  "piece": "kovaldzhi-usladil-mya-esi",
+  "pieceTitle": "Усладил мя еси (Ковальджи)",
+  "part": "A",
+  "partName": "альт",
+  "lesson": null,
+  "pdf": "songs/pdf/kovaldzhi-usladil-mya-esi.pdf",
+  "text": "songs/text/kovaldzhi-usladil-mya-esi.txt",
+  "chart": "songs/kovaldzhi-usladil-mya-esi-alto/chart.json",
+  "backing": "songs/kovaldzhi-usladil-mya-esi-alto/backing.mp3",
+  "reference": "songs/kovaldzhi-usladil-mya-esi-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "У сла дил мя е си лю бо ви ю Хри сте и из ме нил мя е си бо жест вен ным Тво им ра че ни ем но по па ли ог нем  не ве щест вен ным гре хи мо я и на сы ти ти ся е же в Те бе на слаж де ни я спо до  би да ли ку    я воз ве ли ча    ю Бла  же два при шест ви  я Тво я",
+  "id": "kovaldzhi-usladil-mya-esi-bass",
+  "title": "Усладил мя еси (Ковальджи) — бас",
+  "artist": "Ковальджи",
+  "durationSeconds": 113.25,
+  "range": {
+   "min": 41,
+   "max": 57
+  },
+  "piece": "kovaldzhi-usladil-mya-esi",
+  "pieceTitle": "Усладил мя еси (Ковальджи)",
+  "part": "B",
+  "partName": "бас",
+  "lesson": null,
+  "pdf": "songs/pdf/kovaldzhi-usladil-mya-esi.pdf",
+  "text": "songs/text/kovaldzhi-usladil-mya-esi.txt",
+  "chart": "songs/kovaldzhi-usladil-mya-esi-bass/chart.json",
+  "backing": "songs/kovaldzhi-usladil-mya-esi-bass/backing.mp3",
+  "reference": "songs/kovaldzhi-usladil-mya-esi-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "У сла дил мя е си лю бо ви ю Хри сте и из ме нил мя е си бо жест вен ным Тво им ра че ни ем но по па ли ог нем  не ве щест вен ным гре хи мо я и на сы ти ти ся е же в Те бе на слаж де ни я спо до  би да ли ку я воз ве ли ча ю Бла  же два при шест ви  я Тво я",
+  "id": "kovaldzhi-usladil-mya-esi-soprano",
+  "title": "Усладил мя еси (Ковальджи) — сопрано",
+  "artist": "Ковальджи",
+  "durationSeconds": 113.25,
+  "range": {
+   "min": 62,
+   "max": 74
+  },
+  "piece": "kovaldzhi-usladil-mya-esi",
+  "pieceTitle": "Усладил мя еси (Ковальджи)",
+  "part": "S",
+  "partName": "сопрано",
+  "lesson": null,
+  "pdf": "songs/pdf/kovaldzhi-usladil-mya-esi.pdf",
+  "text": "songs/text/kovaldzhi-usladil-mya-esi.txt",
+  "chart": "songs/kovaldzhi-usladil-mya-esi-soprano/chart.json",
+  "backing": "songs/kovaldzhi-usladil-mya-esi-soprano/backing.mp3",
+  "reference": "songs/kovaldzhi-usladil-mya-esi-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "У сла дил мя е си лю бо ви ю Хри сте и из ме нил мя е си бо жест вен ным Тво им ра че ни ем но по па ли ог нем  не ве щест вен ным гре хи мо  я и на сы ти ти ся е же в Те бе на слаж де ни я спо до  би да ли ку я воз ве ли ча ю  Бла же два при шест ви  я Тво  я",
+  "id": "kovaldzhi-usladil-mya-esi-tenor",
+  "title": "Усладил мя еси (Ковальджи) — тенор",
+  "artist": "Ковальджи",
+  "durationSeconds": 113.25,
+  "range": {
+   "min": 50,
+   "max": 65
+  },
+  "piece": "kovaldzhi-usladil-mya-esi",
+  "pieceTitle": "Усладил мя еси (Ковальджи)",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "pdf": "songs/pdf/kovaldzhi-usladil-mya-esi.pdf",
+  "text": "songs/text/kovaldzhi-usladil-mya-esi.txt",
+  "chart": "songs/kovaldzhi-usladil-mya-esi-tenor/chart.json",
+  "backing": "songs/kovaldzhi-usladil-mya-esi-tenor/backing.mp3",
+  "reference": "songs/kovaldzhi-usladil-mya-esi-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Ми лость ми ра жерт ву хва ле ни я И со ду хом тво им И ма мы ко Го спо ду До стой но и пра вед но есть По кла ня ти ся О тцу и Сы ну и Свя то му Ду ху Тро  и це е ди но сущ ней и не раз дель ней Свят свят свят Гос подь Са ва оф ис полнь не бо и зем ля сла вы Тво е я О  сан на в выш них бла го сло вен гря дый во и мя Гос по  дне О сан на в выш них А минь А  минь Те бе по ем Те бе бла го сло вим Те бе бла го да рим Гос   по ди мо лим Ти ся Бо  же наш мо лим Ти ся Бо же наш и мо лим Ти ся Бо  же наш",
+  "id": "kovalevskiy-milost-mira-alto",
+  "title": "Милость мира (Ковалевский-Жаворонков) — альт",
+  "artist": "Ковалевский-Жаворонков",
+  "durationSeconds": 204.0,
+  "range": {
+   "min": 59,
+   "max": 69
+  },
+  "piece": "kovalevskiy-milost-mira",
+  "pieceTitle": "Милость мира (Ковалевский-Жаворонков)",
+  "part": "A",
+  "partName": "альт",
+  "lesson": null,
+  "pdf": "songs/pdf/kovalevskiy-milost-mira.pdf",
+  "text": "songs/text/kovalevskiy-milost-mira.txt",
+  "chart": "songs/kovalevskiy-milost-mira-alto/chart.json",
+  "backing": "songs/kovalevskiy-milost-mira-alto/backing.mp3",
+  "reference": "songs/kovalevskiy-milost-mira-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Ми лость ми ра жерт ву хва ле ни  я И со ду хом тво им И ма мы ко Го спо  ду До  стой  но и  пра  вед но  есть По кла  ня ти ся О  тцу  и Сы  ну и Свя то  му Ду ху Тро    и  це  е  ди  но  сущ ней и не  раз дель  ней Свят свят свят Гос подь  Са ва  оф ис полнь  не бо и зем ля сла вы Тво е я О  сан на в выш них бла го сло вен гря  дый  во  и мя Гос по   дне О сан  на в выш  них А  минь А   минь Те бе по ем Те бе бла го сло вим Те бе бла го да рим Гос  по  ди и  мо лим Ти ся мо лим Ти ся Бо же наш и мо  лим Ти  ся Бо     же  наш",
+  "id": "kovalevskiy-milost-mira-bass",
+  "title": "Милость мира (Ковалевский-Жаворонков) — бас I",
+  "artist": "Ковалевский-Жаворонков",
+  "durationSeconds": 204.0,
+  "range": {
+   "min": 43,
+   "max": 60
+  },
+  "piece": "kovalevskiy-milost-mira",
+  "pieceTitle": "Милость мира (Ковалевский-Жаворонков)",
+  "part": "B",
+  "partName": "бас I",
+  "lesson": null,
+  "pdf": "songs/pdf/kovalevskiy-milost-mira.pdf",
+  "text": "songs/text/kovalevskiy-milost-mira.txt",
+  "chart": "songs/kovalevskiy-milost-mira-bass/chart.json",
+  "backing": "songs/kovalevskiy-milost-mira-bass/backing.mp3",
+  "reference": "songs/kovalevskiy-milost-mira-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Ми лость ми ра жерт ву хва ле ни  я И со ду хом тво им И ма мы ко Го спо  ду До  стой  но и  пра  вед но  есть По кла  ня ти ся О  тцу  и Сы  ну и Свя то  му Ду ху Тро    и  це  е  ди  но  сущ ней и не  раз дель  ней Свят свят свят Гос подь  Са ва  оф ис полнь  не бо и зем ля сла вы Тво е я О  сан на в выш них бла го сло вен гря  дый  во  и мя Гос по   дне О сан  на в выш  них А  минь А   минь Те бе по ем Те бе бла го сло вим Те бе бла го да рим Гос  по  ди и  мо лим Ти ся мо лим Ти ся Бо же наш и мо  лим Ти  ся Бо     же  наш",
+  "id": "kovalevskiy-milost-mira-bass-2",
+  "title": "Милость мира (Ковалевский-Жаворонков) — бас II",
+  "artist": "Ковалевский-Жаворонков",
+  "durationSeconds": 204.0,
+  "range": {
+   "min": 43,
+   "max": 60
+  },
+  "piece": "kovalevskiy-milost-mira",
+  "pieceTitle": "Милость мира (Ковалевский-Жаворонков)",
+  "part": "B2",
+  "partName": "бас II",
+  "lesson": null,
+  "pdf": "songs/pdf/kovalevskiy-milost-mira.pdf",
+  "text": "songs/text/kovalevskiy-milost-mira.txt",
+  "chart": "songs/kovalevskiy-milost-mira-bass-2/chart.json",
+  "backing": "songs/kovalevskiy-milost-mira-bass-2/backing.mp3",
+  "reference": "songs/kovalevskiy-milost-mira-bass-2/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Ми лость ми ра жерт ву хва ле ни я И со ду  хом тво им И ма мы ко Го спо ду До  стой  но и  пра вед но есть По кла  ня ти ся О  тцу и Сы ну и Свя то  му Ду ху Тро и це е  ди  но сущ ней и не раз дель ней Свят свят свят Гос подь Са ва оф ис полнь  не бо и зем ля сла вы Тво е я О  сан на в выш них бла го сло вен гря дый во  и мя Гос по  дне О сан на в выш них А  минь А  минь Те бе по ем Те бе бла го сло вим Те  бе бла го да рим Гос   по ди мо лим Ти ся Бо же наш мо лим Ти ся Бо же наш и мо лим Ти ся Бо    же наш",
+  "id": "kovalevskiy-milost-mira-soprano",
+  "title": "Милость мира (Ковалевский-Жаворонков) — сопрано",
+  "artist": "Ковалевский-Жаворонков",
+  "durationSeconds": 204.0,
+  "range": {
+   "min": 64,
+   "max": 72
+  },
+  "piece": "kovalevskiy-milost-mira",
+  "pieceTitle": "Милость мира (Ковалевский-Жаворонков)",
+  "part": "S",
+  "partName": "сопрано",
+  "lesson": null,
+  "pdf": "songs/pdf/kovalevskiy-milost-mira.pdf",
+  "text": "songs/text/kovalevskiy-milost-mira.txt",
+  "chart": "songs/kovalevskiy-milost-mira-soprano/chart.json",
+  "backing": "songs/kovalevskiy-milost-mira-soprano/backing.mp3",
+  "reference": "songs/kovalevskiy-milost-mira-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Ми лость ми ра жерт ву хва ле ни я И со ду  хом тво им И ма мы ко Го спо ду До  стой  но и  пра вед но есть По кла  ня ти ся О  тцу и Сы ну и Свя то  му Ду ху Тро и це е  ди  но сущ ней и не раз дель ней Свят свят свят Гос подь Са ва оф ис полнь не бо и зем ля сла вы Тво е я О  сан на в выш них бла го сло вен гря дый во  и мя Гос по  дне О сан на в выш них А  минь А  минь Те бе по ем Те бе бла го сло вим Те  бе бла го да рим Гос   по ди и  мо лим Ти ся мо лим Ти ся Бо  же  наш мо лим Ти ся Бо же наш и мо лим Ти ся Бо  же наш",
+  "id": "kovalevskiy-milost-mira-tenor",
+  "title": "Милость мира (Ковалевский-Жаворонков) — тенор",
+  "artist": "Ковалевский-Жаворонков",
+  "durationSeconds": 204.0,
+  "range": {
+   "min": 55,
+   "max": 64
+  },
+  "piece": "kovalevskiy-milost-mira",
+  "pieceTitle": "Милость мира (Ковалевский-Жаворонков)",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "pdf": "songs/pdf/kovalevskiy-milost-mira.pdf",
+  "text": "songs/text/kovalevskiy-milost-mira.txt",
+  "chart": "songs/kovalevskiy-milost-mira-tenor/chart.json",
+  "backing": "songs/kovalevskiy-milost-mira-tenor/backing.mp3",
+  "reference": "songs/kovalevskiy-milost-mira-tenor/reference.mp3"
+ },
+ {
   "lyrics": "фа соль ля си♭ до ре ми фа фа ми ре до си♭ ля соль фа фа соль ля си♭ до",
   "id": "ludsavina-2026-10-21-1-gamma-stupeni",
   "title": "ludsavina 21.10.2026 гамма фа мажор и ступени",
@@ -1368,6 +1732,344 @@
   "chart": "songs/ludsavina-2026-10-21-7-povtorenie/chart.json",
   "backing": "songs/ludsavina-2026-10-21-7-povtorenie/backing.mp3",
   "reference": "songs/ludsavina-2026-10-21-7-povtorenie/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Гос по ди по ми луй Гос по ди по ми  луй Те бе Гос по ди А минь",
+  "id": "minornaya-ekteniya-alto",
+  "title": "Минорная ектения — альт",
+  "artist": "",
+  "durationSeconds": 19.75,
+  "range": {
+   "min": 64,
+   "max": 67
+  },
+  "piece": "minornaya-ekteniya",
+  "pieceTitle": "Минорная ектения",
+  "part": "A",
+  "partName": "альт",
+  "lesson": null,
+  "pdf": "songs/pdf/minornaya-ekteniya.pdf",
+  "text": "songs/text/minornaya-ekteniya.txt",
+  "chart": "songs/minornaya-ekteniya-alto/chart.json",
+  "backing": "songs/minornaya-ekteniya-alto/backing.mp3",
+  "reference": "songs/minornaya-ekteniya-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Гос по ди по ми луй Гос по ди по ми  луй Те бе Гос по ди А  минь",
+  "id": "minornaya-ekteniya-bass",
+  "title": "Минорная ектения — бас",
+  "artist": "",
+  "durationSeconds": 19.75,
+  "range": {
+   "min": 48,
+   "max": 55
+  },
+  "piece": "minornaya-ekteniya",
+  "pieceTitle": "Минорная ектения",
+  "part": "B",
+  "partName": "бас",
+  "lesson": null,
+  "pdf": "songs/pdf/minornaya-ekteniya.pdf",
+  "text": "songs/text/minornaya-ekteniya.txt",
+  "chart": "songs/minornaya-ekteniya-bass/chart.json",
+  "backing": "songs/minornaya-ekteniya-bass/backing.mp3",
+  "reference": "songs/minornaya-ekteniya-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Гос по ди по ми луй Гос по ди по ми  луй Те бе Гос по ди А минь",
+  "id": "minornaya-ekteniya-soprano",
+  "title": "Минорная ектения — сопрано",
+  "artist": "",
+  "durationSeconds": 19.75,
+  "range": {
+   "min": 67,
+   "max": 70
+  },
+  "piece": "minornaya-ekteniya",
+  "pieceTitle": "Минорная ектения",
+  "part": "S",
+  "partName": "сопрано",
+  "lesson": null,
+  "pdf": "songs/pdf/minornaya-ekteniya.pdf",
+  "text": "songs/text/minornaya-ekteniya.txt",
+  "chart": "songs/minornaya-ekteniya-soprano/chart.json",
+  "backing": "songs/minornaya-ekteniya-soprano/backing.mp3",
+  "reference": "songs/minornaya-ekteniya-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Гос по ди по ми луй Гос по ди по ми  луй Те бе Гос по ди А  минь",
+  "id": "minornaya-ekteniya-tenor",
+  "title": "Минорная ектения — тенор",
+  "artist": "",
+  "durationSeconds": 19.75,
+  "range": {
+   "min": 60,
+   "max": 63
+  },
+  "piece": "minornaya-ekteniya",
+  "pieceTitle": "Минорная ектения",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "pdf": "songs/pdf/minornaya-ekteniya.pdf",
+  "text": "songs/text/minornaya-ekteniya.txt",
+  "chart": "songs/minornaya-ekteniya-tenor/chart.json",
+  "backing": "songs/minornaya-ekteniya-tenor/backing.mp3",
+  "reference": "songs/minornaya-ekteniya-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Е дин Свят  Е дин Го сподь  И и сус Хри стос  в сла ву Бо га От ца А минь Хва ли те Го спо да с не бес хва ли те Е го   в вы  шних Хва ли   те Го спода  с не  бес   Хва ли  те хва ли те Е го  в вы   шних хва ли те Го спо да с не бес хва ли те Е го в вы  шних Ал ли лу и я ал ли лу и я ал  ли лу   и я ал ли лу и я а  лли лу   и я ал ли лу и  я",
+  "id": "nikifor-edin-svyat-alto",
+  "title": "Един Свят, Хвалите Господа с небес (Никифор) — альт",
+  "artist": "игум. Никифор",
+  "durationSeconds": 94.125,
+  "range": {
+   "min": 63,
+   "max": 71
+  },
+  "piece": "nikifor-edin-svyat",
+  "pieceTitle": "Един Свят, Хвалите Господа с небес (Никифор)",
+  "part": "A",
+  "partName": "альт",
+  "lesson": null,
+  "pdf": "songs/pdf/nikifor-edin-svyat.pdf",
+  "text": "songs/text/nikifor-edin-svyat.txt",
+  "chart": "songs/nikifor-edin-svyat-alto/chart.json",
+  "backing": "songs/nikifor-edin-svyat-alto/backing.mp3",
+  "reference": "songs/nikifor-edin-svyat-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Е дин Свят  Е дин Го сподь  И и сус Хри стос в сла ву Бо га От ца А минь Хва ли те Го спо да с не бес хва ли  те Е го   в вы  шних Хва ли те Го спода  с не бес Хва ли те хва ли  те Е го в вы шних хва ли те Го спо да с не бес хва ли те Е го   в вы  шних Ал ли лу и я ал ли лу и я ал ли лу и я ал ли лу и я а лли лу и я ал ли лу и я",
+  "id": "nikifor-edin-svyat-bass",
+  "title": "Един Свят, Хвалите Господа с небес (Никифор) — бас",
+  "artist": "игум. Никифор",
+  "durationSeconds": 94.125,
+  "range": {
+   "min": 43,
+   "max": 59
+  },
+  "piece": "nikifor-edin-svyat",
+  "pieceTitle": "Един Свят, Хвалите Господа с небес (Никифор)",
+  "part": "B",
+  "partName": "бас",
+  "lesson": null,
+  "pdf": "songs/pdf/nikifor-edin-svyat.pdf",
+  "text": "songs/text/nikifor-edin-svyat.txt",
+  "chart": "songs/nikifor-edin-svyat-bass/chart.json",
+  "backing": "songs/nikifor-edin-svyat-bass/backing.mp3",
+  "reference": "songs/nikifor-edin-svyat-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Е дин   Свят    Е  дин Го  сподь   И и сус Хри стос в сла ву Бо га От ца А минь Хва ли   те Го    спо да с не  бес   хва ли  те Е го   в вы шних Хва ли   те Го спода  с не  бес   Хва ли  те хва ли те Е го в вы шних хва ли те Го спо да с не бес хва ли те Е го   в вы  шних Ал  ли лу   и я ал ли лу    и  я ал ли лу и я ал ли лу   и я а лли лу и я ал ли лу и я",
+  "id": "nikifor-edin-svyat-soprano",
+  "title": "Един Свят, Хвалите Господа с небес (Никифор) — сопрано",
+  "artist": "игум. Никифор",
+  "durationSeconds": 94.125,
+  "range": {
+   "min": 66,
+   "max": 76
+  },
+  "piece": "nikifor-edin-svyat",
+  "pieceTitle": "Един Свят, Хвалите Господа с небес (Никифор)",
+  "part": "S",
+  "partName": "сопрано",
+  "lesson": null,
+  "pdf": "songs/pdf/nikifor-edin-svyat.pdf",
+  "text": "songs/text/nikifor-edin-svyat.txt",
+  "chart": "songs/nikifor-edin-svyat-soprano/chart.json",
+  "backing": "songs/nikifor-edin-svyat-soprano/backing.mp3",
+  "reference": "songs/nikifor-edin-svyat-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "Е дин   Свят    Е  дин Го  сподь   И и сус Хри стос в сла ву Бо га От ца А минь Хва ли   те Го    спо да с не  бес   хва ли  те Е го в вы  шних Хва ли те Го спода  с не бес Хва ли те хва ли те Е го в вы шних хва ли те Го спо да с не бес хва ли те Е го в вы  шних Ал  ли лу   и я ал ли лу    и я ал  ли лу   и я ал ли лу и я а  лли лу   и я ал ли лу и я",
+  "id": "nikifor-edin-svyat-tenor",
+  "title": "Един Свят, Хвалите Господа с небес (Никифор) — тенор",
+  "artist": "игум. Никифор",
+  "durationSeconds": 94.125,
+  "range": {
+   "min": 59,
+   "max": 66
+  },
+  "piece": "nikifor-edin-svyat",
+  "pieceTitle": "Един Свят, Хвалите Господа с небес (Никифор)",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "pdf": "songs/pdf/nikifor-edin-svyat.pdf",
+  "text": "songs/text/nikifor-edin-svyat.txt",
+  "chart": "songs/nikifor-edin-svyat-tenor/chart.json",
+  "backing": "songs/nikifor-edin-svyat-tenor/backing.mp3",
+  "reference": "songs/nikifor-edin-svyat-tenor/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "До стой но есть я ко во ис тин ну бла жи ти Тя Бо го  ро ди цу При сно Бла жен ну ю и пре не по роч ну ю и Ма терь Бо га на ше го че стней шу ю Хе ру вим и слав ней шу ю без срав не ни я Се ра фим без ист ле  ни я Бо га Сло ва рожд шу ю су щу ю Бо го ро ди цу Тя ве ли ча  ем ве ли ча   ем",
+  "id": "nikolaev-strumskiy-dostoyno-est-alto",
+  "title": "Достойно есть (Николаев-Струмский) — альт",
+  "artist": "Николаев-Струмский",
+  "durationSeconds": 63.125,
+  "range": {
+   "min": 62,
+   "max": 71
+  },
+  "piece": "nikolaev-strumskiy-dostoyno-est",
+  "pieceTitle": "Достойно есть (Николаев-Струмский)",
+  "part": "A",
+  "partName": "альт",
+  "lesson": null,
+  "pdf": "songs/pdf/nikolaev-strumskiy-dostoyno-est.pdf",
+  "text": "songs/text/nikolaev-strumskiy-dostoyno-est.txt",
+  "chart": "songs/nikolaev-strumskiy-dostoyno-est-alto/chart.json",
+  "backing": "songs/nikolaev-strumskiy-dostoyno-est-alto/backing.mp3",
+  "reference": "songs/nikolaev-strumskiy-dostoyno-est-alto/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "До стой но есть я ко во ис тин ну бла жи ти Тя Бо го ро  ди цу и Ма терь Бо га на ше го че стней шу ю Хе ру вим и слав ней шу ю без срав не ни я Се ра фим без ист ле  ни я Бо га Сло ва рожд шу ю су щу ю Бо го ро ди цу Тя  ве ли ча  ем",
+  "id": "nikolaev-strumskiy-dostoyno-est-bass",
+  "title": "Достойно есть (Николаев-Струмский) — бас",
+  "artist": "Николаев-Струмский",
+  "durationSeconds": 63.125,
+  "range": {
+   "min": 43,
+   "max": 62
+  },
+  "piece": "nikolaev-strumskiy-dostoyno-est",
+  "pieceTitle": "Достойно есть (Николаев-Струмский)",
+  "part": "B",
+  "partName": "бас",
+  "lesson": null,
+  "pdf": "songs/pdf/nikolaev-strumskiy-dostoyno-est.pdf",
+  "text": "songs/text/nikolaev-strumskiy-dostoyno-est.txt",
+  "chart": "songs/nikolaev-strumskiy-dostoyno-est-bass/chart.json",
+  "backing": "songs/nikolaev-strumskiy-dostoyno-est-bass/backing.mp3",
+  "reference": "songs/nikolaev-strumskiy-dostoyno-est-bass/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "До стой но  есть я ко во ис тин ну  бла жи ти Тя Бо го ро  ди цу При сно Бла жен ну ю и пре не по роч ну ю и Ма терь Бо га на ше го че стней шу ю Хе ру вим и слав ней шу ю без срав не ни я Се ра фим без ист ле  ни я Бо га Сло ва рожд шу ю су щу ю Бо го ро ди цу Тя ве ли ча  ем Тя ве ли ча  ем",
+  "id": "nikolaev-strumskiy-dostoyno-est-soprano",
+  "title": "Достойно есть (Николаев-Струмский) — сопрано I",
+  "artist": "Николаев-Струмский",
+  "durationSeconds": 63.125,
+  "range": {
+   "min": 62,
+   "max": 76
+  },
+  "piece": "nikolaev-strumskiy-dostoyno-est",
+  "pieceTitle": "Достойно есть (Николаев-Струмский)",
+  "part": "S",
+  "partName": "сопрано I",
+  "lesson": null,
+  "pdf": "songs/pdf/nikolaev-strumskiy-dostoyno-est.pdf",
+  "text": "songs/text/nikolaev-strumskiy-dostoyno-est.txt",
+  "chart": "songs/nikolaev-strumskiy-dostoyno-est-soprano/chart.json",
+  "backing": "songs/nikolaev-strumskiy-dostoyno-est-soprano/backing.mp3",
+  "reference": "songs/nikolaev-strumskiy-dostoyno-est-soprano/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "До стой но  есть я ко во ис тин ну  бла жи ти Тя Бо го ро  ди цу При сно Бла жен ну ю и пре не по роч ну ю и Ма терь Бо га на ше го че стней шу ю Хе ру вим и слав ней шу ю без срав не ни я Се ра фим без ист ле  ни я Бо га Сло ва рожд шу ю су щу ю Бо го ро ди цу Тя ве ли ча  ем Тя ве ли ча  ем",
+  "id": "nikolaev-strumskiy-dostoyno-est-soprano-2",
+  "title": "Достойно есть (Николаев-Струмский) — сопрано II",
+  "artist": "Николаев-Струмский",
+  "durationSeconds": 63.125,
+  "range": {
+   "min": 62,
+   "max": 76
+  },
+  "piece": "nikolaev-strumskiy-dostoyno-est",
+  "pieceTitle": "Достойно есть (Николаев-Струмский)",
+  "part": "S2",
+  "partName": "сопрано II",
+  "lesson": null,
+  "pdf": "songs/pdf/nikolaev-strumskiy-dostoyno-est.pdf",
+  "text": "songs/text/nikolaev-strumskiy-dostoyno-est.txt",
+  "chart": "songs/nikolaev-strumskiy-dostoyno-est-soprano-2/chart.json",
+  "backing": "songs/nikolaev-strumskiy-dostoyno-est-soprano-2/backing.mp3",
+  "reference": "songs/nikolaev-strumskiy-dostoyno-est-soprano-2/reference.mp3"
+ },
+ {
+  "mail": {
+   "subject": "Порядок нот и текстов на 8.11.2026, воскресенье, глас 6",
+   "date": "2026-11-01T19:15:00+03:00"
+  },
+  "serviceDate": "2026-11-08",
+  "lyrics": "До стой но  есть я ко во ис тин ну бла жи ти Тя Бо го ро ди цу и Ма терь Бо га на ше го че стней шу ю Хе ру вим и слав ней шу ю без срав не ни я Се ра фим без ист ле ни я Бо га Сло ва рожд шу ю су щу ю Бо го ро ди цу Тя ве ли ча  ем",
+  "id": "nikolaev-strumskiy-dostoyno-est-tenor",
+  "title": "Достойно есть (Николаев-Струмский) — тенор",
+  "artist": "Николаев-Струмский",
+  "durationSeconds": 63.125,
+  "range": {
+   "min": 50,
+   "max": 67
+  },
+  "piece": "nikolaev-strumskiy-dostoyno-est",
+  "pieceTitle": "Достойно есть (Николаев-Струмский)",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "pdf": "songs/pdf/nikolaev-strumskiy-dostoyno-est.pdf",
+  "text": "songs/text/nikolaev-strumskiy-dostoyno-est.txt",
+  "chart": "songs/nikolaev-strumskiy-dostoyno-est-tenor/chart.json",
+  "backing": "songs/nikolaev-strumskiy-dostoyno-est-tenor/backing.mp3",
+  "reference": "songs/nikolaev-strumskiy-dostoyno-est-tenor/reference.mp3"
  },
  {
   "mail": {

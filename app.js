@@ -973,7 +973,7 @@ async function deleteLocalSong ()
 
 // A teacher's recording plays as a song but lives with the exercises.
 const inLesson = () => S.mode === "song" && !! songEntries.get (S.song)?.lesson;
-const shownMode = () => inLesson() ? "exercise" : S.mode;
+const shownMode = () => inLesson() ? "lesson" : S.mode;
 
 function songTitle ()
 {
@@ -1816,21 +1816,22 @@ function renderExercises ()
         };
         list.appendChild (b);
     }
-    // The teacher's recordings: her voice and the notes she sings, each to sing along with.
+}
+
+// The teacher's recordings, a catalogue of their own: her voice and the notes, to sing along with.
+function renderLessons ()
+{
+    const list = $("lessonList");
+    list.innerHTML = "";
     const lessons = pieces.filter (p => p.lesson).sort ((a, b) => a.key.localeCompare (b.key));   // the order of the recording
-    if (lessons.length)
-    {
-        const h = document.createElement ("p");
-        h.className = "exHead"; h.textContent = t ("Записи педагога");
-        list.appendChild (h);
-    }
+    if (! lessons.length) list.innerHTML = `<p class="note">${songsOffline ? t ("Сервер недоступен") : t ("Записей пока нет")}</p>`;
     for (const p of lessons)
     {
         const b = document.createElement ("button");
         b.textContent = p.label;
         b.classList.toggle ("sel", S.mode === "song" && p.parts[0].id === S.song);
         b.onclick = () => {
-            S.mode = "song"; S.song = p.parts[0].id; save(); $("exSheet").hidden = true;
+            S.mode = "song"; S.song = p.parts[0].id; save(); $("lessonSheet").hidden = true;
             fillParts (p); syncDeleteButton(); syncForm(); songChanged();
         };
         list.appendChild (b);
@@ -1841,6 +1842,7 @@ function updateTitle ()
 {
     $("title").disabled = S.mode === "free";
     document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === shownMode()));
+    $("lessonBtn").classList.toggle ("sel", inLesson());
     voiceLabel();
     let title;
     if (S.mode === "exercise") { const d = getDefinition (S.kind); title = d.name + (d.fixed ? "" : t (" · от {0}", noteName (exerciseSpec().rootMidi))); }
@@ -1939,10 +1941,14 @@ function buildForm ()
     });
     $("title").onclick = () => {
         if (S.mode === "free") return;
-        if (shownMode() === "exercise") { renderExercises(); openSheet ("exSheet"); }
+        if (inLesson()) { $("lessonBtn").onclick(); return; }
+        if (S.mode === "exercise") { renderExercises(); openSheet ("exSheet"); }
         else { refreshSongList(); openSheet ("songSheet"); }
     };
     $("exClose").onclick = () => { $("exSheet").hidden = true; };
+    // The list comes with the songs, which a start outside «Композиция» has not asked for yet.
+    $("lessonBtn").onclick = async () => { openSheet ("lessonSheet"); await refreshSongList(); renderLessons(); };
+    $("lessonClose").onclick = () => { $("lessonSheet").hidden = true; };
     // Тип голоса: the part of every piece opened from now on; the open piece switches too.
     $("voiceBtn").onclick = () => {
         const list = $("voiceList");
@@ -1964,7 +1970,7 @@ function buildForm ()
         openSheet ("voiceSheet");
     };
     $("textClose").onclick = () => { $("textSheet").hidden = true; };
-    for (const id of ["songSheet", "tempoSheet", "voiceSheet", "exSheet", "textSheet"])
+    for (const id of ["songSheet", "tempoSheet", "voiceSheet", "exSheet", "lessonSheet", "textSheet"])
         $(id).addEventListener ("click", (e) => { if (e.target === $(id)) $(id).hidden = true; });
     $("tempoDown").onclick = () => setTempo (S.tempo - 0.05);
     $("tempoUp").onclick = () => setTempo (S.tempo + 0.05);
