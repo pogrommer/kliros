@@ -1,0 +1,243 @@
+{
+ "schemaVersion": "1.0",
+ "generator": {
+  "name": "lesson_to_songs",
+  "lyricSource": "manual"
+ },
+ "song": {
+  "id": "ludsavina-2026-10-21-4-kvarta",
+  "title": "ludsavina 21.10.2026 кварта",
+  "artist": "",
+  "piece": "ludsavina-2026-10-21-4-kvarta",
+  "pieceTitle": "ludsavina 21.10.2026 кварта",
+  "lesson": "ludsavina",
+  "durationSeconds": 31.8,
+  "referenceAudio": "stems/vocals.wav",
+  "tuningHz": 440.0,
+  "vocalRangeMidi": {
+   "min": 53,
+   "max": 62
+  }
+ },
+ "phrases": [
+  {
+   "id": 0,
+   "startSeconds": 2.28,
+   "endSeconds": 30.28,
+   "text": "фа соль ля си♭ фа си♭ фа фа си♭ фа соль ля ре фа си♭ фа",
+   "noteIds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ]
+  }
+ ],
+ "notes": [
+  {
+   "id": 0,
+   "startSeconds": 2.28,
+   "durationSeconds": 0.64,
+   "midi": 53,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "фа",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 1,
+   "startSeconds": 2.93,
+   "durationSeconds": 0.49,
+   "midi": 55,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "соль",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 2,
+   "startSeconds": 3.43,
+   "durationSeconds": 0.5,
+   "midi": 57,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "ля",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 3,
+   "startSeconds": 3.94,
+   "durationSeconds": 0.7,
+   "midi": 58,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "си♭",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 4,
+   "startSeconds": 10.81,
+   "durationSeconds": 1.39,
+   "midi": 53,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "фа",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 5,
+   "startSeconds": 12.4,
+   "durationSeconds": 1.29,
+   "midi": 58,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "си♭",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 6,
+   "startSeconds": 14.1,
+   "durationSeconds": 1.37,
+   "midi": 53,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "фа",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 7,
+   "startSeconds": 19.46,
+   "durationSeconds": 0.41,
+   "midi": 53,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "фа",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 8,
+   "startSeconds": 20.28,
+   "durationSeconds": 0.53,
+   "midi": 58,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "си♭",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 9,
+   "startSeconds": 21.19,
+   "durationSeconds": 0.76,
+   "midi": 53,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "фа",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 10,
+   "startSeconds": 21.96,
+   "durationSeconds": 0.31,
+   "midi": 55,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "соль",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 11,
+   "startSeconds": 22.28,
+   "durationSeconds": 1.14,
+   "midi": 57,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "ля",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 12,
+   "startSeconds": 23.55,
+   "durationSeconds": 0.71,
+   "midi": 62,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "ре",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 13,
+   "startSeconds": 25.15,
+   "durationSeconds": 1.52,
+   "midi": 53,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "фа",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 14,
+   "startSeconds": 26.71,
+   "durationSeconds": 1.38,
+   "midi": 58,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "си♭",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  },
+  {
+   "id": 15,
+   "startSeconds": 28.12,
+   "durationSeconds": 2.16,
+   "midi": 53,
+   "centsOffset": 0.0,
+   "type": "normal",
+   "syllable": "фа",
+   "syllableRole": "wordStart",
+   "phraseId": 0,
+   "confidence": 1.0
+  }
+ ],
+ "warnings": []
+}

@@ -684,8 +684,10 @@ async function refreshSongList ()
             {
                 const mail = s.mail || {};
                 const p = { key, label: [s.artist, s.pieceTitle || s.title].filter (Boolean).join (" — ") || s.id, parts: [],
-                            date: mail.date || "", subject: mail.subject || "", collection: s.collection || "",
+                            // The date a piece goes by is its planned service, not the day the letter came.
+                            date: s.serviceDate || "", sent: mail.date || "", subject: mail.subject || "", collection: s.collection || "",
                             check: (s.needsCheck || []).join ("; "),
+                            lesson: s.lesson || "",     // a teacher's recording: in the exercise list, not here
                             // The regent's PDF: on the home server by piece, on the site as a file
                             pdf: s.pdf === true ? `api/pieces/${encodeURIComponent (key)}/pdf` : s.pdf || "",
                             // Its words to read, joined into words (tools/piece_text.py): the same two places
@@ -704,8 +706,9 @@ async function refreshSongList ()
         // S, then S2 (a divided voice's second half), A, A2...
         const order = (x) => PART_ORDER.indexOf ((x.part || "")[0]) * 2 + ((x.part || "").endsWith ("2") ? 1 : 0);
         for (const p of pieces) p.parts.sort ((a, b) => order (a) - order (b));
-        // Added on this phone first, then the newest letter; pieces without a letter after them, by name.
-        pieces.sort ((a, b) => (b.local || 0) - (a.local || 0) || (b.date > a.date) - (b.date < a.date)
+        // Added on this phone first, then the latest service; pieces without a date after them, by name.
+        const when = (p) => p.date || p.sent;
+        pieces.sort ((a, b) => (!! a.lesson - !! b.lesson) || (b.local || 0) - (a.local || 0) || (when (b) > when (a)) - (when (b) < when (a))
                                || a.label.localeCompare (b.label, "ru"));
         renderPieces();
     }
@@ -722,9 +725,10 @@ function renderPieces ()
     const list = $("pieceList");
     $("divPick").hidden = true;
     const words = norm ($("songSearch").value).split (/\s+/).filter (Boolean);
-    const shown = pieces.filter (p => words.every (w => p.haystack.includes (w)));
+    const scores = pieces.filter (p => ! p.lesson);
+    const shown = scores.filter (p => words.every (w => p.haystack.includes (w)));
     list.innerHTML = "";
-    if (! pieces.length) list.innerHTML = `<p class="note">${songsOffline ? t ("Сервер недоступен, сохранённых песен нет") : t ("В библиотеке нет песен")}</p>`;
+    if (! scores.length) list.innerHTML = `<p class="note">${songsOffline ? t ("Сервер недоступен, сохранённых песен нет") : t ("В библиотеке нет песен")}</p>`;
     else if (! shown.length) list.innerHTML = `<p class="note">${t ("Ничего не найдено")}</p>`;
     for (const p of shown)
     {
@@ -749,8 +753,8 @@ function renderPieces ()
         if (docs.children.length) b.appendChild (docs);
         list.appendChild (b);
     }
-    $("searchCount").textContent = words.length ? t ("{0} из {1}", shown.length, pieces.length) : "";
-    const cur = pieces.find (p => p.parts.some (x => x.id === S.song)) || pieces[0];
+    $("searchCount").textContent = words.length ? t ("{0} из {1}", shown.length, scores.length) : "";
+    const cur = pieces.find (p => p.parts.some (x => x.id === S.song)) || scores[0];
     if (cur) choosePiece (cur.key, S.song);
     else { fillParts (null); $("pieceInfo").textContent = ""; }
 }
@@ -824,7 +828,7 @@ function choosePiece (key, songId)
     syncDeleteButton();
     // Where it came from: the letter and the collection, for finding it again later.
     $("pieceInfo").textContent = [p.check && t ("⚠ разбор под вопросом: {0}", p.check),
-                                  p.date && t ("письмо {0}", fmtDate (p.date)), p.subject && `«${p.subject}»`, p.collection]
+                                  p.date && t ("служба {0}", fmtDate (p.date)), p.subject && `«${p.subject}»`, p.collection]
         .filter (Boolean).join (" · ");
     updateTitle();
 }
@@ -966,6 +970,10 @@ async function deleteLocalSong ()
     await refreshSongList();
     uploadSay (t ("Удалено: {0}.", esc (e.title)));
 }
+
+// A teacher's recording plays as a song but lives with the exercises.
+const inLesson = () => S.mode === "song" && !! songEntries.get (S.song)?.lesson;
+const shownMode = () => inLesson() ? "exercise" : S.mode;
 
 function songTitle ()
 {
@@ -1800,10 +1808,30 @@ function renderExercises ()
     {
         const b = document.createElement ("button");
         b.innerHTML = `${esc (d.name)}<small>${esc (d.purpose || "")}</small>`;
-        b.classList.toggle ("sel", d.kind === S.kind);
+        b.classList.toggle ("sel", d.kind === S.kind && S.mode === "exercise");
         b.onclick = () => {
             S.kind = d.kind; save(); $("exSheet").hidden = true; track ("exercise", d.kind);
+            if (S.mode !== "exercise") { S.mode = "exercise"; save(); }
             syncForm(); updateTitle(); previewChart();
+        };
+        list.appendChild (b);
+    }
+    // The teacher's recordings: her voice and the notes she sings, each to sing along with.
+    const lessons = pieces.filter (p => p.lesson).sort ((a, b) => a.key.localeCompare (b.key));   // the order of the recording
+    if (lessons.length)
+    {
+        const h = document.createElement ("p");
+        h.className = "exHead"; h.textContent = t ("Записи педагога");
+        list.appendChild (h);
+    }
+    for (const p of lessons)
+    {
+        const b = document.createElement ("button");
+        b.textContent = p.label;
+        b.classList.toggle ("sel", S.mode === "song" && p.parts[0].id === S.song);
+        b.onclick = () => {
+            S.mode = "song"; S.song = p.parts[0].id; save(); $("exSheet").hidden = true;
+            fillParts (p); syncDeleteButton(); syncForm(); songChanged();
         };
         list.appendChild (b);
     }
@@ -1812,7 +1840,7 @@ function renderExercises ()
 function updateTitle ()
 {
     $("title").disabled = S.mode === "free";
-    document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === S.mode));
+    document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === shownMode()));
     voiceLabel();
     let title;
     if (S.mode === "exercise") { const d = getDefinition (S.kind); title = d.name + (d.fixed ? "" : t (" · от {0}", noteName (exerciseSpec().rootMidi))); }
@@ -1828,7 +1856,7 @@ function closeSettings () { $("settings").hidden = true; updateTitle(); previewC
 
 function syncForm ()
 {
-    document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === S.mode));
+    document.querySelectorAll ("[data-mode]").forEach (b => b.classList.toggle ("sel", b.dataset.mode === shownMode()));
     $("exBlock").hidden = S.mode !== "exercise";
     $("kind").value = S.kind;
     $("purpose").textContent = getDefinition (S.kind).purpose;
@@ -1903,13 +1931,15 @@ function buildForm ()
     // chooser at once (the list is what one wants next); the name button still opens it too.
     document.querySelectorAll ("[data-mode]").forEach (b => b.onclick = () => {
         if (running || tuning) stop();
+        // Leaving a teacher's recording for the pieces: back to a piece, not the recording.
+        if (inLesson() && b.dataset.mode === "song") S.song = pieces.find (p => ! p.lesson)?.parts[0].id || "";
         S.mode = b.dataset.mode; save(); syncForm(); track ("mode", S.mode);
         updateTitle(); previewChart();
         $("title").onclick();
     });
     $("title").onclick = () => {
         if (S.mode === "free") return;
-        if (S.mode === "exercise") { renderExercises(); openSheet ("exSheet"); }
+        if (shownMode() === "exercise") { renderExercises(); openSheet ("exSheet"); }
         else { refreshSongList(); openSheet ("songSheet"); }
     };
     $("exClose").onclick = () => { $("exSheet").hidden = true; };

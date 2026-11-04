@@ -70,7 +70,7 @@ const EN = {
     "не удалось раскодировать {0} ({1}, {2} КБ): {3}": "could not decode the {0} ({1}, {2} KB): {3}",
     "Сервер недоступен": "Server unavailable", "Сервер недоступен, сохранённых песен нет": "Server unavailable, no songs saved",
     "В библиотеке нет песен": "No songs in the library", "Ничего не найдено": "Nothing found", "(без сервера)": "(offline)",
-    "{0} из {1}": "{0} of {1}", "⚠ разбор под вопросом: {0}": "⚠ parse in doubt: {0}", "письмо {0}": "letter {0}",
+    "{0} из {1}": "{0} of {1}", "⚠ разбор под вопросом: {0}": "⚠ parse in doubt: {0}", "служба {0}": "service {0}", "Записи педагога": "Teacher's recordings",
     "Готовлю темп {0}%…": "Preparing tempo {0}%…",
     "нужен zip-архив песни: chart.json + голос и минус (WAV, FLAC, MP3 или M4A)": "needs a song zip: chart.json + guide and backing (WAV, FLAC, MP3 or M4A)",
     "Уже есть на телефоне: {0}. Заменить?": "Already on the phone: {0}. Replace?", "Отменено.": "Cancelled.",
