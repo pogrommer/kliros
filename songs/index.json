@@ -4208,5 +4208,47 @@
   "chart": "songs/tchaikovsky-hermann-chto-nasha-zhizn-tenor/chart.json",
   "reference": "songs/tchaikovsky-hermann-chto-nasha-zhizn-tenor/reference.mp3",
   "backing": "songs/tchaikovsky-hermann-chto-nasha-zhizn-tenor/backing.mp3"
+ },
+ {
+  "id": "schubert-ave-maria-tenor",
+  "title": "Аве Мария — тенор — си-бемоль мажор",
+  "artist": "Франц Шуберт",
+  "durationSeconds": 240.63636,
+  "range": {
+   "min": 53,
+   "max": 65
+  },
+  "piece": "schubert-ave-maria",
+  "pieceTitle": "Аве Мария — Шуберт (немецкий оригинал)",
+  "part": "T",
+  "partName": "тенор — си-бемоль мажор",
+  "lesson": null,
+  "pdf": "songs/pdf/schubert-ave-maria.pdf",
+  "text": "songs/text/schubert-ave-maria.txt",
+  "chart": "songs/schubert-ave-maria-tenor/chart.json",
+  "backing": "songs/schubert-ave-maria-tenor/backing.mp3",
+  "reference": "songs/schubert-ave-maria-tenor/reference.mp3",
+  "lyrics": "A ve Ma ri a! Jung frau mild! Er hö re ei ner Jung frau Fle hen! Aus die sem Fel sen, starr und wild, soll mein Ge bet zu dir hin we hen. Wir schla fen si cher bis zum Mor gen, ob Men schen noch so grau sam sind. O Jung frau, sieh' der Jung frau Sor gen o Mut ter, hör' ein bit end Kind! A ve Ma ri a! A ve Ma ri a! Un be fleckt! Wenn wir auf die sen Fels hin sin ken zum Schlaf, und uns dein Schutz be deckt, wird weich der har te Fels uns dün ken. Du lä chelst, Ro sen düf te we hen in die ser dump fen Fel sen gruft. O Mut ter, hö re Kin des Fle hen, o Jung frau, ei ne Jung frau ruft! A ve Ma ri a! A ve Ma ri a! Rei ne Magd! Der Er de und der Luft Dä mo nen, von dei nes Au ges Huld ver jagt, sie kön nen hier nicht bei uns woh nen! Wir woll'n uns still dem Schick sal beu gen, da uns dein heil' ger Trost an weht; der Jung frau wol le hold dich nei gen, dem Kind, das für den Va ter fleht! A ve Ma ri a!"
+ },
+ {
+  "id": "schubert-ave-maria-baritone-medium",
+  "title": "Аве Мария — баритон medium — ля-бемоль мажор",
+  "artist": "Франц Шуберт",
+  "durationSeconds": 240.63636,
+  "range": {
+   "min": 51,
+   "max": 63
+  },
+  "piece": "schubert-ave-maria",
+  "pieceTitle": "Аве Мария — Шуберт (немецкий оригинал)",
+  "part": "B",
+  "partName": "баритон medium — ля-бемоль мажор",
+  "lesson": null,
+  "pdf": "songs/pdf/schubert-ave-maria.pdf",
+  "text": "songs/text/schubert-ave-maria.txt",
+  "chart": "songs/schubert-ave-maria-baritone-medium/chart.json",
+  "backing": "songs/schubert-ave-maria-baritone-medium/backing.mp3",
+  "reference": "songs/schubert-ave-maria-baritone-medium/reference.mp3",
+  "lyrics": "A ve Ma ri a! Jung frau mild! Er hö re ei ner Jung frau Fle hen! Aus die sem Fel sen, starr und wild, soll mein Ge bet zu dir hin we hen. Wir schla fen si cher bis zum Mor gen, ob Men schen noch so grau sam sind. O Jung frau, sieh' der Jung frau Sor gen o Mut ter, hör' ein bit end Kind! A ve Ma ri a! A ve Ma ri a! Un be fleckt! Wenn wir auf die sen Fels hin sin ken zum Schlaf, und uns dein Schutz be deckt, wird weich der har te Fels uns dün ken. Du lä chelst, Ro sen düf te we hen in die ser dump fen Fel sen gruft. O Mut ter, hö re Kin des Fle hen, o Jung frau, ei ne Jung frau ruft! A ve Ma ri a! A ve Ma ri a! Rei ne Magd! Der Er de und der Luft Dä mo nen, von dei nes Au ges Huld ver jagt, sie kön nen hier nicht bei uns woh nen! Wir woll'n uns still dem Schick sal beu gen, da uns dein heil' ger Trost an weht; der Jung frau wol le hold dich nei gen, dem Kind, das für den Va ter fleht! A ve Ma ri a!"
  }
 ]
