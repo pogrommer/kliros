@@ -4188,5 +4188,25 @@
   "chart": "songs/vo-tsarstvii-tenor-2/chart.json",
   "backing": "songs/vo-tsarstvii-tenor-2/backing.mp3",
   "reference": "songs/vo-tsarstvii-tenor-2/reference.mp3"
+ },
+ {
+  "text": true,
+  "lyrics": "Что на ша жизнь? И гра! Доб ро и зло, од ни меч ты! Труд, чест ность сказ ки для ба бья! Кто прав, кто счаст лив здесь, дру зья? Се го дня ты, а за втра я! Так брось те же борь бу, ло ви те миг у да чи! Пусть не у дач ник пла чет, пусть не у дач ник пла чет, кля ня, кля ня сво ю судь бу! Что вер но? Смерть од на! Как бе рег мо ря су е ты, нам всем при бе жи ще о на. Кто ж ей ми лей из нас, дру зья? Се го дня ты, а за втра я! Так брось те же борь бу, ло ви те миг у да чи! Пусть не у дач ник пла чет, пусть не у дач ник пла чет, кля ня сво ю судь бу!",
+  "id": "tchaikovsky-hermann-chto-nasha-zhizn-tenor",
+  "title": "Ария Германа — Что наша жизнь? Игра! — тенор",
+  "artist": "П. И. Чайковский",
+  "durationSeconds": 90.3,
+  "range": {
+   "min": 52,
+   "max": 69
+  },
+  "piece": "tchaikovsky-hermann-chto-nasha-zhizn",
+  "pieceTitle": "Ария Германа — Что наша жизнь? Игра!",
+  "part": "T",
+  "partName": "тенор",
+  "lesson": null,
+  "chart": "songs/tchaikovsky-hermann-chto-nasha-zhizn-tenor/chart.json",
+  "reference": "songs/tchaikovsky-hermann-chto-nasha-zhizn-tenor/reference.mp3",
+  "backing": "songs/tchaikovsky-hermann-chto-nasha-zhizn-tenor/backing.mp3"
  }
 ]
